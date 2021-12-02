@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Like</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <div v-if="liked">좋아요 눌렀음</div>
+    <button v-else v-on:click="onClickButton">Like</button>
+  </div>
+</body>
+<!-- v가 붙은 속성들은 data나 method에 접근할 수 있다(vue가 통제한다)-->
+<!-- vue가 root를 통제하도록 아래에 app을 선언 -->
+<script>
+  const app = new Vue({
+    el: '#root',
+    data: {
+      // 좋아요를 눌렀는지 안눌렀는지 확인
+      liked: false,
+    },
+    methods: {
+      onClickButton() {
+        // this는 data를 가리킴
+        this.liked = true;
+      }
+    }
+  });
+</script>
+</html>
