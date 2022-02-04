@@ -8,7 +8,8 @@ class BookList extends Component{
       return (
         <BookListItem
           book={ book }
-          key={ book.ISBN } >
+          key={ book.ISBN }
+          onSelectedBook = {this.props.onSelectedBook}>
         </BookListItem>
       )
     })
