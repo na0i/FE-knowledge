@@ -18,7 +18,10 @@ class App extends Component {
 
   onSearchTitle(title){
     let updateList = Books; // 기존값은 Books 데이터
+    // filter 메서드: 주어진 함수의 테스트를 통과하는 모든 요소를 모아 새로운 배열로 반환 
     // filter해서 -1이 아니라면 true 값
+    // search 메서드: 문자열에서 조건 문자열을 찾아 위치를 확인 시켜주는 함수
+    // 첫번째로 매치되는 인덱스를 반환하지만 찾지 못한다면 -1을 반환
     updateList = updateList.filter( book => {
       return book.title.toLowerCase().search(title.toLowerCase()) !== -1;
     });

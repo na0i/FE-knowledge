@@ -11,8 +11,8 @@
 
 #### 🎁활용 강의 및 교재
 
-1. 인프런 **생활코딩 - React** 강좌
-2. 인프런 **따라하며 배우는 노드, 리액트 시리즈 - 기본 강의** 강좌
+1. 인프런 **생활코딩 - React**
+2. 인프런 **따라하며 배우는 노드, 리액트 시리즈 - 기본 강의**
 3. 유튜브 나무소리 **리액트 + 몹엑스 기초 강의** 
 
 <br>
@@ -95,7 +95,8 @@
 |            | 3-4       | React Component - props 적용실습(3/4) | 2.props |
 |            | 3-5       | React Component - props 적용실습(4/4) | 2.props |
 |            | 4-1       | React Component - state의 이해 | 4]state.md, 3.state |
-|            | 4-2       | React Component - state 적용실습(1/4) | 4.state_2 |`
+|            | 4-2       | React Component - state 적용실습(1/4) | 4.state_2 |
 |            | 4-3       | React Component - state 적용실습(2/4) | 4.state_2 |
 |            | 4-4       | React Component - state 적용실습(3/4) | 4.state_2 |
 |            | 4-5       | React Component - state 적용실습(4/4) | 4.state_2 |
+| 2022.02.08 | 5-1       | Component Lifecycle(1/2) | 5]Lifecycle.md |
