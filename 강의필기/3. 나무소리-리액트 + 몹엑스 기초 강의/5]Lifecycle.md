@@ -16,7 +16,7 @@
 ##### mount
 컴포넌트가 생성돼서 사용자에게 보여지기까지의 전체 과정
 - constructor
-- getDrivedStateFromProps
+- getDerivedStateFromProps
 - render
 - componentDidMount
 
@@ -32,7 +32,7 @@
 > - shouldComponentUpdate를 호출하지 않음
 > - 사용이 권장되지 않음
 
-- getDrivedStateFromProps
+- getDerivedStateFromProps
 - shouldComponentUpdate
 - render
 - shouldComponentUpdate
@@ -67,6 +67,26 @@
 > 그 데이터들이 state에 있는 데이터라면 읽어온 값을 세팅하는 작업이 필요해지는데<br>
 > 그것을 componentDidMount에서 실행한다.<br>
 > 
+
+<br>
+
+#### getDerivedStateFromProps, shouldComponentUpdate, getSnapshotBeforeUpdate
+
+##### getDerivedStateFromProps
+- 프롭스로부터 스테이트를 동기화하고 싶을 때 사용하는 메소드
+- 프롭스로 받은 어떤 특정 값으로 스테이트의 값을 세팅하고 싶을 때 사용
+
+##### shouldComponentUpdate
+- 성능을 최적화하는데 사용하는 메서드
+- true 혹은 false 값 return
+- 이전에 가지고 있던 state, props와 shouldComponentUpdate의 파라미터로 전달되는 nextProps, nextState가 같냐(false) 같지 않냐(true)
+- 같을 경우에는 false를 반환하므로 render 메소드를 호출하지 X(virtual DOM에 들어가지 않음)
+- 다를 경우에는 true를 반환하므로 render 메소드를 호출(렌더링이 필요하기 때문)
+- 해당 컴포넌트의 모든 props와 state를 비교하는 작업을 진행해야하기 때문에 shouldComponentUpdate를 재정의해서 사용하기 보다는 React의 pureComponent(이미 shouldComponentUpdate가 재정의 되어있음)를 상속받아 사용, 다만 pureComponent의 shouldComponentUpdate는 얕은 비교이기 때문에 깊은 비교를 위해서는 shouldComponentUpdate를 어쩔수 없이 재정의 해야한다.
+
+##### getSnapshotBeforeUpdate
+- DOM에서 일어나기 바로 직전의 상태를 가져올 때 사용
+- getSnapshotBeforeUpdate가 반환하는 값은 componentDidUpdate의 3번째 파라미터 값으로 전달됨
 
 <br>
 

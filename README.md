@@ -100,3 +100,11 @@
 |            | 4-4       | React Component - state 적용실습(3/4) | 4.state_2 |
 |            | 4-5       | React Component - state 적용실습(4/4) | 4.state_2 |
 | 2022.02.08 | 5-1       | Component Lifecycle(1/2) | 5]Lifecycle.md |
+| 2022.02.09 | 5-2       | Component Lifecycle(2/2) | 5]Lifecycle.md, 5.lifecycle |
+|            | 6-1       | MobX - Flux의 이해 | 6]MobX.md |
+|            | 6-2       | MobX의 구조 | 6]Mobx.md, 6.mobx |
+|            | 6-3       | Counter 예제 실습 | 6.mobx |
+|            | 6-4       | @observable, @action, @computed, @inject | 6.mobx, 6]MobX.md |
+|            | 6-5       | Todo-List 예제 실습(1) | 7.mobx_2, 6]MobX.md |
+|            | 6-6       | Todo-List 예제 실습(2) | 7.mobx_2 |
+|            | 6-7       | Todo-List 예제 실습(3) | 7.mobx_2 | 13분 23초
