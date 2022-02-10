@@ -16,7 +16,15 @@ class TodoEditFormContainer extends Component {
   onAddTodo(){
     let { todo } = this.props.todoStore;
     todo = {...todo, id: generateId(5)}
-    this.props.todoStore.addTodo(todo);
+    this.props.todoStore.addTodo(todo);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+  }
+
+  onUpdateTodo(){
+    this.props.todoStore.updateTodo();
+  }
+
+  onRemoveTodo(){
+    this.props.todoStore.removeTodo();
   }
 
   render(){
@@ -29,6 +37,8 @@ class TodoEditFormContainer extends Component {
         todo = {todoStore.todo}
         onSetTodoProps = {this.onSetTodoProps}
         onAddTodo = {this.onAddTodo}
+        onUpdateTodo = {this.onUpdateTodo}
+        onRemoveTodo = {this.onRemoveTodo}
       />
     )
   }

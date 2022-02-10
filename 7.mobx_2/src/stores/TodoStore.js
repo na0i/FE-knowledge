@@ -1,4 +1,4 @@
-import {action, computed, makeObservable, observable} from 'mobx';
+import {action, computed, makeObservable, observable, toJS} from 'mobx';
 
 class TodoStore {
 
@@ -8,17 +8,28 @@ class TodoStore {
   }
 
   @observable
-  _todo = {}
+  _todo = {};
 
   @observable
-  _todos = []
+  _todos = [];
+
+  @observable
+  _searchText = '';
 
   get todo(){
     return this._todo;
   }
 
+  //get 메소드에서 옵저버블 데이터에 대한 특정 연산이 진행될 때는 computed를 사용해준다.
+  @computed
   get todos(){
     return this._todos;
+    // 일반 자바스크립트 객체로 변경하기
+    // return toJS(this._todos);
+  }
+
+  get searchText(){
+    return this._searchText;
   }
 
   @action
@@ -42,8 +53,37 @@ class TodoStore {
   }
 
   @action
+  setSearchText(searchText){
+    this._searchText = searchText;
+  }
+
+  @action
   addTodo(todo){
     this._todos.push(todo);
+  }
+
+  @action
+  selectedTodo(todo){
+    this._todo = todo;
+  }
+
+  @action
+  updateTodo(){
+    let foundTodo = this._todos.find((todo) => todo.id === this._todo.id);
+    foundTodo.title = this._todo.title;
+    foundTodo.date = this._todo.date;
+
+    this._todo = {};
+  }
+  
+  @action
+  removeTodo(){
+    let index = this._todos.findIndex( todo => todo.id === this._todo.id );
+    if (index > -1){
+      this._todos.splice(index, 1)
+    }
+
+    this._todo = {};
   }
 }
 
