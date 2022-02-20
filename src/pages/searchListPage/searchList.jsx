@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { searchHeader, periodFilter, searchResult, interestedPaper } from './';
+import PeriodFilter from './periodFilter';
+import SearchResult from './searchResult';
+import InterestedPaper from './interestedPaper';
 
 const searchList = () => {
   return(
     <div>
-      <searchHeader/>
-      <periodFilter/>
-      <searchResult/>
-      <interestedPaper/>
+      <PeriodFilter></PeriodFilter>
+      <SearchResult></SearchResult>
+      <InterestedPaper></InterestedPaper>
     </div>
   );
 }

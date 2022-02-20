@@ -9,4 +9,4 @@ const interestedPaper = () => {
   );
 }
 
-export default searchList;
+export default interestedPaper;

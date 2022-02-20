@@ -1,6 +1,7 @@
 import React from 'react';
 import RecentPaperList from 'src/pages/mainPage/recentPaperList';
 import styled from 'styled-components';
+import SearchList from 'src/pages/searchListPage/searchList';
 
 const Wrapper = styled.section`
 	margin: 10% 10% 0 10%;
@@ -55,6 +56,7 @@ const Main = () => {
 				<InputButton>검색</InputButton>
 			</InputBox>
 			<RecentPaperList></RecentPaperList>
+			<SearchList></SearchList>
 		</Wrapper>
 	);
 };

@@ -9,4 +9,4 @@ const searchResult = () => {
   );
 }
 
-export default searchList;
+export default searchResult;

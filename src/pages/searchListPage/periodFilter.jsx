@@ -9,4 +9,4 @@ const periodFilter = () => {
   );
 }
 
-export default searchList;
+export default periodFilter;
