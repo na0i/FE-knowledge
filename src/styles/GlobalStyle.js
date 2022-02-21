@@ -262,12 +262,29 @@ const globalStyles = createGlobalStyle`
 		width: 160px;
 		height: 40px;
 	}
-
+	.mt-8 {
+		margin-top: 8px;
+	}
+	.mt-16 {
+		margin-top: 16px;
+	}
+	.mt-24 {
+		margin-top: 24px;
+	}
+	.mt-32 {
+		margin-top: 32px;
+	}
 	.mt-40 {
 		margin-top: 40px;
 	}
-	.mt-80 {
-		margin-top: 80px;
+	.mt-48 {
+		margin-top: 48px;
+	}
+	.mt-56 {
+		margin-top: 56px;
+	}
+	.mt-100 {
+		margin-top: 100px;
 	}
 	.pointer {
 		cursor: pointer;
@@ -351,6 +368,7 @@ const globalStyles = createGlobalStyle`
 	}
 
 	.justify-between {
+		display: flex;
 		justify-content: space-between;
 		width: 100%;
 	}
