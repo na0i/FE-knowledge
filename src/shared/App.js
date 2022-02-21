@@ -11,7 +11,7 @@ function App() {
 			<GlobalStyles />
 			<Routes>
 				<Route exact path="/" element={<Main />} />
-				<Route path="/searchlist" element={<SearchList />} />
+				<Route path="/search/:searchText" element={<SearchList />} />
 			</Routes>
 		</BrowserRouter>
 	);

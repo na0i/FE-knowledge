@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { request } from 'src/utils/axios';
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -8,8 +8,10 @@ import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 
-const SearchList = () => {
+/************************************* jsx *************************************/
 
+const SearchList = () => {
+	console.log('들어왓어요');
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
 
   const handleInput = _.debounce((e) => {
@@ -22,6 +24,10 @@ const SearchList = () => {
     console.log(res);
     setSearchedPaperList(res);
   }
+
+	useEffect(() => {
+		getsearchedPaperList();
+	}, [])
 
 	return (
 		<div>
