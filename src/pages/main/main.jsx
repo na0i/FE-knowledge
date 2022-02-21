@@ -13,7 +13,7 @@ const Main = () => {
 				<h1>당신을 위한 맞춤형 학술정보서비스</h1>
 				<h2>AI로 더 똑똑해진 서비스를 이용해보세요</h2>
 				<MainSearchBox />
-				<Link to='/second'>결과 페이지</Link>
+				<Link to='/searchlist'>결과 페이지</Link>
 			</Box>
 		</Layout>
 	);

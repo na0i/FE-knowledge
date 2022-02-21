@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { request } from 'src/utils/axios';
 import _ from 'lodash';
 import styled from 'styled-components';
@@ -9,9 +8,7 @@ import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 
-/************************************* jsx *************************************/
-
-const Search = () => {
+const SearchList = () => {
 
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
 
@@ -28,9 +25,7 @@ const Search = () => {
 
 	return (
 		<div>
-
-		{/* <SearchHeader font={24}> */}
-			{/* </SearchHeader> */}
+			<SearchHeader font={24}></SearchHeader>
 			<PeriodFilter></PeriodFilter>
 			<SearchResult onChange={handleInput} papers={searchedPaperList}></SearchResult>
 			<InterestedPaper></InterestedPaper>
@@ -38,4 +33,4 @@ const Search = () => {
 	);
 };
 
-export default Search;
+export default SearchList;

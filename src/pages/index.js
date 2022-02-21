@@ -1,2 +1,2 @@
 export { default as Main } from './main/main';
-export { default as Search } from './search/search';
+export { default as SearchList } from './search/searchList';
