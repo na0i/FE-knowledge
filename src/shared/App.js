@@ -10,8 +10,8 @@ function App() {
 		<BrowserRouter>
 			<GlobalStyles />
 			<Routes>
-				<Route exact path="/" element={<Main />} />
-				<Route path="/search/:searchText" element={<SearchList />} />
+				<Route path="/" element={<Main />} />
+				<Route path="/search" element={<SearchList />} />
 			</Routes>
 		</BrowserRouter>
 	);
