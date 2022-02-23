@@ -15,6 +15,7 @@ const PeriodFilter = ({years, onSelectedYear}) => {
         }
       }
       )}
+
     </PeriodDiv>
   );
 }

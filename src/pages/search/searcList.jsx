@@ -16,7 +16,7 @@ const SearchList = () => {
 	const [selectedYear, setSelectedYear] = useState(0);
 	const [selectedPapers, setSelectedPaper] = useState([]);
 	
-	// query → paper fetch
+	// query → fetch paper
   const getPaperList = async () => {
 		const res = await request('GET', 'https://mocki.io/v1/c4eeb733-989b-4db6-8aaa-e1d06986443e', searchQuery);
 		return res.searchResult;
@@ -65,6 +65,7 @@ const SearchList = () => {
 		}
 	}
 
+	// fetching paperlist when mounted
 	useEffect(() => 
 		setPaperList(selectedYear),
 	[selectedYear]);

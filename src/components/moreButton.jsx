@@ -9,6 +9,7 @@ const MoreButton = () => {
 
 export default MoreButton;
 
+// styled component
 const Button = styled.button`
   background-color: white;
   border: white;

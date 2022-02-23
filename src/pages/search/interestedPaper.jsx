@@ -10,9 +10,8 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
       <hr/>
 
       <div>
-        {selectedPapers?.map((paper)=>
-        (
-          <div key={paper.id}>
+        {selectedPapers?.map((paper) => (
+        <div key={paper.id}>
             <LeftBox>
               <div key={paper.id}>{paper.title}</div>
             </LeftBox>
@@ -30,6 +29,7 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
 
 export default InterestedPaper;
 
+// styled component
 const LeftBox = styled.div`
   width: 95%;
   float: left;
