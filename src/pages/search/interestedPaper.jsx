@@ -1,21 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const interestedPaper = (selectedPapers, removeSelectedPaper) => {
-  // 왜 selectedPapers이렇게 생겼지..?
+
+const interestedPaper = ({selectedPapers, addSelectedPaper}) => {
   return(
     <div>
       <div className='mt-16 mb-16'>관심있는 논문</div>
       <hr/>
       <div>
-        {selectedPapers.selectedPapers?.map((paper)=>
+        {selectedPapers?.map((paper)=>
         (
           <div key={paper.id}>
             <LeftBox>
               <div key={paper.id}>{paper.title}</div>
             </LeftBox>
             <RightBox>
-              <RemoveButton onClick={removeSelectedPaper(paper)}>-</RemoveButton>
+              <RemoveButton onClick={() => addSelectedPaper(paper)}>-</RemoveButton>
             </RightBox>
           </div>
         ))}

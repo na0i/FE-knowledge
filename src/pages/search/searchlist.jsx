@@ -37,14 +37,16 @@ const SearchList = () => {
 	}
 
 	const addSelectedPaper = (paper) => {
-			const newSelectedPapers = [...selectedPapers, paper];
-			setSelectedPaper(newSelectedPapers);
+		const index = selectedPapers.findIndex((element) => element.id === paper.id);
+		if (index === -1){
+			selectedPapers.push(paper);
+			setSelectedPaper(selectedPapers);
+		} else {
+			selectedPapers.splice(index, 1);
+			setSelectedPaper(selectedPapers);
 		}
-
-	const removeSelectedPaper = (paper) => {
-		const newSelectedPapers = [...selectedPapers, paper];
-		setSelectedPaper(newSelectedPapers);
 	}
+
 
 	useEffect(() => 
 		getsearchedPaperList(selectedYear),
@@ -60,7 +62,7 @@ const SearchList = () => {
 
 			<RighBox>
 				<SearchResult papers={searchedPaperList} addSelectedPaper={addSelectedPaper}/>
-				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper}/>
+				<InterestedPaper selectedPapers={selectedPapers} addSelectedPaper={addSelectedPaper}/>
 			</RighBox>
 
 		</Wrapper>
