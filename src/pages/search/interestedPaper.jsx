@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import MoreButton from 'src/components/moreButton';
 
 
 const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
@@ -7,6 +8,7 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
     <div>
       <div className='mt-16 mb-16'>관심있는 논문</div>
       <hr/>
+
       <div>
         {selectedPapers?.map((paper)=>
         (
@@ -20,6 +22,8 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
           </div>
         ))}
       </div>
+
+      <MoreButton/>
     </div>
   );
 }
