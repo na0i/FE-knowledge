@@ -16,16 +16,18 @@ const SearchList = () => {
 	const [selectedYear, setSelectedYear] = useState(0);
 	const [selectedPapers, setSelectedPaper] = useState([]);
 
-	const filtering = (elements, standard) => {
+	const yearFiltering = (elements, standardYear) => {
 		return (elements.filter((element) => {
-			return (parseInt(element.id) === standard)
+			// console.log(element, element.year, standardYear);
+			return (parseInt(element.year) >= standardYear)
 		}))
 	};
 
   const getsearchedPaperList = async (year) => {
 		const res = await request('GET', 'https://mocki.io/v1/c4eeb733-989b-4db6-8aaa-e1d06986443e', search.q);
 		if (year) {
-			const filteredPaperList = filtering(res.searchResult, year);
+			const filteredPaperList = yearFiltering(res.searchResult, year);
+			console.log(filteredPaperList);
 			setSearchedPaperList(filteredPaperList);
 		} else {
 			setSearchedPaperList(res);

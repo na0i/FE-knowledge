@@ -8,10 +8,10 @@ const periodFilter = ({years, onSelectedYear}) => {
       {years.map((year) => {
         if (year.id === 0 || year.id === 5){
           return(
-            <div className='mb-8' key={year.id} onClick={() => onSelectedYear(year.id)}>{year.name}</div>)
+            <div className='mb-8' key={year.id} onClick={() => onSelectedYear(year.name)}>{year.name}</div>)
           } else {
             return(
-            <div className='mb-8' key={year.id} onClick={() => onSelectedYear(year.id)}>{year.name}년 부터</div>)
+            <div className='mb-8' key={year.id} onClick={() => onSelectedYear(year.name)}>{year.name}년 부터</div>)
           }
         }
       )}
