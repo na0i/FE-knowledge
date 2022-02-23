@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const interestedPaper = ({selectedPapers, addSelectedPaper}) => {
+const interestedPaper = ({selectedPapers, removeSelectedPaper}) => {
   return(
     <div>
       <div className='mt-16 mb-16'>관심있는 논문</div>
@@ -15,7 +15,7 @@ const interestedPaper = ({selectedPapers, addSelectedPaper}) => {
               <div key={paper.id}>{paper.title}</div>
             </LeftBox>
             <RightBox>
-              <RemoveButton onClick={() => addSelectedPaper(paper)}>-</RemoveButton>
+              <RemoveButton onClick={() => removeSelectedPaper(paper)}>-</RemoveButton>
             </RightBox>
           </div>
         ))}

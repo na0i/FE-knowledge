@@ -10,48 +10,63 @@ import SearchHeader from 'src/components/header/searchHeader';
 
 
 const SearchList = () => {
-	const search = UseLocationQuery();
-	const yearArr = [{id: 0, name: '전체보기'}, {id: 1, name: '2022'}, {id: 2, name: '2021'}, {id: 3, name: '2020'}, {id: 4, name: '2019'}, {id: 5, name: '사용자지정'}];
+	const searchQuery = UseLocationQuery().q;
+	const yearArr = [{id: 0, name: '0'}, {id: 1, name: '2022'}, {id: 2, name: '2021'}, {id: 3, name: '2020'}, {id: 4, name: '2019'}, {id: 5, name: '사용자지정'}];
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
 	const [selectedYear, setSelectedYear] = useState(0);
 	const [selectedPapers, setSelectedPaper] = useState([]);
-
-	const yearFiltering = (elements, standardYear) => {
-		return (elements.filter((element) => {
-			// console.log(element, element.year, standardYear);
-			return (parseInt(element.year) >= standardYear)
-		}))
-	};
-
-  const getsearchedPaperList = async (year) => {
-		const res = await request('GET', 'https://mocki.io/v1/c4eeb733-989b-4db6-8aaa-e1d06986443e', search.q);
-		if (year) {
-			const filteredPaperList = yearFiltering(res.searchResult, year);
-			console.log(filteredPaperList);
-			setSearchedPaperList(filteredPaperList);
-		} else {
-			setSearchedPaperList(res);
-		}
+	
+	// query → paper fetch
+  const getPaperList = async () => {
+		const res = await request('GET', 'https://mocki.io/v1/c4eeb733-989b-4db6-8aaa-e1d06986443e', searchQuery);
+		return res.searchResult;
   };
-
+	
+	// set paperList
+	const setPaperList = async (year) => {
+		const paperList = await getPaperList();
+		const filteredPaperList = yearFiltering(paperList, year);
+		setSearchedPaperList(filteredPaperList);
+	}
+	
+	// filter paperList by year
+	const yearFiltering = (arr, standardYear) => {
+		return (arr.filter((element) => parseInt(element.year) >= standardYear));
+	};
+	
+	// current year
 	const onSelectedYear = (year) => {
-		setSelectedYear(year);
+		setSelectedYear(year.name);
 	}
 
+	// isHere ? true : false
+	const isHere = (list, id) => {
+		if (list.findIndex((element) => element.id === id) === -1){
+			return false;
+		}
+		return true;
+	}
+
+	// add to interested paperlist
 	const addSelectedPaper = (paper) => {
-		const index = selectedPapers.findIndex((element) => element.id === paper.id);
-		if (index === -1){
-			selectedPapers.push(paper);
-			setSelectedPaper(selectedPapers);
-		} else {
-			selectedPapers.splice(index, 1);
-			setSelectedPaper(selectedPapers);
+		if (!isHere(selectedPapers, paper.id)){
+			let newArr = [];
+			newArr = [...selectedPapers, paper];
+			setSelectedPaper(newArr);
 		}
 	}
 
+	// remove interested paper 
+	const removeSelectedPaper = (paper) => {
+		if (isHere(selectedPapers, paper.id)){
+			let newArr = [];
+			newArr = selectedPapers.filter((element) => element.id !== paper.id);
+			setSelectedPaper(newArr);
+		}
+	}
 
 	useEffect(() => 
-		getsearchedPaperList(selectedYear),
+		setPaperList(selectedYear),
 	[selectedYear]);
 
 	return (
@@ -64,7 +79,7 @@ const SearchList = () => {
 
 			<RighBox>
 				<SearchResult papers={searchedPaperList} addSelectedPaper={addSelectedPaper}/>
-				<InterestedPaper selectedPapers={selectedPapers} addSelectedPaper={addSelectedPaper}/>
+				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper}/>
 			</RighBox>
 
 		</Wrapper>

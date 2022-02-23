@@ -9,7 +9,7 @@ const SearchResult = ({papers, addSelectedPaper}) => {
       <hr/>
 
       <div>
-        {papers.searchResult?.map((paper) => (
+        {papers?.map((paper) => (
           <div key={paper.id}>
             <LeftBox>
               <Title>{paper.title}</Title>
