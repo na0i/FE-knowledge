@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const periodFilter = ({years, onSelectedYear}) => {
+const PeriodFilter = ({years, onSelectedYear}) => {
   return(
-    <PeriodFilter>
+    <PeriodDiv>
       <div className='mt-16 mb-16 blue'>등재일</div>
       {years.map((year) => {
         if (year.id === 0){
@@ -15,13 +15,13 @@ const periodFilter = ({years, onSelectedYear}) => {
         }
       }
       )}
-    </PeriodFilter>
+    </PeriodDiv>
   );
 }
 
-export default periodFilter;
+export default PeriodFilter;
 
-const PeriodFilter = styled.div`
+const PeriodDiv = styled.div`
   text-align: right;
   margin: 5% 20% 0% 0%;
 `
