@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import MainSearchBox from './mainSearchBox';
 
-/************************************* jsx *************************************/
-
 const Main = () => {
 	return (
 		<Layout className="center">
