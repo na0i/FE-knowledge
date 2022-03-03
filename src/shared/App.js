@@ -1,17 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyles from '../styles/GlobalStyle';
-import { Main, SearchList } from '../pages';
+import * as Pages from '../pages';
 import '../App.css';
 
 function App() {
 	return (
-		// 왜 index.js가 아니라 app.js에 합쳐서 뒀는지 여쭤보자!
 		<BrowserRouter>
 			<GlobalStyles />
 			<Routes>
-				<Route path="/" element={<Main />} />
-				<Route path="/search" element={<SearchList />} />
+				<Route path="/" element={<Pages.Main />} />
+				<Route path="/search" element={<Pages.SearchList />} />
+				<Route path="/search/paper" element={<Pages.Paper />} />
+				<Route path="/subjectFilter" element={<Pages.SubjectFilter />} />
+				<Route path="/conceptFilter" element={<Pages.ConceptFilter />} />
 			</Routes>
 		</BrowserRouter>
 	);

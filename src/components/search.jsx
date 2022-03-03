@@ -57,6 +57,7 @@ export const SearchBoxComp = ({ font, height, text }) => {
 	const navigate = useNavigate();
 	const [searchText, setSearchText] = useState(text ? text : '');
 	const [autoCompleteData, setAutoCompleteData] = useState([]);
+	const [inputFocus, setInputFocus] = useState(false);
 
 	// input test change
 	const textChange = (text) => {
@@ -78,9 +79,11 @@ export const SearchBoxComp = ({ font, height, text }) => {
 		<SearchBoxLayout>
 			<SearchBox height={height} autoCompleteData={autoCompleteData}>
 				<input
+					onFocus={() => setInputFocus(true)}
+					onBlur={() => setInputFocus(false)}
 					type="text"
 					placeholder="무엇을 찾고 싶으신가요?"
-					className={`f-${font} pl-${font}`}
+					className={font ? `f-${font} pl-${font}` : ''}
 					value={searchText}
 					onChange={(e) => textChange(e.target.value)}
 					onKeyPress={(e) => {
@@ -93,7 +96,7 @@ export const SearchBoxComp = ({ font, height, text }) => {
 			</SearchBox>
 			{autoCompleteData.length > 0 && (
 				<AutoCompleteLayout>
-					<AutoComplete>
+					<AutoComplete focus={inputFocus}>
 						{autoCompleteData.map((list) => {
 							return (
 								<li
@@ -136,6 +139,10 @@ export const SearchBox = styled.div`
 		height: ${(props) => `${props.height - 2}px`};
 		border: none;
 		outline: none;
+		&::placeholder {
+			font-weight: bold;
+			color: #9fb8c6;
+		}
 	}
 	button {
 		display: flex;
@@ -160,6 +167,7 @@ export const SearchBox = styled.div`
 `;
 
 export const AutoComplete = styled.ul`
+	display: ${(props) => (props.focus ? 'block' : 'none')};
 	position: absolute;
 	width: 800px;
 	li {

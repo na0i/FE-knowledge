@@ -19,7 +19,6 @@ export default SearchHeader;
 
 const SearchHeaderLayout = styled.div`
 	background-image: url(${HeaderImg});
-	width: 100vw;
 	height: 140px;
 	display: flex;
 	padding: 30px 15vw;

@@ -6,25 +6,41 @@ const globalStyles = createGlobalStyle`
 	* {
 		box-sizing: border-box;
 	}
-	a {
-		text-decoration: none;
-		color: #ffffff;
+	a {text-decoration:none;
+		&:hover {
+		text-decoration: 1px underline;
+		text-underline-position: under;
+	}
+		margin-right: 0.5rem;
+		color: #428cc5;
+	}
+	.title-font{
+		font-family: "Noto Sans KR", sans-serif;
 	}
 	body {
-		font-family: 'Spoqa Han Sans Neo', sans-serif;
+		 font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif;
 	}
-
 	.tab {
 		border-radius: 20px 20px 0px 0px;
 	}
-
+	.tooltip{
+		width: max -content;
+		line-height: 1.5;
+		height: fit-content;
+		white-space:pre-line;
+		padding:0.8rem;
+		color:#454545;
+		strong{
+			font-weight: bold;
+			color:#252525;
+		}
+	}
 	.normal {
 		font-weight: 400;
 	}
 	.bold {
 		font-weight: 700;
 	}
-
 	h1,
 	h2,
 	h3,
@@ -382,7 +398,9 @@ const globalStyles = createGlobalStyle`
 		display: flex;
 		align-items: end;
 	}
-
+	.basic-blue{
+		color: #3182fb;
+	}
 	.blue {
 		color: #0053fd;
 	}

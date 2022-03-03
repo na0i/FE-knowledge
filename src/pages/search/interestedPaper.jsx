@@ -10,13 +10,16 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
       <hr/>
 
       <div>
-        {selectedPapers?.map((paper) => (
-        <div key={paper.id}>
+        {selectedPapers?.map((paper)=>
+        (
+          <div key={paper.id}>
             <LeftBox>
               <div key={paper.id}>{paper.title}</div>
             </LeftBox>
             <RightBox>
-              <RemoveButton onClick={() => removeSelectedPaper(paper)}>-</RemoveButton>
+              <RemoveButton
+                onClick={() => removeSelectedPaper(paper)}
+              >-</RemoveButton>
             </RightBox>
           </div>
         ))}
@@ -29,11 +32,16 @@ const InterestedPaper = ({selectedPapers, removeSelectedPaper}) => {
 
 export default InterestedPaper;
 
-// styled component
 const LeftBox = styled.div`
+	color: #55a3d7;
   width: 95%;
   float: left;
   margin: 10px 0px 10px 0px;
+  cursor: pointer;
+  &:hover {
+		text-decoration: 1px underline;
+		text-underline-position: under;
+	}
 `
 
 const RightBox = styled.div`
@@ -49,4 +57,5 @@ const RemoveButton = styled.button`
   font-size: 20px;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 `

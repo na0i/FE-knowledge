@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout } from 'src/components/layout';
 import MainSearchBox from './mainSearchBox';
 
 /************************************* jsx *************************************/
@@ -34,4 +33,10 @@ const Box = styled.div`
 		color: #527080;
 	}
 	background: #e9f2f9;
+`;
+
+const Layout = styled.div`
+	width: 80vw;
+	height: 100vh;
+	margin: 0 auto;
 `;
