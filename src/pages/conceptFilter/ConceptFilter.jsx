@@ -54,17 +54,17 @@ const ConceptFilter = () => {
 					<ConceptSearchBox>
 						<FilterLayerBox>
 							<Title>개념어 필터</Title>
-							<SubTitle>개념어 &gt; {conceptValue} </SubTitle>
+							<Input placeholder="개념어 검색하기" onKeyPress={handleInput} />
 						</FilterLayerBox>
-						<Input placeholder="개념어 검색하기" onKeyPress={handleInput} />
+						<SubTitle>{conceptValue ? conceptValue + ' 검색결과' : ''} </SubTitle>
 					</ConceptSearchBox>
 					<div className="flex">
 						<ContentsFilter>
 							<FilterLayerBox>
-								<FilterButtonLayer title={'인접 주제'} data={adjacentLabel} />
+								<FilterButtonLayer type="route" title={'인접 주제'} data={adjacentLabel} />
 							</FilterLayerBox>
 							<FilterLayerBox>
-								<FilterButtonLayer title={'인접 개념어'} data={subLabel} />
+								<FilterButtonLayer type="label" title={'인접 개념어'} data={subLabel} />
 							</FilterLayerBox>
 						</ContentsFilter>
 						<ContentsChart>
@@ -94,6 +94,7 @@ export default ConceptFilter;
 
 const Frame = styled.div`
 	min-height: calc(100vh - 140px);
+	margin: 0 auto;
 	width: 80vw;
 	border: 1px solid #d5e1e6;
 	padding: 30px;

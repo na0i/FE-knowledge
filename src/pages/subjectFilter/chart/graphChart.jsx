@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { GraphChart } from 'src/components/chart/graph';
 
-export const GraphChartLayer = ({ data }) => {
+export const GraphChartLayer = ({ data, width }) => {
 	return (
-		<ChartPaper>
+		<ChartPaper width={width}>
 			<ChartHeader>
 				<ChartTitleBox>
 					<ChartTitle>전기공학, 통신 분야</ChartTitle>
@@ -33,9 +33,9 @@ export const GraphChartLayer = ({ data }) => {
 };
 
 const ChartPaper = styled.div`
-	width: 90%;
+	width: ${(props) => (props.width ? `${props.width}%` : '100%')};
 	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
-	margin: 10px;
+	margin: 10px 0;
 `;
 
 const ChartHeader = styled.div`

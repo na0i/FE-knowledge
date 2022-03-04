@@ -27,6 +27,7 @@ const Trend = () => {
 			{!loading && (
 				<TrendLayout className="column">
 					<TrendHeatMapDiv>
+						<Title className="title-font">트렌드 연구주제 활성도</Title>
 						<TrendChart chartData={chartData} />
 					</TrendHeatMapDiv>
 				</TrendLayout>
@@ -42,7 +43,6 @@ export default Trend;
 const TrendLayout = styled.ul`
 	max-width: 35vw;
 	width: 35vw;
-	padding-left: 2vw;
 	padding: 1.5rem 1rem 1rem 1rem;
 `;
 const TrendHeatMapDiv = styled.div`
@@ -50,4 +50,9 @@ const TrendHeatMapDiv = styled.div`
 	padding: 1rem 1rem 0 1rem;
 	box-shadow: -1px -1px 7px #dddddd, 1px 1px 7px #dddddd;
 	border-radius: 5px;
+`;
+
+const Title = styled.div`
+	margin: 0.8rem;
+	font-size: 1.3rem;
 `;

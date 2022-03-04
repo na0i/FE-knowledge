@@ -17,16 +17,17 @@ const Paper = () => {
 
 	useEffect(() => {
 		if (search.id) {
+			window.scrollTo(0, 0);
 			setInfo(getPaperInfo(search.id));
 			setLoading(false);
 		}
 	}, [search]);
+
 	return (
 		<>
 			{!loading && (
 				<>
 					<SearchHeader font={24} />
-
 					<SearchDetail className="column">
 						<PaperHeader className="title-font">
 							<MainTtitle className="bold mb-8">{info.title.ko}</MainTtitle>
@@ -55,6 +56,7 @@ const SearchDetail = styled.div`
 `;
 
 const PaperHeader = styled.div`
+	width: 100%;
 	line-height: 35px;
 	padding: 1rem 1rem 2rem 1rem;
 	border-bottom: 1px solid #efefef;

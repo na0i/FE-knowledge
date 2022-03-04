@@ -1,16 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SubjectButton } from 'src/components/button/subjectButton';
+import { RouteButton, LabelButton } from 'src/components/button/subjectButton';
 
-export const FilterButtonLayer = ({ title, data }) => {
+export const FilterButtonLayer = ({ title, data, type }) => {
 	return (
 		<>
 			<Title>{title}</Title>
-			<SubjectButtonBox>
-				{data?.map((label) => (
-					<SubjectButton key={label.id} text={label.text} />
-				))}
-			</SubjectButtonBox>
+			{type === 'label' ? (
+				<SubjectButtonBox>
+					{data?.map((label) => (
+						<RouteButton key={label.id} text={label.text} />
+					))}
+				</SubjectButtonBox>
+			) : (
+				<>
+					<SubjectButtonBox>
+						{data?.map((label) => (
+							<LabelButton key={label.id} text={label.text} />
+						))}
+					</SubjectButtonBox>
+				</>
+			)}
 		</>
 	);
 };

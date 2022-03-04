@@ -7,7 +7,7 @@ const PaperInfo = (props) => {
 	return (
 		<>
 			<PaperInfoLayout className="column">
-				<PaperInfoList className="title-font">
+				<div className="title-font">
 					<li>
 						<ListTitle>저자</ListTitle>
 						{props.info.authors.map((author, idx) => {
@@ -16,13 +16,21 @@ const PaperInfo = (props) => {
 					</li>
 					<li>
 						<ListTitle>개념어</ListTitle>
-						{props.info.concepts.map((keyword, idx) => {
-							return idx + 1 < props.info.concepts.length ? keyword + ', ' : keyword;
-						})}
+						<p>
+							{props.info.concepts.map((concept, idx) => {
+								return (
+									<a key={idx} href={`/conceptFilter?ci=${concept.conceptId}`}>
+										{idx + 1 < props.info.concepts.length ? concept.text + ',' : concept.text}
+									</a>
+								);
+							})}
+						</p>
 					</li>
 					<li>
 						<ListTitle>주제어</ListTitle>
-						{props.info.keyword.number} [{props.info.keyword.subject}]
+						<a href={`/subjectFilter?si=${props.info.subject.subjectId}`}>
+							[{props.info.subject.subjectId}: {props.info.subject.text}]
+						</a>
 					</li>
 					<li>
 						<ListTitle>발행기관</ListTitle>
@@ -68,7 +76,7 @@ const PaperInfo = (props) => {
 						<ListTitle>소장기관</ListTitle>
 						{props.info.holdingInstitution}
 					</li>
-				</PaperInfoList>
+				</div>
 			</PaperInfoLayout>
 		</>
 	);
@@ -80,19 +88,14 @@ export default PaperInfo;
 
 const PaperInfoLayout = styled.ul`
 	max-width: 35vw;
-	padding-right: 2vw;
 	padding: 1rem;
 	li {
 		font-size: 0.9rem;
 		display: flex;
 		list-style: none;
-		margin: 0.5rem;
-		line-height: 2;
+		margin: 1rem;
+		line-height: 1.5;
 	}
-`;
-
-const PaperInfoList = styled.div`
-	padding: 0.2rem 1.5rem;
 `;
 
 const ListTitle = styled.div`

@@ -56,17 +56,26 @@ const SubjectFilter = () => {
 							<Select>
 								<option>??</option>
 							</Select>
+							<Select>
+								<option>??</option>
+							</Select>
+							<Select>
+								<option>??</option>
+							</Select>
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer title={'인접 주제'} data={adjacentLabel} />
+							<FilterButtonLayer type="label" title={'인접 주제'} data={adjacentLabel} />
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer title={'하위 주제'} data={subLabel} />
+							<FilterButtonLayer type="label" title={'하위 주제'} data={subLabel} />
+						</FilterLayerBox>
+						<FilterLayerBox>
+							<FilterButtonLayer type="route" title={'인접 개념어'} data={subLabel} />
 						</FilterLayerBox>
 					</ContentsFilter>
 					<ContentsChart>
-						<GraphChartLayer data={chartData} />
-						<HeatmapChartLayer data={trendChartData} />
+						<GraphChartLayer width={85} data={chartData} />
+						<HeatmapChartLayer width={85} data={trendChartData} />
 					</ContentsChart>
 				</ContentsUpperBox>
 				<Divider />
@@ -90,6 +99,7 @@ const SubjectFilter = () => {
 export default SubjectFilter;
 
 const Frame = styled.div`
+	margin: 0 auto;
 	min-height: calc(100vh - 140px);
 	width: 80vw;
 	padding: 30px;
@@ -106,7 +116,7 @@ const ContentsUpperBox = styled.div`
 const ContentsFilter = styled.div`
 	padding: 30px 20px;
 	display: flex;
-	width: 40%;
+	width: 50%;
 	flex-direction: column;
 `;
 
@@ -123,6 +133,7 @@ const Select = styled.select`
 	width: 80%;
 	border-radius: 5px;
 	border: 1px solid #9fb8c6;
+	margin: 5px;
 	height: 40px;
 	:focus {
 		outline: none;
@@ -131,6 +142,7 @@ const Select = styled.select`
 
 const ContentsChart = styled.div`
 	display: flex;
+	align-items: center;
 	width: 60%;
 	flex-direction: column;
 `;

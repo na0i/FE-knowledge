@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { UseLocationQuery } from 'src/utils/useLocation';
-import { request } from 'src/utils/axios';
 import styled from 'styled-components';
 
 import PeriodFilter from './periodFilter';
 import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
+import { getPaperSearchList } from 'src/API/search';
 
 const SearchList = () => {
-	const searchQuery = UseLocationQuery().q;
 	const yearArr = [
 		{ id: 0, name: '0' },
 		{ id: 1, name: '2022' },
@@ -24,8 +22,8 @@ const SearchList = () => {
 
 	// query → paper fetch
 	const getPaperList = async () => {
-		const res = await request('GET', 'https://mocki.io/v1/8e8a505e-2372-4bd1-ba48-7fc93d275f02', searchQuery);
-		return res.paperData;
+		const res = await getPaperSearchList();
+		return res;
 	};
 
 	// set paperList
@@ -37,9 +35,9 @@ const SearchList = () => {
 
 	// get interested paperList from localStorage
 	const getInterestedPaperList = () => {
-	 const newArr = JSON.parse(localStorage.getItem('interestedPapers'));
-	 setSelectedPaper(newArr);
-	}
+		const newArr = JSON.parse(localStorage.getItem('interestedPapers'));
+		setSelectedPaper(newArr);
+	};
 
 	// filter paperList by year
 	const yearFiltering = (arr, standardYear) => {
@@ -68,7 +66,7 @@ const SearchList = () => {
 			localStorage.setItem('interestedPapers', JSON.stringify(newArr));
 		}
 	};
-	
+
 	// remove interested paper
 	const removeSelectedPaper = (paper) => {
 		if (isHere(selectedPapers, paper.id)) {
