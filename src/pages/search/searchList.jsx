@@ -5,7 +5,7 @@ import PeriodFilter from './periodFilter';
 import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
-import { getPaperSearchList } from 'src/API/search';
+import { getPaperRecommend } from 'src/API/search';
 
 const SearchList = () => {
 	const yearArr = [
@@ -22,7 +22,7 @@ const SearchList = () => {
 
 	// query → paper fetch
 	const getPaperList = async () => {
-		const res = await getPaperSearchList();
+		const res = await getPaperRecommend();
 		return res;
 	};
 
