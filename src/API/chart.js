@@ -92,8 +92,8 @@ const trendChartDataTemp = [
 
 /*-------------------------------------------------------------- */
 
-export const getChartData = async () => {
-	// const res = await request("GET", "url", {data:'data'});
+export const getChartData = async (id) => {
+	// const res = await request("GET", "url + id", {data:'data'});
 
 	return tempChartData;
 };

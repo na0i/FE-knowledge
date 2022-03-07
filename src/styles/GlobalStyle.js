@@ -5,8 +5,10 @@ const globalStyles = createGlobalStyle`
     ${reset};
 	* {
 		box-sizing: border-box;
+		scroll-behavior: smooth;	
 	}
-	a {text-decoration:none;
+	a {
+		text-decoration:none;
 		&:hover {
 		text-decoration: 1px underline;
 		text-underline-position: under;
@@ -14,17 +16,20 @@ const globalStyles = createGlobalStyle`
 		margin-right: 0.5rem;
 		color: #428cc5;
 	}
+	hr{
+		border: 1px solid #efefef;
+	}
 	.title-font{
 		font-family: "Noto Sans KR", sans-serif;
 	}
-	body {
-		 font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif;
+	body {    
+		font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif;
 	}
 	.tab {
 		border-radius: 20px 20px 0px 0px;
 	}
 	.tooltip{
-		width: max -content;
+		width: max-content;
 		line-height: 1.5;
 		height: fit-content;
 		white-space:pre-line;
@@ -400,6 +405,9 @@ const globalStyles = createGlobalStyle`
 	}
 	.basic-blue{
 		color: #3182fb;
+	}
+	.highlight{
+		color:#2652c5;
 	}
 	.blue {
 		color: #0053fd;

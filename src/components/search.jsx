@@ -1,86 +1,83 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAutoComplete } from 'src/API/search';
+import { debounce } from 'lodash';
 import { ReactComponent as Zoom } from 'src/assets/zoom.svg';
+import { highlight } from 'src/utils/highlight/highlight';
 import styled from 'styled-components';
 
 // import { request } from 'src/utils/axios';
-
-/************************************* temp *************************************/
-
-const data = [
-	{
-		id: 2312,
-		title: '커뮤니티 기반의 질의 응답서비스(cQA)에서 질문-응답 쌍의 구조적 특징을 이용한 어쩌구 저쩌구 ',
-		author: ['배경만', '어쩌구'],
-		date: new Date(2012, 0, 1),
-	},
-	{
-		id: 2322,
-		title: '워드그래프와 전역 및 지역 언어모델을 사용한 한국어 문서 자동 요약',
-		author: ['임미영'],
-		date: new Date(2014, 11, 3),
-	},
-	{
-		id: 120042,
-		title: '인공지능 언어모델에 통사 구조와 한국어 특징에 대한 지식을 주입하는 방법',
-		author: ['박진호'],
-		date: new Date(2021, 10, 21),
-	},
-];
-
-/************************************ function ************************************/
-// search input timer
-let timer;
-
-export const SearchTimer = ({ text, setAutoComplete }) => {
-	if (timer) {
-		clearTimeout(timer);
-	}
-	timer = setTimeout(async function () {
-		if (text) {
-			// const res = await request('GET', '여기 url');
-			// if (res.result) setAutoComplete(res.result);
-			// else setAutoComplete([]);
-			if (text.includes('학술')) setAutoComplete(data);
-			else setAutoComplete([]);
-		}
-	}, 500);
-};
-
-// autoComplete thesis click
-export const AutoCompleteClick = ({ id }) => {
-	//논문 검색 페이지로 이동 함수
-};
-
 /*************************************** JSX ***************************************/
 export const SearchBoxComp = ({ font, height, text }) => {
 	const navigate = useNavigate();
+	const [mounted, setMounted] = useState(true);
 	const [searchText, setSearchText] = useState(text ? text : '');
 	const [autoCompleteData, setAutoCompleteData] = useState([]);
 	const [inputFocus, setInputFocus] = useState(false);
+	const searchDebounce = useMemo(
+		() =>
+			debounce((val) => {
+				getAutoCompleteData(val);
+			}, 200),
+		[],
+	);
+
+	const getAutoCompleteData = async (text) => {
+		const res = await getAutoComplete('GET', 'url');
+		// if (res.result) setAutoComplete(res.result);
+		// else setAutoComplete([]);
+		if (text?.includes('학술')) setAutoCompleteData(res);
+		else setAutoCompleteData([]);
+	};
 
 	// input test change
-	const textChange = (text) => {
-		if (text === '') {
-			setSearchText('');
-			setAutoCompleteData([]);
-		} else {
-			setSearchText(text);
-			SearchTimer({ text: text, setAutoComplete: setAutoCompleteData });
-		}
-	};
+	const textChange = useCallback(
+		(text) => {
+			if (text === '') {
+				setSearchText('');
+				setAutoCompleteData([]);
+			} else {
+				setSearchText(text);
+				if (mounted && !localStorage.getItem('autoComplete')) searchDebounce(text);
+			}
+		},
+		[mounted, searchDebounce],
+	);
 
 	// go to search page
 	const gotoSearchPage = (searchText) => {
 		if (searchText) navigate(`/search?q=${searchText}`);
 	};
 
+	// input focus out
+	const inputFocusOut = () => {
+		setTimeout(function () {
+			if (inputFocus) setInputFocus(false);
+		}, 100);
+	};
+
+	//auto toggle
+	const autoToggle = () => {
+		let state = localStorage.getItem('autoComplete');
+		if (state) localStorage.removeItem('autoComplete');
+		else localStorage.setItem('autoComplete', true);
+	};
+
+	useEffect(() => {
+		return () => {
+			setMounted(false);
+		};
+	}, []);
+
 	return (
 		<SearchBoxLayout>
 			<SearchBox height={height} autoCompleteData={autoCompleteData}>
 				<input
-					onFocus={() => setInputFocus(true)}
-					onBlur={() => setInputFocus(false)}
+					onFocus={() => {
+						setInputFocus(true);
+						if (searchText) textChange(searchText);
+					}}
+					onBlur={() => inputFocusOut()}
 					type="text"
 					placeholder="무엇을 찾고 싶으신가요?"
 					className={font ? `f-${font} pl-${font}` : ''}
@@ -94,15 +91,17 @@ export const SearchBoxComp = ({ font, height, text }) => {
 					<Zoom width={`${height / 2}`} height={`${height / 2}`} onClick={() => gotoSearchPage(searchText)} />
 				</button>
 			</SearchBox>
-			{autoCompleteData.length > 0 && (
-				<AutoCompleteLayout>
-					<AutoComplete focus={inputFocus}>
-						{autoCompleteData.map((list) => {
+			<AutoCompleteLayout>
+				<AutoComplete focus={inputFocus}>
+					{!localStorage.getItem('autoComplete') ? (
+						autoCompleteData.length > 0 &&
+						autoCompleteData.map((list) => {
 							return (
 								<li
 									key={list.id}
-									className="justify-between"
-									onClick={() => AutoCompleteClick({ id: list.id })}
+									autoComplete={localStorage.getItem('autoComplete')}
+									className="justify-between pointer"
+									onClick={() => navigate(`/search/paper?id=${list.id}`)}
 								>
 									<AutoCompleteTitle className="title">
 										<span>{list.title}</span>
@@ -113,10 +112,17 @@ export const SearchBoxComp = ({ font, height, text }) => {
 									</AutoCompleteInfo>
 								</li>
 							);
-						})}
-					</AutoComplete>
-				</AutoCompleteLayout>
-			)}
+						})
+					) : (
+						<li autoComplete={localStorage.getItem('autoComplete')}>자동완성 기능이 꺼져있습니다.</li>
+					)}
+					<AutoButtonLayout autoComplete={localStorage.getItem('autoComplete')}>
+						<span onClick={() => autoToggle()}>
+							자동완성 {!localStorage.getItem('autoComplete') ? ' 끄기' : ' 켜기'}
+						</span>
+					</AutoButtonLayout>
+				</AutoComplete>
+			</AutoCompleteLayout>
 		</SearchBoxLayout>
 	);
 };
@@ -132,7 +138,7 @@ export const SearchBox = styled.div`
 	width: 100%;
 	max-width: 1200px;
 	height: ${(props) => `${props.height}px`};
-	border: 1px solid #9fb8c6;
+	border: 1px solid #3352a4;
 	display: flex;
 	input {
 		width: ${(props) => `${100 - (props.height / 10 + 2)}%`};
@@ -141,7 +147,7 @@ export const SearchBox = styled.div`
 		outline: none;
 		&::placeholder {
 			font-weight: bold;
-			color: #9fb8c6;
+			color: #3352a4;
 		}
 	}
 	button {
@@ -152,7 +158,7 @@ export const SearchBox = styled.div`
 		height: ${(props) => `${props.height - 2}px`};
 		border: none;
 		cursor: pointer;
-		background: #9fb8c6;
+		background: #3352a4;
 		&:focus {
 			outline: none;
 		}
@@ -169,14 +175,16 @@ export const SearchBox = styled.div`
 export const AutoComplete = styled.ul`
 	display: ${(props) => (props.focus ? 'block' : 'none')};
 	position: absolute;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: 0 2px 3px 0 rgb(0 1 3 / 7%);
 	width: 800px;
 	li {
 		list-style: none;
 		padding: 1rem 1.5rem;
-		background: #f2f2f2;
-		cursor: pointer;
+		background: white;
 		&:hover {
-			background: #eaeaea;
+			background: #f5f5f5;
 			span {
 				text-decoration: underline;
 				text-underline-position: under;
@@ -185,11 +193,28 @@ export const AutoComplete = styled.ul`
 		}
 	}
 `;
-
+const AutoButtonLayout = styled.div`
+	text-align: end;
+	list-style: none;
+	padding: 0.8rem;
+	background: #f9fafc;
+	border-top: 1px solid #f1f4f6;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	font-size: 0.9rem;
+	span {
+		cursor: pointer;
+		color: grey;
+		&:hover {
+			text-decoration: underline;
+			text-underline-position: under;
+		}
+	}
+`;
 export const AutoCompleteTitle = styled.div`
 	width: 75%;
 	padding: 0.5rem 0;
-	color: #678fa5;
+	color: black;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

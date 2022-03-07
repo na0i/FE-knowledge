@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MoreButton from 'src/components/moreButton';
 import Dropdown from 'src/components/dropdown';
-
+import { removeFromInterested } from 'src/utils/removeFromInterested';
 // dropdown option state
 const recommandOption = [
 	{ value: '중요도 순', default: true },
@@ -10,6 +10,7 @@ const recommandOption = [
 ];
 
 const InterestedPaper = ({ selectedPapers, removeSelectedPaper }) => {
+
 	return (
 		<InterestedLayout>
 			<div className="justify-between">
@@ -31,8 +32,10 @@ const InterestedPaper = ({ selectedPapers, removeSelectedPaper }) => {
 					</div>
 				))}
 			</div>
-
-			<MoreButton />
+			
+			<>
+			{(selectedPapers.length > 0) ?<MoreButton /> : <></>}
+			</>
 		</InterestedLayout>
 	);
 };

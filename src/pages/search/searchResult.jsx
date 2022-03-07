@@ -21,7 +21,7 @@ const SearchResult = ({ paperList, addSelectedPaper }) => {
 
 			<div>
 				{paperList?.map((paper) => (
-					<PaperList key={paper.id} paper={paper} />
+					<PaperList key={paper.id} paper={paper}/>
 				))}
 			</div>
 			<MoreButton />

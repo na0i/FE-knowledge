@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 /************************************* jsx *************************************/
 //trendChart
@@ -11,11 +11,12 @@ export const TrendChart = ({ chartData }) => {
 	};
 
 	const [series, setSeries] = useState(chartData);
-	const [options, setOptions] = useState({
+	const options = {
 		chart: {
-			height: 400,
 			type: 'heatmap',
 			toolbar: {
+				offsetX: -15,
+				offsetY: -35,
 				show: true,
 				tools: {
 					download: true,
@@ -113,7 +114,6 @@ export const TrendChart = ({ chartData }) => {
 		},
 		colors: ['#2F75A3'],
 		title: {
-			text: '트렌드 연구 주제 관련 활성도',
 			align: 'left',
 			margin: 20,
 			offsetX: 0,
@@ -127,7 +127,11 @@ export const TrendChart = ({ chartData }) => {
 				color: '#263238',
 			},
 		},
-	});
+	};
+
+	useEffect(() => {
+		setSeries(chartData);
+	}, [chartData]);
 
 	return (
 		<div>

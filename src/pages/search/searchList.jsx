@@ -35,8 +35,9 @@ const SearchList = () => {
 
 	// get interested paperList from localStorage
 	const getInterestedPaperList = () => {
-		const newArr = JSON.parse(localStorage.getItem('interestedPapers'));
-		setSelectedPaper(newArr);
+		if (localStorage.getItem('interestedPapers')){
+			setSelectedPaper(JSON.parse(localStorage.getItem('interestedPapers')));
+		}
 	};
 
 	// filter paperList by year
@@ -58,20 +59,24 @@ const SearchList = () => {
 	};
 
 	// add to interested paperlist
-	const addSelectedPaper = (paper) => {
-		if (!isHere(selectedPapers, paper.id)) {
+	const addSelectedPaper = (item) => {
+		if (!isHere(selectedPapers, item.id)) {
+			let newItem = {};
+			newItem.id = item.id;
+			newItem.title = item.title;
+
 			let newArr = [];
-			newArr = [...selectedPapers, paper];
+			newArr = [...selectedPapers, newItem];
 			setSelectedPaper(newArr);
 			localStorage.setItem('interestedPapers', JSON.stringify(newArr));
 		}
 	};
 
 	// remove interested paper
-	const removeSelectedPaper = (paper) => {
-		if (isHere(selectedPapers, paper.id)) {
+	const removeSelectedPaper = (item) => {
+		if (isHere(selectedPapers, item.id)) {
 			let newArr = [];
-			newArr = selectedPapers.filter((element) => element.id !== paper.id);
+			newArr = selectedPapers.filter((element) => element.id !== item.id);
 			setSelectedPaper(newArr);
 			localStorage.setItem('interestedPapers', JSON.stringify(newArr));
 		}
@@ -89,11 +94,17 @@ const SearchList = () => {
 			</LeftBox>
 
 			<RighBox>
-				<SearchResult paperList={searchedPaperList} addSelectedPaper={addSelectedPaper} />
-				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper} />
+				<SearchResult paperList={searchedPaperList} addSelectedPaper={addSelectedPaper}/>
+				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper}/>
 			</RighBox>
 		</Wrapper>
 	);
+
+
+
+
+
+
 };
 
 export default SearchList;

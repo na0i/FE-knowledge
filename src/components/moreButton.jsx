@@ -10,7 +10,9 @@ const MoreButton = () => {
 export default MoreButton;
 
 const Button = styled.button`
-  background-color: white;
-  border: white;
+  background-color: #F8F8F8;
+  border: #F8F8F8;
   width: 100%;
+  height: 35px;
+  cursor: pointer;
 `

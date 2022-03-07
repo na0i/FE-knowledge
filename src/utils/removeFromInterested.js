@@ -1,7 +1,10 @@
-// list: 관심있는 paperList
-// item: paper({id: x, title: 'x'})
-export const removeFromInterested = (list, item) => {
-	let newArr = [];
-	newArr = list.filter((element) => element.id !== item.id);
-	localStorage.setItem('interestedPapers', JSON.stringify(newArr));
+// newItem: {id: x, title: 'x'}
+
+export const removeFromInterested = (item) => {
+	const interestedPapersList = JSON.parse(localStorage.getItem('interestedPapers'));
+	if (interestedPapersList.findIndex((element) => element.id === item.id) !== -1) {
+		let newArr = [];
+		newArr = interestedPapersList.filter((element) => element.id !== item.id);
+		localStorage.setItem('interestedPapers', JSON.stringify(newArr));
+	}
 };

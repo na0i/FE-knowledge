@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import HeaderImg from 'src/assets/header.jpg';
 import { SearchBoxComp } from 'src/components/search';
 import { UseLocationQuery } from 'src/utils/useLocation';
 
@@ -18,8 +17,8 @@ const SearchHeader = () => {
 export default SearchHeader;
 
 const SearchHeaderLayout = styled.div`
-	background-image: url(${HeaderImg});
-	height: 140px;
+	height: 110px;
 	display: flex;
 	padding: 30px 15vw;
+	box-shadow: 0 4px 2px -2px rgb(238, 238, 238);
 `;
