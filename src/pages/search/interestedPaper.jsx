@@ -1,15 +1,24 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import MoreButton from 'src/components/moreButton';
-import Dropdown from 'src/components/dropdown';
+import Dropdown from 'src/components/button/dropdown';
 import { removeFromInterested } from 'src/utils/removeFromInterested';
+import rootStore from 'src/stores/rootStore'
+import { useNavigate } from 'react-router-dom';
+
 // dropdown option state
 const recommandOption = [
 	{ value: '중요도 순', default: true },
 	{ value: '최신순', default: false },
 ];
 
-const InterestedPaper = ({ selectedPapers, removeSelectedPaper }) => {
+const InterestedPaper = ({ selectedPapers }) => {
+	const navigate = useNavigate();
+	const { searchStore } = rootStore();
+	const removeInterestedPaper = (item) => {
+		searchStore.removeInterestedPaper(item);
+	}
+	useEffect(()=> searchStore.getInterestedPaperList(), []);
 
 	return (
 		<InterestedLayout>
@@ -21,20 +30,20 @@ const InterestedPaper = ({ selectedPapers, removeSelectedPaper }) => {
 			</div>
 
 			<div>
-				{selectedPapers?.map((paper) => (
+				{searchStore.interestedPaper?.map((paper) => (
 					<div key={paper.id}>
 						<LeftBox>
-							<div key={paper.id}>{paper.title}</div>
+							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>{paper.title}</div>
 						</LeftBox>
 						<RightBox>
-							<RemoveButton onClick={() => removeSelectedPaper(paper)}>-</RemoveButton>
+							<RemoveButton onClick={() => removeInterestedPaper(paper)}>관심 해제</RemoveButton>
 						</RightBox>
 					</div>
 				))}
 			</div>
 			
 			<>
-			{(selectedPapers.length > 0) ?<MoreButton /> : <></>}
+			{(searchStore.interestedPaper.length > 0) ?<MoreButton /> : <></>}
 			</>
 		</InterestedLayout>
 	);
@@ -44,9 +53,9 @@ export default InterestedPaper;
 
 const LeftBox = styled.div`
 	color: #55a3d7;
-	width: 95%;
+	width: 92%;
 	float: left;
-	margin: 10px 0px 10px 0px;
+	margin: 20px 0px 10px 0px;
 	cursor: pointer;
 	&:hover {
 		text-decoration: 1px underline;
@@ -55,19 +64,26 @@ const LeftBox = styled.div`
 `;
 
 const RightBox = styled.div`
-	width: 5%;
+	width: 8%;
 	float: left;
+	margin: 10px 0px 10px 0px;
 	justify-content: center;
 `;
 
 const RemoveButton = styled.button`
 	display: block;
-	background-color: white;
-	border-radius: 100%;
-	font-size: 20px;
-	width: 30px;
-	height: 30px;
+	border: 1px solid #efefef;
+	width: 100px;
+	min-width: 100px;
+	height: 35px;
+	max-height: 35px;
+	font-weight: bold;
 	cursor: pointer;
+	background: white;
+	border-radius: 5px;
+	&:hover {
+		background: #f5f5f5;
+	}
 `;
 
 const InterestedLayout = styled.ul`
@@ -78,4 +94,6 @@ const InterestedLayout = styled.ul`
 		padding: 2rem 1rem 1rem 1rem;
 		border-bottom: 1px solid #efefef;
 	}
+	font-family: "Noto Sans KR", sans-serif;
+
 `;

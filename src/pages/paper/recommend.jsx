@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UseLocationQuery } from 'src/utils/useLocation';
 import { getPaperRecommend } from 'src/API/search';
-import Dropdown from 'src/components/dropdown';
+import Dropdown from 'src/components/button/dropdown';
 import PaperList from 'src/components/paper/paperList';
 
 // dropdown option state

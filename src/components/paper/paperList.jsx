@@ -3,10 +3,16 @@ import styled from 'styled-components';
 import { highlight } from 'src/utils/highlight/highlight';
 import { useNavigate } from 'react-router-dom';
 import { UseLocationQuery } from 'src/utils/useLocation';
+import rootStore from 'src/stores/rootStore';
 
 const PaperList = ({ paper, addSelectedPaper }) => {
 	const search = UseLocationQuery();
 	const navigate = useNavigate();
+	const { searchStore } = rootStore();
+
+	const addInterestedPaper = (item) => {
+		searchStore.addInterestedPaper(item);
+	}
 
 	return (
 		<PaperListLayout key={paper.id}>
@@ -15,7 +21,7 @@ const PaperList = ({ paper, addSelectedPaper }) => {
 					<Title className="title-font f-20 m-0" onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
 						{search.q ? highlight(paper.title, search.q) : paper.title}
 					</Title>
-					<AddPaperBtn onClick={() => addSelectedPaper(paper)}>관심 등록</AddPaperBtn>
+					<AddPaperBtn onClick={() => addInterestedPaper(paper)}>관심 등록</AddPaperBtn>
 				</TitleLayout>
 				<li>
 					<ListTitle>저자</ListTitle>
@@ -53,14 +59,14 @@ export default PaperList;
 const PaperListLayout = styled.ul`
 	width: 100%;
 	padding: 0.5rem 1.5rem;
-	border-left: 2px solid #ebe6e6;
-	margin: 2rem 1rem 3rem 1rem;
+	padding: 2rem 1.5rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 	li {
-		font-size: 0.85rem;
+		font-size: 0.9rem;
 		display: flex;
 		list-style: none;
-		margin: 1rem;
-		line-height: 1.5;
+		margin: 0.8rem;
+		line-height: 1;
 	}
 `;
 
@@ -75,8 +81,7 @@ const Title = styled.div`
 
 const TitleLayout = styled.div`
 	width: 100%;
-	padding: 8px 8px 16px 8px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	padding: 0 8px 8px 8px;
 `;
 
 const ListTitle = styled.div`

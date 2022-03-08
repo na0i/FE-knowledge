@@ -20,5 +20,5 @@ const SearchHeaderLayout = styled.div`
 	height: 110px;
 	display: flex;
 	padding: 30px 15vw;
-	box-shadow: 0 4px 2px -2px rgb(238, 238, 238);
+	box-shadow: 0 8px 8px -2px rgb(238, 238, 238);
 `;

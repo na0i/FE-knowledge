@@ -23,7 +23,7 @@ const globalStyles = createGlobalStyle`
 		font-family: "Noto Sans KR", sans-serif;
 	}
 	body {    
-		font-family: '맑은 고딕','Malgun Gothic',나눔고딕,돋움,Dotum,굴림,Gulim,'Apple SD Gothic Neo',sans-serif;
+		font-family: "Noto Sans KR", sans-serif;
 	}
 	.tab {
 		border-radius: 20px 20px 0px 0px;
@@ -402,6 +402,10 @@ const globalStyles = createGlobalStyle`
 	.end {
 		display: flex;
 		align-items: end;
+	}
+
+	.black{
+		color: black;
 	}
 	.basic-blue{
 		color: #3182fb;

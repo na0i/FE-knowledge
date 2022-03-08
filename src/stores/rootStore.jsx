@@ -1,7 +1,9 @@
 import { counter } from './counter';
+import { searchStore } from './searchStore'
 
-const useStore = () => {
-	return { counter };
-};
+const rootStore = () => ({
+	counter,
+	searchStore,
+})
 
-export default useStore;
+export default rootStore;

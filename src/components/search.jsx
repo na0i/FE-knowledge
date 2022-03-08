@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { getAutoComplete } from 'src/API/search';
 import { debounce } from 'lodash';
 import { ReactComponent as Zoom } from 'src/assets/zoom.svg';
-import { highlight } from 'src/utils/highlight/highlight';
 import styled from 'styled-components';
 
 // import { request } from 'src/utils/axios';
+
 /*************************************** JSX ***************************************/
 export const SearchBoxComp = ({ font, height, text }) => {
 	const navigate = useNavigate();
@@ -60,7 +60,7 @@ export const SearchBoxComp = ({ font, height, text }) => {
 	const autoToggle = () => {
 		let state = localStorage.getItem('autoComplete');
 		if (state) localStorage.removeItem('autoComplete');
-		else localStorage.setItem('autoComplete', true);
+		else localStorage.setItem('autoComplete', 'off');
 	};
 
 	useEffect(() => {
@@ -92,7 +92,7 @@ export const SearchBoxComp = ({ font, height, text }) => {
 				</button>
 			</SearchBox>
 			<AutoCompleteLayout>
-				<AutoComplete focus={inputFocus}>
+				<AutoComplete focus={inputFocus} autoComplete={localStorage.getItem('autoComplete')}>
 					{!localStorage.getItem('autoComplete') ? (
 						autoCompleteData.length > 0 &&
 						autoCompleteData.map((list) => {
@@ -137,17 +137,16 @@ export const SearchBoxLayout = styled.div`
 export const SearchBox = styled.div`
 	width: 100%;
 	max-width: 1200px;
-	height: ${(props) => `${props.height}px`};
-	border: 1px solid #3352a4;
+	height: ${(props) => `${props.height + 2}px`};
+	border: 2px solid #3352a4;
 	display: flex;
 	input {
-		width: ${(props) => `${100 - (props.height / 10 + 2)}%`};
+		width: ${(props) => `${100 - props.height / 10}%`};
 		height: ${(props) => `${props.height - 2}px`};
 		border: none;
 		outline: none;
 		&::placeholder {
-			font-weight: bold;
-			color: #3352a4;
+			color: #b4b4b4;
 		}
 	}
 	button {
@@ -184,7 +183,7 @@ export const AutoComplete = styled.ul`
 		padding: 1rem 1.5rem;
 		background: white;
 		&:hover {
-			background: #f5f5f5;
+			background: ${(props) => (!props.autoComplete ? '#f5f5f5' : '#ffffff')};
 			span {
 				text-decoration: underline;
 				text-underline-position: under;

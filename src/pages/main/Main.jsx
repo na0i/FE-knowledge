@@ -24,19 +24,20 @@ const Box = styled.div`
 	padding: 4rem 10rem;
 	margin: auto;
 	h1 {
-		font-size: 2rem;
+		margin: auto;
+		font-size: 2.4rem;
 		font-weight: bold;
 	}
 	h2 {
-		margin: 1rem 0;
-		font-size: 1.2rem;
+		margin: 1rem auto;
+		font-size: 1.8rem;
+		font-weight: normal;
 		color: #527080;
 	}
-	background: #e9f2f9;
 `;
 
 const Layout = styled.div`
-	width: 80vw;
+	width: 60vw;
 	height: 100vh;
 	margin: 0 auto;
 `;
