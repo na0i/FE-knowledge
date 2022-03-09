@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import PaperList from 'src/components/paper/paperList';
 import rootStore from 'src/stores/rootStore';
-import { searchStore } from 'src/stores/searchStore';
 
-const SearchResult = ({ paperList, addSelectedPaper }) => {
-	const { SearchStore } = rootStore();
+const SearchResult = ({ paperList }) => {
+	const { searchStore } = rootStore();
 	return (
 		<>
 			<SearchResultLayout>
@@ -17,7 +16,7 @@ const SearchResult = ({ paperList, addSelectedPaper }) => {
 				</SubHeader>
 				<div>
 					{paperList?.map((paper) => (
-						<PaperList key={paper.id} paper={paper} addSelectedPaper={addSelectedPaper} />
+						<PaperList key={paper.id} paper={paper} addSelectedPaper={searchStore.addSelectedPaper} />
 					))}
 				</div>
 			</SearchResultLayout>

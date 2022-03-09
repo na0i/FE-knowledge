@@ -7,6 +7,9 @@ import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 import { getPaperSearchList } from 'src/API/search';
 
+import rootStore from 'src/stores/rootStore';
+import { useObserver } from 'mobx-react';
+
 const SearchList = () => {
 	const yearArr = [
 		{ id: 0, name: '0' },
@@ -17,8 +20,8 @@ const SearchList = () => {
 		{ id: 5, name: '사용자지정' },
 	];
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
-	const [selectedYear, setSelectedYear] = useState(0);
-	const [selectedPapers, setSelectedPaper] = useState([]);
+	const { periodStore } = rootStore();
+	const selectedPeriod = periodStore.selectedPeriod;
 
 	// query → paper fetch
 	const getPaperList = async () => {
@@ -29,76 +32,26 @@ const SearchList = () => {
 	// set paperList
 	const setPaperList = async (year) => {
 		const paperList = await getPaperList();
-		const filteredPaperList = yearFiltering(paperList, year);
+		const filteredPaperList = paperList.filter((element) => parseInt(element.year) >= year);
  		setSearchedPaperList(filteredPaperList);
 	};
 
-	// get interested paperList from localStorage
-	const getInterestedPaperList = () => {
-		if (localStorage.getItem('interestedPapers')){
-			setSelectedPaper(JSON.parse(localStorage.getItem('interestedPapers')));
-		}
-	};
+	useEffect(() => setPaperList(selectedPeriod), []);
 
-	// filter paperList by year
-	const yearFiltering = (arr, standardYear) => {
-		return arr.filter((element) => parseInt(element.year) >= standardYear);
-	};
-
-	// current year
-	const onSelectedYear = (year) => {
-		setSelectedYear(year.name);
-	};
-
-	// isHere ? true : false
-	const isHere = (list, id) => {
-		if (list.findIndex((element) => element.id === id) === -1) {
-			return false;
-		}
-		return true;
-	};
-
-	// add to interested paperlist
-	const addSelectedPaper = (item) => {
-		if (!isHere(selectedPapers, item.id)) {
-			let newItem = {};
-			newItem.id = item.id;
-			newItem.title = item.title;
-
-			let newArr = [];
-			newArr = [...selectedPapers, newItem];
-			setSelectedPaper(newArr);
-			localStorage.setItem('interestedPapers', JSON.stringify(newArr));
-		}
-	};
-
-	// remove interested paper
-	const removeSelectedPaper = (item) => {
-		if (isHere(selectedPapers, item.id)) {
-			let newArr = [];
-			newArr = selectedPapers.filter((element) => element.id !== item.id);
-			setSelectedPaper(newArr);
-			localStorage.setItem('interestedPapers', JSON.stringify(newArr));
-		}
-	};
-
-	useEffect(() => setPaperList(selectedYear), [selectedYear]);
-	useEffect(() => getInterestedPaperList(), []);
-
-	return (
+	return useObserver(()=>(
 		<Wrapper>
 			<SearchHeader font={24} />
 
 			<LeftBox>
-				<PeriodFilter years={yearArr} onSelectedYear={onSelectedYear} />
+				<PeriodFilter years={yearArr}/>
 			</LeftBox>
 
 			<RighBox>
-				<SearchResult paperList={searchedPaperList} addSelectedPaper={addSelectedPaper}/>
-				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper}/>
+				<SearchResult paperList={searchedPaperList}/>
+				<InterestedPaper/>
 			</RighBox>
 		</Wrapper>
-	);
+	));
 
 
 

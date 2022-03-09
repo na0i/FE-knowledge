@@ -1,19 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import rootStore from 'src/stores/rootStore';
+import { useObserver } from 'mobx-react';
+import { periodStore } from 'src/stores/periodStore';
 
 const PeriodFilter = ({years}) => {
-  const { searchStore } = rootStore();
-  return(
+  const { periodStore } = rootStore();
+  
+  return (
     <PeriodDiv>
       <PeriodTitle className='mt-16 mb-16'>등재일</PeriodTitle>
       {years.map((year) => {
         if (year.id === 0){
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => searchStore.onSelectedYear(year)}>전체보기</Year>)
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => periodStore.onSelectedPeriod(year)}>전체보기</Year>)
         } else if (year.id === 5){
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => searchStore.onSelectedYear(year)}>{year.name}</Year>)
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => periodStore.onSelectedPeriod(year)}>{year.name}</Year>)
         } else {
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => searchStore.onSelectedYear(year)}>{year.name}년 부터</Year>)
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => periodStore.onSelectedPeriod(year)}>{year.name}년 부터</Year>)
         }
       }
       )}
