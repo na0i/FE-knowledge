@@ -5,6 +5,7 @@ import Dropdown from 'src/components/button/dropdown';
 import { removeFromInterested } from 'src/utils/removeFromInterested';
 import rootStore from 'src/stores/rootStore'
 import { useNavigate } from 'react-router-dom';
+import { toJS } from 'mobx';
 
 // dropdown option state
 const recommandOption = [
@@ -18,7 +19,8 @@ const InterestedPaper = ({ selectedPapers }) => {
 	const removeInterestedPaper = (item) => {
 		searchStore.removeInterestedPaper(item);
 	}
-	useEffect(()=> searchStore.getInterestedPaperList(), []);
+	let interestedPapers = toJS(searchStore.interestedPapers);
+	useEffect(()=> searchStore.getInterestedPaper());
 
 	return (
 		<InterestedLayout>
@@ -30,7 +32,7 @@ const InterestedPaper = ({ selectedPapers }) => {
 			</div>
 
 			<div>
-				{searchStore.interestedPaper?.map((paper) => (
+				{interestedPapers?.map((paper) => (
 					<div key={paper.id}>
 						<LeftBox>
 							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>{paper.title}</div>
@@ -43,7 +45,7 @@ const InterestedPaper = ({ selectedPapers }) => {
 			</div>
 			
 			<>
-			{(searchStore.interestedPaper.length > 0) ?<MoreButton /> : <></>}
+			{(interestedPapers.length > 0) ?<MoreButton /> : <></>}
 			</>
 		</InterestedLayout>
 	);
