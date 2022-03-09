@@ -1,5 +1,7 @@
 // const { request } = require('src/utils/axios');
 
+import { request } from "src/utils/axios";
+
 /************************************* temp *************************************/
 
 const autoCompleteData = [
@@ -200,3 +202,8 @@ export const getPaperSearchList = async () => {
 	//const res = await request("GET", "URL", "DATA");
 	return paperSearchResultTemp;
 };
+
+export const getMorePaperSearchList = async (idx) => {
+	// const res = await request('GET', 'URL', 'params: idx');
+	return paperSearchResultTemp;
+}

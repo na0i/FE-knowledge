@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import MoreButton from 'src/components/moreButton';
 import Dropdown from 'src/components/button/dropdown';
-import { removeFromInterested } from 'src/utils/removeFromInterested';
 import rootStore from 'src/stores/rootStore'
+import { useObserver } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
-import { toJS } from 'mobx';
 
 // dropdown option state
 const recommandOption = [
@@ -13,16 +11,12 @@ const recommandOption = [
 	{ value: '최신순', default: false },
 ];
 
-const InterestedPaper = ({ selectedPapers }) => {
+const InterestedPaper = () => {
 	const navigate = useNavigate();
 	const { searchStore } = rootStore();
-	const removeInterestedPaper = (item) => {
-		searchStore.removeInterestedPaper(item);
-	}
-	let interestedPapers = toJS(searchStore.interestedPapers);
-	useEffect(()=> searchStore.getInterestedPaper());
+	useEffect(()=> searchStore.getInterestedPapers(), []);
 
-	return (
+	return useObserver(() => (
 		<InterestedLayout>
 			<div className="justify-between">
 				<h1 className="f-24 justify-between title-font">
@@ -32,23 +26,20 @@ const InterestedPaper = ({ selectedPapers }) => {
 			</div>
 
 			<div>
-				{interestedPapers?.map((paper) => (
+				{searchStore.interestedPapers?.map((paper) => (
 					<div key={paper.id}>
 						<LeftBox>
 							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>{paper.title}</div>
 						</LeftBox>
 						<RightBox>
-							<RemoveButton onClick={() => removeInterestedPaper(paper)}>관심 해제</RemoveButton>
+							<RemoveButton onClick={() => searchStore.removeInterestedPaper(paper)}>관심 해제</RemoveButton>
 						</RightBox>
 					</div>
 				))}
+
 			</div>
-			
-			<>
-			{(interestedPapers.length > 0) ?<MoreButton /> : <></>}
-			</>
 		</InterestedLayout>
-	);
+	));
 };
 
 export default InterestedPaper;

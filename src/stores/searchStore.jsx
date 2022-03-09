@@ -1,12 +1,11 @@
 import { observable } from 'mobx';
-import { toJS } from 'mobx';
 
 const searchStore = observable({
   // state
-  interestedPapers: [ ],
-  
+  interestedPapers: [],
+
   // action
-  getInterestedPaper(){
+  getInterestedPapers(){
     if (localStorage.getItem('interestedPapers')){
       let interestedPapers = JSON.parse(localStorage.getItem('interestedPapers'));
       this.interestedPapers = interestedPapers;
@@ -16,19 +15,16 @@ const searchStore = observable({
   },
 
   addInterestedPaper(item){
-    let interestedPapers = this.interestedPapers;
-    if (interestedPapers.findIndex((element) => element.id === item.id) === -1){
-      interestedPapers = [...interestedPapers, item];
-      console.log(this.interestedPapers===interestedPapers);
-      localStorage.setItem('interestedPapers', JSON.stringify(interestedPapers));
+    if (this.interestedPapers.findIndex((element) => element.id === item.id) === -1){
+      this.interestedPapers = [...this.interestedPapers, item];
+      localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPapers));
     };
   },
 
   removeInterestedPaper(item){
-    let interestedPapers = this.interestedPapers.filter((element) => element.id !== item.id);
-    this.interestedPapers = interestedPapers;
-    localStorage.setItem('interestedPapers', JSON.stringify(interestedPapers));
-  }
+    this.interestedPapers = this.interestedPapers.filter((element) => element.id !== item.id);
+    localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPapers));
+  },
 });
 
 export { searchStore };
