@@ -1,10 +1,9 @@
 import React from 'react';
+import MoreButton from 'src/components/moreButton';
 import styled from 'styled-components';
 import PaperList from 'src/components/paper/paperList';
-import rootStore from 'src/stores/rootStore';
 
 const SearchResult = ({ paperList }) => {
-	const { searchStore } = rootStore();
 	return (
 		<>
 			<SearchResultLayout>
@@ -16,10 +15,11 @@ const SearchResult = ({ paperList }) => {
 				</SubHeader>
 				<div>
 					{paperList?.map((paper) => (
-						<PaperList key={paper.id} paper={paper} addSelectedPaper={searchStore.addSelectedPaper} />
+						<PaperList key={paper.id} paper={paper}/>
 					))}
 				</div>
 			</SearchResultLayout>
+			<MoreButton />
 		</>
 	);
 };
@@ -44,11 +44,3 @@ const SubHeaderTitle = styled.div`
 `;
 
 const RadioBottom = styled.div``;
-
-const MoreButton = styled.button`
-  background-color: #F8F8F8;
-  border: #F8F8F8;
-  width: 100%;
-  height: 35px;
-  cursor: pointer;
-`

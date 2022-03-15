@@ -9,24 +9,32 @@ import PaperList from 'src/components/paper/paperList';
 import { getChartData, getPaperTrend } from 'src/API/chart';
 import { getPaperRecommend } from 'src/API/search';
 import { getAdjacentSubjectLabels, getSubLabels } from 'src/API/subject';
+import { getConceptLabels } from 'src/API/concept';
+
+import { SubjectSelector } from './subjectSelector';
 
 const SubjectFilter = () => {
 	const [chartData, setChartData] = useState([]);
 	const [trendChartData, setTrendChartData] = useState({});
 	const [recommandPaper, setRecommandPaper] = useState();
 	const [adjacentLabel, setAdjacentLabel] = useState([]);
+	const [conceptLabel, setConceptLabel] = useState([]);
 	const [subLabel, setSubLabel] = useState([]);
 
 	const fetchChartData = async () => {
 		setChartData(await getChartData());
 	};
 
-	const fetchAdjacentLabelData = async () => {
-		setAdjacentLabel(await getAdjacentSubjectLabels());
+	const fetchAdjacentLabelData = async (id) => {
+		setAdjacentLabel(await getAdjacentSubjectLabels(id));
 	};
 
 	const fetchSubLabelData = async () => {
 		setSubLabel(await getSubLabels());
+	};
+
+	const fetchConceptLabelData = async () => {
+		setConceptLabel(await getConceptLabels());
 	};
 
 	const fetchRecommandData = async () => {
@@ -42,6 +50,7 @@ const SubjectFilter = () => {
 		fetchAdjacentLabelData();
 		fetchRecommandData();
 		fetchSubLabelData();
+		fetchConceptLabelData();
 		getPaperTrendData();
 	}, []);
 
@@ -53,24 +62,31 @@ const SubjectFilter = () => {
 					<ContentsFilter>
 						<FilterLayerBox>
 							<Title>주제어 필터</Title>
-							<Select>
-								<option>??</option>
-							</Select>
-							<Select>
-								<option>??</option>
-							</Select>
-							<Select>
-								<option>??</option>
-							</Select>
+							<SubjectSelector />
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="label" title={'인접 주제'} data={adjacentLabel} />
+							<FilterButtonLayer
+								onClick={fetchAdjacentLabelData}
+								type="label"
+								title={'인접 주제'}
+								data={adjacentLabel}
+							/>
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="label" title={'하위 주제'} data={subLabel} />
+							<FilterButtonLayer
+								onClick={fetchSubLabelData}
+								type="label"
+								title={'하위 주제'}
+								data={subLabel}
+							/>
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="route" title={'인접 개념어'} data={subLabel} />
+							<FilterButtonLayer
+								onClick={fetchConceptLabelData}
+								type="route"
+								title={'인접 개념어'}
+								data={conceptLabel}
+							/>
 						</FilterLayerBox>
 					</ContentsFilter>
 					<ContentsChart>

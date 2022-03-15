@@ -7,9 +7,6 @@ import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 import { getPaperSearchList } from 'src/API/search';
 
-import rootStore from 'src/stores/rootStore';
-import { useObserver } from 'mobx-react';
-
 const SearchList = () => {
 	const yearArr = [
 		{ id: 0, name: '0' },
@@ -20,8 +17,7 @@ const SearchList = () => {
 		{ id: 5, name: '사용자지정' },
 	];
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
-	const { periodStore } = rootStore();
-	const selectedPeriod = periodStore.selectedPeriod;
+	const [selectedYear, setSelectedYear] = useState(0);
 
 	// query → paper fetch
 	const getPaperList = async () => {
@@ -36,28 +32,27 @@ const SearchList = () => {
  		setSearchedPaperList(filteredPaperList);
 	};
 
-	useEffect(() => setPaperList(selectedPeriod), []);
+	// current year
+	const onSelectedYear = (year) => {
+		setSelectedYear(year.name);
+	};
 
-	return useObserver(()=>(
+	useEffect(() => setPaperList(selectedYear), [selectedYear]);
+
+	return (
 		<Wrapper>
 			<SearchHeader font={24} />
 
 			<LeftBox>
-				<PeriodFilter years={yearArr}/>
+				<PeriodFilter years={yearArr} onSelectedYear={onSelectedYear} />
 			</LeftBox>
 
 			<RighBox>
-				<SearchResult paperList={searchedPaperList}/>
-				<InterestedPaper/>
+				<SearchResult paperList={searchedPaperList} />
+				<InterestedPaper />
 			</RighBox>
 		</Wrapper>
-	));
-
-
-
-
-
-
+	);
 };
 
 export default SearchList;

@@ -5,7 +5,8 @@ import { FilterButtonLayer } from '../subjectFilter/filterButtonLayer/filterButt
 import { HeatmapChartLayer } from '../subjectFilter/chart/heatmapChart';
 import { getPaperTrend } from 'src/API/chart';
 import { getPaperRecommend } from 'src/API/search';
-import { getAdjacentSubjectLabels, getSubLabels } from 'src/API/subject';
+import { getAdjacentSubjectLabels } from 'src/API/subject';
+import { getConceptLabels } from 'src/API/concept';
 import PaperList from 'src/components/paper/paperList';
 
 const ConceptFilter = () => {
@@ -26,7 +27,7 @@ const ConceptFilter = () => {
 	};
 
 	const fetchSubLabelData = async () => {
-		setSubLabel(await getSubLabels());
+		setSubLabel(await getConceptLabels());
 	};
 
 	const getPaperTrendData = async (id) => {
@@ -36,7 +37,9 @@ const ConceptFilter = () => {
 	/* ----------------------------------------------------------- */
 
 	const handleInput = (e) => {
-		if (e.charCode === 13) setConceptValue(e.target.value);
+		if (e.charCode === 13) {
+			setConceptValue(e.target.value);
+		}
 	};
 
 	useEffect(() => {

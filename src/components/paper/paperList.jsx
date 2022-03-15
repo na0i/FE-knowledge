@@ -5,14 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { UseLocationQuery } from 'src/utils/useLocation';
 import rootStore from 'src/stores/rootStore';
 
-const PaperList = ({ paper, addSelectedPaper }) => {
+const PaperList = ({ paper }) => {
 	const search = UseLocationQuery();
 	const navigate = useNavigate();
 	const { searchStore } = rootStore();
-
-	const addInterestedPaper = (item) => {
-		searchStore.addInterestedPaper(item);
-	}
 
 	return (
 		<PaperListLayout key={paper.id}>
@@ -21,7 +17,7 @@ const PaperList = ({ paper, addSelectedPaper }) => {
 					<Title className="title-font f-20 m-0" onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
 						{search.q ? highlight(paper.title, search.q) : paper.title}
 					</Title>
-					<AddPaperBtn onClick={() => addInterestedPaper(paper)}>관심 등록</AddPaperBtn>
+					<AddPaperBtn onClick={() => searchStore.addInterestedPaper(paper)}>관심 등록</AddPaperBtn>
 				</TitleLayout>
 				<li>
 					<ListTitle>저자</ListTitle>

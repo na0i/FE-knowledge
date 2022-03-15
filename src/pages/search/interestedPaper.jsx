@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Dropdown from 'src/components/button/dropdown';
 import rootStore from 'src/stores/rootStore'
-import { useObserver } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
 
 // dropdown option state
@@ -11,12 +11,12 @@ const recommandOption = [
 	{ value: '최신순', default: false },
 ];
 
-const InterestedPaper = () => {
+const InterestedPaper = observer(() => {
 	const navigate = useNavigate();
 	const { searchStore } = rootStore();
 	useEffect(()=> searchStore.getInterestedPapers(), []);
 
-	return useObserver(() => (
+	return (
 		<InterestedLayout>
 			<div className="justify-between">
 				<h1 className="f-24 justify-between title-font">
@@ -25,22 +25,21 @@ const InterestedPaper = () => {
 				</h1>
 			</div>
 
-			<div>
+			<>
 				{searchStore.interestedPapers?.map((paper) => (
-					<div key={paper.id}>
+					<Paper key={paper.id}>
 						<LeftBox>
 							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>{paper.title}</div>
 						</LeftBox>
 						<RightBox>
 							<RemoveButton onClick={() => searchStore.removeInterestedPaper(paper)}>관심 해제</RemoveButton>
 						</RightBox>
-					</div>
+					</Paper>
 				))}
-
-			</div>
+			</>
 		</InterestedLayout>
-	));
-};
+	);
+});
 
 export default InterestedPaper;
 
@@ -48,7 +47,7 @@ const LeftBox = styled.div`
 	color: #55a3d7;
 	width: 92%;
 	float: left;
-	margin: 20px 0px 10px 0px;
+	/* margin: 20px 0px 10px 0px; */
 	cursor: pointer;
 	&:hover {
 		text-decoration: 1px underline;
@@ -59,7 +58,7 @@ const LeftBox = styled.div`
 const RightBox = styled.div`
 	width: 8%;
 	float: left;
-	margin: 10px 0px 10px 0px;
+	/* margin: 10px 0px 10px 0px; */
 	justify-content: center;
 `;
 
@@ -90,3 +89,7 @@ const InterestedLayout = styled.ul`
 	font-family: "Noto Sans KR", sans-serif;
 
 `;
+
+const Paper = styled.div`
+	padding: 1.7rem 0;
+`
