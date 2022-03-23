@@ -1,9 +1,9 @@
 import React from "react";
 
-export default [
+const initialElements = [
   {
     id: "1",
-    type: "input",
+    type: "customNode",
     data: {
       label: (
         <>
@@ -107,3 +107,5 @@ export default [
     labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
   },
 ];
+
+export default initialElements;
