@@ -64,16 +64,16 @@ const sidebarMenus = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar = ({ handleToolbar }) => {
   return (
     <Side>
       {sidebarMenus.map((menu) => {
         return (
-          <MenuDiv>
-            <MenuButton key={menu.id}>{menu.name}</MenuButton>
+          <MenuDiv key={menu.id}>
+            <MenuButton>{menu.name}</MenuButton>
             <MenuDropdowns>
               {menu.items?.map((item) => (
-                <MenuDropdown>
+                <MenuDropdown key={item.id} onClick={handleToolbar}>
                   <>{item.value}</>
                   {item.desc ? (
                     <Tooltip>
@@ -99,10 +99,11 @@ const Side = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-around;
   align-content: flex-start;
-  width: 300px;
+  width: 15vw;
   height: 100vh;
-  border-right: 1px solid gray;
+  border-left: 1px solid gray;
 `;
 
 const Tooltip = styled.div`
@@ -110,7 +111,7 @@ const Tooltip = styled.div`
   position: absolute;
   height: 50px;
   width: 200px;
-  left: 110%;
+  right: 110%;
   border: 1px solid #2c2c2c;
   background-color: #2c2c2c;
   color: white;
@@ -169,6 +170,7 @@ const MenuDropdowns = styled.div`
 `;
 
 const MenuDiv = styled.div`
+  margin-top: 15px;
   &:hover ${MenuDropdowns} {
     display: block;
   }
