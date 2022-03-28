@@ -2,7 +2,6 @@
 
 #### React-Flow Docs
 
-
 ##### Basic Functionality
 
 위치정보 외에는 state 업데이트를 하지않는다.<br>
@@ -18,16 +17,17 @@ const onConnect = (params) => setElements((els) => addEdge(params, els));
 - onElementsRemove
   - 삭제할 elements를 인자로 받아
   - setElements로 elements를 update하는데
-  - helper function인 removeElements에 **삭제할 elements**와 **원래 elements 배열**을 인자로 삼는다. 
+  - helper function인 removeElements에 **삭제할 elements**와 **원래 elements 배열**을 인자로 삼는다.
 - onConnect
   - 추가할 params를 인자로 받아
   - setElements로 elements를 update하는데
-  - helper function인 addEdge에 **추가할 elements(source)**와 **원래 elements 배열(target)**을 인자로 삼는다.
+  - helper function인 addEdge에 **추가할 elements(source)**와 **원래 elements 배열**을 인자로 삼는다.
 
 <br>
 
 ##### Overview Source Code
+
 - snapToGrid
   - true: 격자에 맞추어 이동
   - false: 격자 상관없이 이동
-<br>
+    <br>
