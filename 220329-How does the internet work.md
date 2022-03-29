@@ -8,16 +8,13 @@
 
 ##### 참고한 사이트
 
-> https://developer.mozilla.org/ko/docs/Learn/Common_questions/How_does_the_Internet_work <br>https://velog.io/@exploit017/1.-%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9E%91%EB%8F%99%ED%95%98%EB%8A%94%EA%B0%80 <br>http://encykorea.aks.ac.kr/Contents/Item/E0047110<br>https://velog.io/@cks3066/%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%98-%EC%9E%91%EB%8F%99-%EC%9B%90%EB%A6%AC<br>
->
-> https://www.datanet.co.kr/news/articleView.html?idxno=13233<br>
+> https://developer.mozilla.org/ko/docs/Learn/Common_questions/How_does_the_Internet_work <br>https://velog.io/@exploit017/1.-%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%80-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%9E%91%EB%8F%99%ED%95%98%EB%8A%94%EA%B0%80 <br>http://encykorea.aks.ac.kr/Contents/Item/E0047110<br>https://velog.io/@cks3066/%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%B8%ED%84%B0%EB%84%B7%EC%9D%98-%EC%9E%91%EB%8F%99-%EC%9B%90%EB%A6%AC<br> https://www.datanet.co.kr/news/articleView.html?idxno=13233<br>
 
 <br>
 
 ##### 인터넷
 
-컴퓨터들은 서로 통신이 가능한 거대한 네트워크<br>
-컴퓨터를 서로 연결하여 TCP/IP라는 통신 프로토콜을 이용해 정보를 주고받는 컴퓨터 네트워크<br>
+`통신 프로토콜(TCP/IP)을 이용해 정보를 주고받는 컴퓨터 네트워크`<br>
 TCP/IP 프로토콜을 사용하는 네트워크의 네트워크 또는 네트워크의 집합체<br>
 ‘네트워크의 네트워크’를 지향하며, 모든 컴퓨터를 하나의 통신망 안에 연결(Inter Network)하고자 하는 의도에서 이를 줄여 인터넷(Internet)이라 처음 명명하였던 데 어원을 두고 있다.<br>
 
@@ -35,7 +32,6 @@ TCP/IP 프로토콜을 사용하는 네트워크의 네트워크 또는 네트�
    > 무수히 많은 수의 컴퓨터 연결이 가능해진다.<br>
    > 하지만, 이 경우에도 먼 거리에 있는 컴퓨터와의 통신은 어려움
 4. 컴퓨터 ↔ 라우터 ↔ 모뎀 ↔ 전화 시설 ~<br>
-   
    > 전화선을 통해 컴퓨터가 인터넷 서비스 제공업체(ISP)와 통신할 수 있게 해주는 장치
 5. 컴퓨터 ↔ 라우터 ↔ 모뎀 ↔ 전화 시설 ↔ ISP (↔ ISP) ↔ 전화 시설 ↔ 모뎀 ↔ 라우터 ↔ 컴퓨터<br>
    > KT,SKT,LG U+ 같은 ISP 업체는 특수한 라우터를 관리하며 다른 ISP의 라우터에도 액세스할 수 있는 회사<br>
@@ -53,9 +49,9 @@ TCP/IP 프로토콜을 사용하는 네트워크의 네트워크 또는 네트�
 
 ##### 라우터
 
+네트워크 계층은 라우터를 이용해 송신지에서 수신지까지 가장 좋은 경로를 선택<br>
 주어진 컴퓨터에서 보낸 메세지가 올바른 대상 컴퓨터에 도착하는지 확인
 ![image](https://user-images.githubusercontent.com/77482972/160395406-16fda13c-fd8a-40a4-89e5-794f0781019c.png)<br>
-네트워크 계층은 라우터를 이용해 송신지에서 수신지까지 가장 좋은 경로를 선택
 
 <br>
 
@@ -77,9 +73,11 @@ TCP/IP 프로토콜을 사용하는 네트워크의 네트워크 또는 네트�
 
 **인터넷은 인프라이며, 웹은 그 인프라 위에 구축된 서비스**
 
-
-
 ![image](https://user-images.githubusercontent.com/77482972/160395699-f6976fb8-e2fb-4da6-b3a7-6b48f822b370.png)
+
+<br>
+
+#### 그 외 사용된 용어들
 
 <br>
 
