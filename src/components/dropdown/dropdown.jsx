@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SttModal } from '../appList/stt/sttModal';
+import { SttToolbar } from '../appList/stt/sttToolbar';
 
 export const AppButtonDropdown = ({ width, height, children, open }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -29,6 +30,7 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 						))}
 					</Frame>
 					{menuId === 0 ? <SttModal open={isModalOpen} onClose={onClose} /> : <></>}
+					{menuId === 1 ? <SttToolbar open={isModalOpen} onClose={onClose} /> : <></>}
 				</>
 			)}
 		</>
