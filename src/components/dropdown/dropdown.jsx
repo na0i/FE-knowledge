@@ -41,7 +41,7 @@ const Frame = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: ${(props) => props.width};
-	height: ${(props) => props.height};
+	/* height: ${(props) => props.height}; */
 	background-color: white;
 	position: absolute;
 	transform: translate(-50%, -50%);
@@ -60,7 +60,7 @@ const Tooltip = styled.span`
 	position: absolute;
 	padding: 20px;
 	top: 0px;
-	right: 240px;
+	right: 210px;
 	width: 220px;
 	/* height: 50px; */
 	background-color: #414141;
@@ -83,8 +83,11 @@ const Tooltip = styled.span`
 
 const Menu = styled.div`
 	display: flex;
-	padding: 1px 0px 1px 0px;
+	padding: 3px 0px;
 	position: relative;
+	&:hover {
+		background-color: #e6e6e6;
+	}
 	&:hover ${Tooltip} {
 		display: block;
 	}
@@ -96,13 +99,10 @@ const MenuText = styled.span`
 	font-weight: 500;
 	height: ${(props) => `calc(100% - ${props.height}/15)`};
 	cursor: pointer;
-	&:hover {
-		background-color: #e6e6e6;
-	}
 `;
 
 const Icon = styled.button`
 	/* display: flex; */
 	border: transparent;
-	background-color: white;
+	background-color: transparent;
 `;

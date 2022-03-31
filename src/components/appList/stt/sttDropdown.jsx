@@ -29,7 +29,7 @@ export const SttDropdown = ({ open }) => {
 	return (
 		<AppButtonDropdown
 			open={open}
-			width={'220px'}
+			width={'200px'}
 			height={'90px'}
 			children={sttDropdownContents}
 		></AppButtonDropdown>
