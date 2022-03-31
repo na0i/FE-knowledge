@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SttModal } from '../appList/stt/sttModal';
 
 export const AppButtonDropdown = ({ width, height, children, open }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [menuId, setMenuId] = useState(99);
 
-	const openModal = () => {
+	const openModal = (menuId) => {
 		setIsModalOpen(true);
-		open = !open;
-		console.log(open);
+		setMenuId(menuId);
 	};
 
 	const onClose = () => {
 		setIsModalOpen(false);
 	};
-
-	useEffect(() => {}, [open]);
 
 	return (
 		<>
@@ -23,13 +21,14 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 				<>
 					<Frame open={open} width={width} height={height}>
 						{children.map((menu) => (
-							<Menu key={menu.id} onClick={openModal}>
-								{menu.text}
+							<Menu key={menu.id}>
+								<Icon>{menu.icon}</Icon>
+								<MenuText onClick={() => openModal(menu.id)}>{menu.text}</MenuText>
+								<Tooltip>{menu.desc}</Tooltip>
 							</Menu>
 						))}
 					</Frame>
-					{/* {menuIdx === 0 ? <SttModal open={isModalOpen} onClose={onClose} /> : <></>} */}
-					<SttModal open={isModalOpen} onClose={onClose} />
+					{menuId === 0 ? <SttModal open={isModalOpen} onClose={onClose} /> : <></>}
 				</>
 			)}
 		</>
@@ -56,13 +55,54 @@ const Frame = styled.div`
 	/* pointer-events: ${(props) => (props.open ? `all` : `none`)}; */
 `;
 
+const Tooltip = styled.span`
+	display: none;
+	position: absolute;
+	padding: 20px;
+	top: 0px;
+	right: 240px;
+	width: 220px;
+	/* height: 50px; */
+	background-color: #414141;
+	border-radius: 3px;
+	color: white;
+	font-size: 13px;
+	line-height: 130%;
+	&::after {
+		border-top: 5px solid transparent;
+		border-left: 10px solid #414141;
+		border-right: 5px solid transparent;
+		border-bottom: 5px solid transparent;
+		content: '';
+		position: absolute;
+		top: 5px;
+		right: -10px;
+		/* left: -10px; */
+	}
+`;
+
 const Menu = styled.div`
-	padding: 5px;
-	font-size: 1rem;
+	display: flex;
+	padding: 1px 0px 1px 0px;
+	position: relative;
+	&:hover ${Tooltip} {
+		display: block;
+	}
+`;
+
+const MenuText = styled.span`
+	/* padding: 2px 5px 5px 2px; */
+	font-size: 16px;
 	font-weight: 500;
 	height: ${(props) => `calc(100% - ${props.height}/15)`};
+	cursor: pointer;
 	&:hover {
 		background-color: #e6e6e6;
 	}
-	cursor: pointer;
+`;
+
+const Icon = styled.button`
+	/* display: flex; */
+	border: transparent;
+	background-color: white;
 `;
