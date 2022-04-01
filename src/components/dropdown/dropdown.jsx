@@ -1,38 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SttModal } from '../appList/stt/sttModal';
 import { SttToolbar } from '../appList/stt/sttToolbar';
 
 export const AppButtonDropdown = ({ width, height, children, open }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 	const [menuId, setMenuId] = useState(99);
 
-	const openModal = (menuId) => {
-		setIsModalOpen(true);
+	const openToolbar = (menuId) => {
+		setIsToolbarOpen(true);
 		setMenuId(menuId);
 	};
 
-	const onClose = () => {
-		setIsModalOpen(false);
+	const closeToolbar = () => {
+		setIsToolbarOpen(false);
 	};
 
 	return (
 		<>
-			{open && (
-				<>
-					<Frame open={open} width={width} height={height}>
-						{children.map((menu) => (
-							<Menu key={menu.id}>
-								<Icon>{menu.icon}</Icon>
-								<MenuText onClick={() => openModal(menu.id)}>{menu.text}</MenuText>
-								<Tooltip>{menu.desc}</Tooltip>
-							</Menu>
-						))}
-					</Frame>
-					{menuId === 0 ? <SttModal open={isModalOpen} onClose={onClose} /> : <></>}
-					{menuId === 1 ? <SttToolbar open={isModalOpen} onClose={onClose} /> : <></>}
-				</>
-			)}
+			<Frame open={open} width={width} height={height}>
+				{children.map((menu) => (
+					<Menu key={menu.id}>
+						<Icon>{menu.icon}</Icon>
+						<MenuText onClick={() => openToolbar(menu.id)}>{menu.text}</MenuText>
+						<Tooltip>{menu.desc}</Tooltip>
+					</Menu>
+				))}
+			</Frame>
+			{menuId === 0 ? <SttToolbar open={isToolbarOpen} onClose={closeToolbar} /> : <></>}
 		</>
 	);
 };
@@ -85,6 +79,7 @@ const Tooltip = styled.span`
 
 const Menu = styled.div`
 	display: flex;
+	align-items: center;
 	padding: 3px 0px;
 	position: relative;
 	&:hover {
@@ -104,7 +99,8 @@ const MenuText = styled.span`
 `;
 
 const Icon = styled.button`
-	/* display: flex; */
+	display: flex;
 	border: transparent;
 	background-color: transparent;
+	align-items: center;
 `;

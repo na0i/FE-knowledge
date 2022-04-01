@@ -33,7 +33,6 @@ const Frame = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-
 	border: solid 1px #a1a1a1;
 	border-radius: 1px;
 	transition: all 0.3s ease-out;
