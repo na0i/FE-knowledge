@@ -1,16 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Upload } from 'src/assets/Upload.svg';
+import { SttDropzone } from './sttDropzone';
 
 export const UploadContents = () => {
 	return (
 		<UploadBox>
-			<div>
+			{/* <div>
 				<Upload width={35} height={35} />
 			</div>
 			<p>음성파일을 첨부하거나 끌어오세요.</p>
 			<span>지원파일: wav, aac, m4a, ogg, flac, ac3, opus, mp3</span>
-			<input type="file" />
+			<input type="file" /> */}
+			<div>
+				<SttDropzone></SttDropzone>
+			</div>
 		</UploadBox>
 	);
 };
