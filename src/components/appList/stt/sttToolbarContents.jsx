@@ -29,4 +29,7 @@ export const SttToolbarContents = () => {
 const ContentsWrapper = styled.div`
 	display: flex;
 	justify-content: space-around;
+	& :hover {
+		cursor: pointer;
+	}
 `;
