@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import { SttDropdown } from '../appList/stt/sttDropdown';
 import { TtsDropdown } from '../appList/tts/ttsDropdown';
@@ -7,17 +6,18 @@ import { TtsDropdown } from '../appList/tts/ttsDropdown';
 export const SideBar = ({ appList }) => {
 	const [openDropdownId, setopenDropdownId] = useState(99);
 	const [dropdown, setDropdown] = useState('');
+	const [isOpen, setIsOpen] = useState(false);
 
 	const dropdownList = [
-		{ id: 1, component: <SttDropdown /> },
-		{ id: 2, component: <TtsDropdown /> },
+		{ id: 1, component: <SttDropdown open={isOpen} /> },
+		{ id: 2, component: <TtsDropdown open={isOpen} /> },
 	];
 
 	const openDropdown = (button_id) => {
 		setopenDropdownId(button_id);
+		setIsOpen(!isOpen);
 		const newDropdown = dropdownList.filter((dropdown) => dropdown.id === button_id);
 		setDropdown(newDropdown[0]);
-		console.log(dropdown);
 	};
 
 	return (
@@ -29,7 +29,7 @@ export const SideBar = ({ appList }) => {
 					</ButtonLayer>
 				))}
 			</>
-			{dropdown?.component}
+			<>{dropdown.component}</>
 		</FixedBar>
 	);
 };

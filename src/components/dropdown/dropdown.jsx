@@ -5,7 +5,6 @@ import { SttToolbar } from '../appList/stt/sttToolbar';
 export const AppButtonDropdown = ({ width, height, children, open }) => {
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 	const [menuId, setMenuId] = useState(99);
-
 	const openToolbar = (menuId) => {
 		setIsToolbarOpen(!isToolbarOpen);
 		setMenuId(menuId);
@@ -14,6 +13,7 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 	const closeToolbar = () => {
 		setIsToolbarOpen(false);
 	};
+
 	return (
 		<>
 			<Frame open={open} width={width} height={height}>
