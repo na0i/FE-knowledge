@@ -18,9 +18,9 @@ export const SttDropzone = () => {
 		// accept: 'audio/wac, audio/aac, audio/m4a, audio/cgg, audio/flac, audio/ac3, audio/opus, audio/mp3',
 	});
 
+	// 왜 file은 안되고,,, files만 보일까?
 	const files = acceptedFiles.map((file) => <div key={file.path}>{file.name}</div>);
 
-	// console.log(file);
 	const removeFile = () => {
 		const noFile = null;
 		setFile(noFile);
