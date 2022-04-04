@@ -18,9 +18,9 @@ export const SttToolbarContents = () => {
 
 	return (
 		<ContentsWrapper>
-			<UploadIcon width={25} height={25}></UploadIcon>
-			<MicIcon width={25} height={25}></MicIcon>
-			<SettingsIcon width={25} height={25} onClick={() => openModal()}></SettingsIcon>
+			<UploadIcon width={25} height={25} />
+			<MicIcon width={25} height={25} />
+			<SettingsIcon width={25} height={25} onClick={() => openModal()} />
 			<SttModal open={isModalOpen} onClose={closeModal} />
 		</ContentsWrapper>
 	);
@@ -29,7 +29,7 @@ export const SttToolbarContents = () => {
 const ContentsWrapper = styled.div`
 	display: flex;
 	justify-content: space-around;
-	& :hover {
+	&:hover {
 		cursor: pointer;
 	}
 `;

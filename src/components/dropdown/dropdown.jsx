@@ -7,14 +7,13 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 	const [menuId, setMenuId] = useState(99);
 
 	const openToolbar = (menuId) => {
-		setIsToolbarOpen(true);
+		setIsToolbarOpen(!isToolbarOpen);
 		setMenuId(menuId);
 	};
 
 	const closeToolbar = () => {
 		setIsToolbarOpen(false);
 	};
-
 	return (
 		<>
 			<Frame open={open} width={width} height={height}>
@@ -44,7 +43,7 @@ const Frame = styled.div`
 	border: solid 2px #000000;
 	border-radius: 2px;
 	transition: all 0.1s ease-out;
-	/* opacity: ${(props) => (props.open ? 1 : 0)}; */
+	opacity: ${(props) => (props.open ? 1 : 0)};
 	top: 65px;
 	right: 40px;
 	/* transform: ${(props) => (props.open ? `scale(1) translate(-50%, -50%)` : `scale(0) translate(-50%, -50%)`)}; */
