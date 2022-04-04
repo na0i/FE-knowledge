@@ -14,7 +14,8 @@ export const SttDropzone = () => {
 		noClick: true,
 		noKeyboard: true,
 		maxFiles: 1,
-		addRemoveLinks: true,
+		accept: 'audio/*',
+		// accept: 'audio/wac, audio/aac, audio/m4a, audio/cgg, audio/flac, audio/ac3, audio/opus, audio/mp3',
 	});
 
 	const files = acceptedFiles.map((file) => <div key={file.path}>{file.name}</div>);

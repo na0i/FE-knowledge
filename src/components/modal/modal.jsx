@@ -33,6 +33,7 @@ const Frame = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+
 	border: solid 1px #a1a1a1;
 	border-radius: 1px;
 	transition: all 0.3s ease-out;
@@ -45,21 +46,18 @@ const Header = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	height: calc(${(props) => props.height} / 15);
-	padding: ${(props) => (props.height > `70px` ? `5px 10px` : `0px`)};
-	/* padding: 5px 10px; */
-	border-bottom: ${(props) => (props.height > `70px` ? `1px solid #cccccc` : `transparent`)};
-	/* border-bottom: 1px solid #cccccc; */
+	padding: 5px 10px;
+	border-bottom: 1px solid #cccccc;
 `;
 
 const CloseBtn = styled.button`
 	border: none;
-	background-color: transparent;
+	background-color: white;
 	padding: 5px;
 	cursor: pointer;
 `;
 
 const Children = styled.div`
-	padding: ${(props) => (props.height > `70px` ? `20px` : `30px 20px 20px 20px`)};
+	padding: 20px;
 	height: ${(props) => `calc(100% - ${props.height}/15)`};
-	cursor: pointer;
 `;

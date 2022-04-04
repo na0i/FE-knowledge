@@ -79,6 +79,7 @@ const Tooltip = styled.span`
 const Menu = styled.div`
 	display: flex;
 	align-items: center;
+	margin: 1px;
 	padding: 3px 0px;
 	position: relative;
 	&:hover {

@@ -8,7 +8,6 @@ function App() {
 	return (
 		<FontDefault>
 			<BrowserRouter>
-				{/* 글로벌 스타일을 컴포넌트로 사용하는 이유는? */}
 				<GlobalStyles />
 				<Routes>
 					<Route path="/" element={<Pages.Home />} />
