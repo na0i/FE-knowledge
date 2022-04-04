@@ -82,3 +82,29 @@ npm run publish:npm
 ```
 npm publish
 ```
+
+<br>
+
+#### sinopia와 verdaccio로 npm 저장소 구축하기
+
+##### sinopia
+
+- sinopia 는 private/caching npm repository server 
+- `npm install --registry {sinopia 서버 주소}` 로 package 를 요청할때, 만약 패키지가 존재하지 않으면 NPM 저장소에서 sinopia 저장소에 package 를 가져와 cache 하고, package 를 전달
+- 이미 cache 한 package 는 NPM 저장소 가 동작하지 않더라도 이미 cache 한 package 를 전달해주기 때문에, 안정적으로 서비스를 운영할 수 있다.
+- `npm public --registry {sinopia 서버 주소}` 로 package 를 등록 하면, 공개된 NPM 저장소에 등록되지 않고, sinopia 저장소에 등록하여, 원하는 사용자만 접근할 수 있도록 접근을 제한할 수 있다.
+- 내부에서만 사용하는 비공개 package 를 쉽게 관리 가능
+- NPM 저장소에 등록&배포 하기전에 sinopia 저장소를 활용해서 테스트 진행 가능
+- 2015년 기준으로 유지보수가 멈춰 있음.
+
+<br>
+
+##### verdaccio
+
+- sinopia를 기반으로 조금 더 발전한 형태로 구성, 현재까지 활발하게 유지보수
+- sinopia 사용 환경 100% 지원, sinopia의 환경 정보와 파일 위치, 파일명 등 동일하게 사용 가능
+- sinopia보다 다양한 plugin 지원과 보안
+  - 사용자 가입제한: max_users로 npm adduser 수를 제한해 사용자 가입을 제한
+  - npm publish로 배포될 때마다 알림 전송 가능
+  - jwt 지원(verdaccio v4부터)
+  - ssh 인증서 추가 가능
