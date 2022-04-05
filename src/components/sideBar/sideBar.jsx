@@ -22,14 +22,12 @@ export const SideBar = ({ appList }) => {
 
 	return (
 		<FixedBar>
-			<>
-				{appList?.map((app) => (
-					<ButtonLayer key={app.key} onClick={() => openDropdown(app.key)}>
-						{app.children}
-					</ButtonLayer>
-				))}
-			</>
-			<>{dropdown.component}</>
+			{appList?.map((app) => (
+				<ButtonLayer key={app.key} onClick={() => openDropdown(app.key)}>
+					{app.children}
+				</ButtonLayer>
+			))}
+			<DropdownLayer>{dropdown.component}</DropdownLayer>
 		</FixedBar>
 	);
 };
@@ -48,3 +46,5 @@ const FixedBar = styled.div`
 const ButtonLayer = styled.div`
 	padding-top: 15px;
 `;
+
+const DropdownLayer = styled.div``;
