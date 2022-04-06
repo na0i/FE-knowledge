@@ -1,9 +1,11 @@
 import { counter } from './counter';
 import { modalStore } from './modalStore';
+import { dropdownStore } from './dropdownStore';
 
 const rootStore = () => ({
 	counter,
 	modalStore,
+	dropdownStore,
 });
 
 export default rootStore;

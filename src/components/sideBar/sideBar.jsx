@@ -1,36 +1,22 @@
-import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+import React from 'react';
+import rootStore from 'src/stores/rootStore';
 import styled from 'styled-components';
-import { SttDropdown } from '../appList/stt/sttDropdown';
-import { TtsDropdown } from '../appList/tts/ttsDropdown';
 
-export const SideBar = ({ appList }) => {
-	const [openDropdownId, setopenDropdownId] = useState(99);
-	const [dropdown, setDropdown] = useState(<SttDropdown />);
-	const [isOpen, setIsOpen] = useState(true);
-
-	const dropdownList = [
-		{ id: 1, component: <SttDropdown open={isOpen} /> },
-		{ id: 2, component: <TtsDropdown open={isOpen} /> },
-	];
-
-	const openDropdown = (button_id) => {
-		setopenDropdownId(button_id);
-		setIsOpen(!isOpen);
-		const newDropdown = dropdownList.filter((dropdown) => dropdown.id === button_id);
-		setDropdown(newDropdown[0]);
-	};
+export const SideBar = observer(({ appList }) => {
+	const { dropdownStore } = rootStore();
 
 	return (
 		<FixedBar>
 			{appList?.map((app) => (
-				<ButtonLayer key={app.key} onClick={() => openDropdown(app.key)}>
+				<ButtonLayer key={app.key} onClick={() => dropdownStore.handleDropdown(app.key)}>
 					{app.children}
 				</ButtonLayer>
 			))}
-			<DropdownLayer>{dropdown.component}</DropdownLayer>
+			<DropdownLayer>{dropdownStore.dropdown}</DropdownLayer>
 		</FixedBar>
 	);
-};
+});
 
 const FixedBar = styled.div`
 	width: 200px;
@@ -47,6 +33,4 @@ const ButtonLayer = styled.div`
 	padding-top: 15px;
 `;
 
-const DropdownLayer = styled.div`
-	margin: auto;
-`;
+const DropdownLayer = styled.div``;

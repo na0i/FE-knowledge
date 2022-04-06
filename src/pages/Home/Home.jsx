@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { SideBar } from 'src/components/sideBar/sideBar';
 import { AppList } from 'src/components/appList/appList';
+import { DropdownList } from 'src/components/dropdown/dropdownList';
 
 function Home() {
 	return (
 		<Wrapper>
 			<Title>HyperBrain POC</Title>
-			<SideBar appList={AppList} />
+			<SideBar appList={AppList} dropdownList={DropdownList} />
 		</Wrapper>
 	);
 }
