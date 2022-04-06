@@ -1,8 +1,10 @@
 import { counter } from './counter';
+import { modalStore } from './modalStore';
 
-const useStore = () => {
-	return { counter };
-};
+const rootStore = () => ({
+	counter,
+	modalStore,
+});
 
-export default useStore;
+export default rootStore;
 //mobx rootStore 기본설정 예제

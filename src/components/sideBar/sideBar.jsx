@@ -5,8 +5,8 @@ import { TtsDropdown } from '../appList/tts/ttsDropdown';
 
 export const SideBar = ({ appList }) => {
 	const [openDropdownId, setopenDropdownId] = useState(99);
-	const [dropdown, setDropdown] = useState('');
-	const [isOpen, setIsOpen] = useState(false);
+	const [dropdown, setDropdown] = useState(<SttDropdown />);
+	const [isOpen, setIsOpen] = useState(true);
 
 	const dropdownList = [
 		{ id: 1, component: <SttDropdown open={isOpen} /> },
@@ -47,4 +47,6 @@ const ButtonLayer = styled.div`
 	padding-top: 15px;
 `;
 
-const DropdownLayer = styled.div``;
+const DropdownLayer = styled.div`
+	margin: auto;
+`;

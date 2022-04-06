@@ -20,7 +20,7 @@ const Frame = styled.div`
 	opacity: ${(props) => (props.open ? 1 : 0)};
 	width: ${(props) => props.width};
 	height: ${(props) => props.height};
-	z-index: 300;
+	z-index: 200;
 	position: fixed;
 	top: 50%;
 	left: 50%;

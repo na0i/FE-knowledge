@@ -1,30 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { SttModal } from './sttModal';
+import { observer } from 'mobx-react';
+import rootStore from 'src/stores/rootStore';
+
 import { ReactComponent as UploadIcon } from 'src/assets/Toolbar-upload.svg';
 import { ReactComponent as MicIcon } from 'src/assets/Toolbar-mic.svg';
 import { ReactComponent as SettingsIcon } from 'src/assets/Toolbar-settings.svg';
 
-export const SttToolbarContents = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const openModal = () => {
-		setIsModalOpen(true);
-	};
-
-	const closeModal = () => {
-		setIsModalOpen(false);
-	};
+export const SttToolbarContents = observer(() => {
+	const { modalStore } = rootStore();
 
 	return (
 		<ContentsWrapper>
 			<UploadIcon width={25} height={25} />
 			<MicIcon width={25} height={25} />
-			<SettingsIcon width={25} height={25} onClick={() => openModal()} />
-			<SttModal open={isModalOpen} onClose={closeModal} />
+			<SettingsIcon width={25} height={25} onClick={() => modalStore.openModal()} />
 		</ContentsWrapper>
 	);
-};
+});
 
 const ContentsWrapper = styled.div`
 	display: flex;
