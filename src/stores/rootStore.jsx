@@ -1,10 +1,12 @@
 import { counter } from './counter';
-import { modalStore } from './modalStore';
+import { sttStore } from './sttStore';
+import { ttsStore } from './ttsStore';
 import { dropdownStore } from './dropdownStore';
 
 const rootStore = () => ({
 	counter,
-	modalStore,
+	sttStore,
+	ttsStore,
 	dropdownStore,
 });
 

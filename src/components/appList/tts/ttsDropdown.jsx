@@ -15,7 +15,7 @@ export const TtsDropdown = ({ open }) => {
 	return (
 		<AppButtonDropdown
 			open={open}
-			width={'220px'}
+			width={'230px'}
 			height={'90px'}
 			children={ttsDropdownContents}
 		></AppButtonDropdown>

@@ -1,20 +1,16 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import rootStore from 'src/stores/rootStore';
 import styled from 'styled-components';
 
 export const SideBar = observer(({ appList }) => {
-	const { dropdownStore } = rootStore();
-
 	return (
-		<FixedBar>
-			{appList?.map((app) => (
-				<ButtonLayer key={app.key} onClick={() => dropdownStore.handleDropdown(app.key)}>
-					{app.children}
-				</ButtonLayer>
-			))}
-			<DropdownLayer>{dropdownStore.dropdown}</DropdownLayer>
-		</FixedBar>
+		<>
+			<FixedBar>
+				{appList?.map((app) => (
+					<ButtonLayer key={app.key}>{app.children}</ButtonLayer>
+				))}
+			</FixedBar>
+		</>
 	);
 });
 
@@ -31,6 +27,10 @@ const FixedBar = styled.div`
 
 const ButtonLayer = styled.div`
 	padding-top: 15px;
+	position: relative;
 `;
 
-const DropdownLayer = styled.div``;
+const DropdownLayer = styled.div`
+	position: absolute;
+	top: 200px;
+`;

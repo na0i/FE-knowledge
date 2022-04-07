@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
+import { sttStore } from 'src/stores/sttStore';
+import { observer } from 'mobx-react-lite';
 import { SttToolbar } from '../appList/stt/sttToolbar';
 
-export const AppButtonDropdown = ({ width, height, children, open }) => {
+export const AppButtonDropdown = observer(({ width, height, children, open }) => {
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 	const [menuId, setMenuId] = useState(99);
 	const openToolbar = (menuId) => {
@@ -14,9 +16,19 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 		setIsToolbarOpen(false);
 	};
 
+	const dropdownEl = useRef();
+	const handleClickOutside = (event) => {
+		if (open && !dropdownEl.current.contains(event.target)) {
+			sttStore.closeDropdown();
+		}
+	};
+	useEffect(() => {
+		document.addEventListener('mousedown', handleClickOutside);
+	});
+
 	return (
 		<>
-			<Frame open={open} width={width} height={height}>
+			<Frame open={open} ref={dropdownEl} width={width} height={height}>
 				{children.map((menu) => (
 					<Menu key={menu.id}>
 						<Icon>{menu.icon}</Icon>
@@ -28,7 +40,7 @@ export const AppButtonDropdown = ({ width, height, children, open }) => {
 			{menuId === 0 ? <SttToolbar open={isToolbarOpen} onClose={closeToolbar} /> : <></>}
 		</>
 	);
-};
+});
 
 const Frame = styled.div`
 	z-index: 300;
@@ -44,10 +56,10 @@ const Frame = styled.div`
 	border-radius: 2px;
 	transition: all 0.1s ease-out;
 	opacity: ${(props) => (props.open ? 1 : 0)};
-	top: 65px;
-	right: 40px;
 	/* transform: ${(props) => (props.open ? `scale(1) translate(-50%, -50%)` : `scale(0) translate(-50%, -50%)`)}; */
-	/* pointer-events: ${(props) => (props.open ? `all` : `none`)}; */
+	top: 50px;
+	right: -30px;
+	pointer-events: ${(props) => (props.open ? `all` : `none`)};
 `;
 
 const Tooltip = styled.span`
@@ -55,7 +67,7 @@ const Tooltip = styled.span`
 	position: absolute;
 	padding: 20px;
 	top: 0px;
-	right: 210px;
+	right: 240px;
 	width: 220px;
 	/* height: 50px; */
 	background-color: #414141;
@@ -72,7 +84,6 @@ const Tooltip = styled.span`
 		position: absolute;
 		top: 5px;
 		right: -10px;
-		/* left: -10px; */
 	}
 `;
 

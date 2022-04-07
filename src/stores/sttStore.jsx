@@ -1,10 +1,19 @@
 import { observable } from 'mobx';
 
-const modalStore = observable({
+const sttStore = observable({
 	// state
+	isSttDropdownOpen: false,
 	isSettingModalOn: false,
 
 	// action
+	openDropdown() {
+		this.isSttDropdownOpen = true;
+	},
+
+	closeDropdown() {
+		this.isSttDropdownOpen = false;
+	},
+
 	openModal() {
 		this.isSettingModalOn = true;
 	},
@@ -14,4 +23,4 @@ const modalStore = observable({
 	},
 });
 
-export { modalStore };
+export { sttStore };
