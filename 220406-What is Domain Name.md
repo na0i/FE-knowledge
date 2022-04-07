@@ -23,7 +23,7 @@
   - TLD
     - .com, .org, .net
     - 서비스의 일반적인 목적을 알려줌(.com은 최상위 도메인으로 영리 목적의 기업이나 단체나 서비스)
-    - 일부 TLD는 엄격한 정책으로 목적을 명확하게 할 때가 있음(ex. `.us`, `)
+    - 일부 TLD는 엄격한 정책으로 목적을 명확하게 할 때가 있음(ex. `.us`)
     - ![image](https://user-images.githubusercontent.com/77482972/161881399-cebed20d-23fb-4c7e-868d-632ad7ecabe5.png)
   - label
     - 레이블은 TLD 다음에 오는 것
@@ -58,9 +58,3 @@
 - 특정 컨텐츠 등을 보조로 운영할 때 활용
 - 하나의 도메인이 여러개의 IP를 가리키게 함
 - 도메인 구입 비용 절약
-
-<br>
-
-##### 도메인 계층 관계
-
-![image](https://user-images.githubusercontent.com/77482972/161877332-00fbdf39-e10c-4a7d-8e74-252ccadcf5a1.png)
