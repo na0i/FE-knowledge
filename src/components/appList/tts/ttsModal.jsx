@@ -8,7 +8,7 @@ export const TtsModal = ({ open, onClose }) => {
 			open={open}
 			onClose={onClose}
 			width={'1200px'}
-			height={'80vh'}
+			height={'70vh'}
 			children={<ModeSelectContents onClose={onClose} />}
 		></Modal>
 	);

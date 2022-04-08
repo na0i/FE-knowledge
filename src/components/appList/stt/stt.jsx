@@ -12,7 +12,7 @@ export const Stt = observer(() => {
 	const appName = 'STT';
 	const WrapperEl = useRef();
 	const handleClickOutside = (event) => {
-		if (!WrapperEl.current.contains(event.target)) {
+		if (appStore.openAppName === appName && !WrapperEl.current.contains(event.target)) {
 			appStore.handleDropdown('');
 		}
 	};

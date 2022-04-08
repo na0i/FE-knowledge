@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { appStore } from 'src/stores/appStore';
 import { SttToolbar } from '../appList/stt/sttToolbar';
+import { TtsModal } from '../appList/tts/ttsModal';
 
 export const AppButtonDropdown = observer(({ width, height, children, appName }) => {
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
@@ -27,7 +28,12 @@ export const AppButtonDropdown = observer(({ width, height, children, appName })
 					</Menu>
 				))}
 			</Frame>
-			{menuId === 0 ? <SttToolbar open={isToolbarOpen} onClose={closeToolbar} /> : <></>}
+			{appName === 'STT' && menuId === 0 ? <SttToolbar open={isToolbarOpen} onClose={closeToolbar} /> : <></>}
+			{appName === 'TTS' && menuId === 0 ? (
+				<TtsModal open={isToolbarOpen} onClose={closeToolbar}></TtsModal>
+			) : (
+				<></>
+			)}
 		</>
 	);
 });
