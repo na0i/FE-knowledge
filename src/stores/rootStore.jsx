@@ -1,13 +1,9 @@
 import { counter } from './counter';
-import { sttStore } from './sttStore';
-import { ttsStore } from './ttsStore';
-import { dropdownStore } from './dropdownStore';
+import { appStore } from './appStore';
 
 const rootStore = () => ({
 	counter,
-	sttStore,
-	ttsStore,
-	dropdownStore,
+	appStore,
 });
 
 export default rootStore;

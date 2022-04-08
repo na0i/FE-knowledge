@@ -11,10 +11,10 @@ const ttsDropdownContents = [
 	},
 ];
 
-export const TtsDropdown = ({ open }) => {
+export const TtsDropdown = ({ appName }) => {
 	return (
 		<AppButtonDropdown
-			open={open}
+			appName={appName}
 			width={'230px'}
 			height={'90px'}
 			children={ttsDropdownContents}

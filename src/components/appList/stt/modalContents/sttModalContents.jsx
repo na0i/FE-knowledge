@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { ReactComponent as History } from 'src/assets/History.svg';
 import { SettingContents } from './settingContents';
 import { UploadContents } from './uploadContents';
+import { appStore } from 'src/stores/appStore';
 
 export const SttModalContents = ({ onClose }) => {
 	const options = [
@@ -16,6 +17,8 @@ export const SttModalContents = ({ onClose }) => {
 		setCurrentOption(option.id);
 		setCurrentContents(option.contents);
 	};
+
+	if (!appStore.isSettingModalOn) return null;
 
 	return (
 		<ContentsWrapper>

@@ -2,16 +2,27 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as MicIcon } from 'src/assets/Mic.svg';
 import { ReactComponent as Volume } from 'src/assets/Volume.svg';
+import { useMic } from 'src/hooks/useMic';
 
 export const SettingContents = () => {
+	const [currentMic, setCurrentMic] = useState();
 	const [volume, setVolume] = useState(0);
+	const [deviceList, setDeviceList] = useState([]);
 	const micRef = useRef();
+	const mic = useMic();
 
 	useEffect(() => {
+		init();
 		if (micRef.current !== undefined) {
-			micTest({ setVal: setVolume });
+			mic.micTest({ setVolume: setVolume });
 		}
 	}, [micRef]);
+
+	const init = async () => {
+		const devices = await mic.getDevices();
+		setDeviceList(devices);
+	};
+
 	return (
 		<SettingWrapper>
 			<Content>
@@ -23,9 +34,15 @@ export const SettingContents = () => {
 			</Content>
 			<Content>
 				<DropDownTitle>마이크 선택</DropDownTitle>
-				<DropDown>
-					<option value={'mic1'}>마이크1</option>
-					<option value={'mic2'}>마이크2</option>
+				<DropDown
+					value={currentMic}
+					onChange={(e) => {
+						console.log(e.target.value);
+					}}
+				>
+					{deviceList?.map((device) => (
+						<option value={device.deviceId}>{device.label}</option>
+					))}
 				</DropDown>
 			</Content>
 
@@ -109,43 +126,3 @@ const VolumeChecker = styled.div.attrs((props) => ({ size: props.volume }))`
 `;
 
 /*------------------------------------------------------ */
-
-const micTest = ({ setVal }) => {
-	const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-	if (navigator.mediaDevices) {
-		navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-			const analyser = audioCtx.createAnalyser();
-			console.log(analyser);
-			const micStream = audioCtx.createMediaStreamSource(stream);
-			const javascriptNode = audioCtx.createScriptProcessor(2048, 1, 1);
-
-			analyser.smoothingTimeConstant = 0.8;
-			analyser.fftSize = 1024;
-
-			micStream.connect(analyser);
-			analyser.connect(javascriptNode);
-			javascriptNode.connect(audioCtx.destination);
-
-			javascriptNode.onaudioprocess = () => {
-				let array = new Uint8Array(analyser.frequencyBinCount);
-				analyser.getByteFrequencyData(array);
-				let val = 0;
-				let avg = 0;
-				for (let value of array) {
-					val += value;
-				}
-				avg = val / array.length;
-				setVal(avg);
-			};
-			// const Recorder = new MediaRecorder(stream);
-			// Recorder.ondataavailable = (e) => {
-			// 	console.log(e.data);
-			// };
-			// // Recorder.start(100);
-			// ref.srcObject = stream;
-
-			// console.log(mediaStreamSrc);
-		});
-	}
-};

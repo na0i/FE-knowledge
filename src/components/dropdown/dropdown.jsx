@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import { sttStore } from 'src/stores/sttStore';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import styled from 'styled-components';
+
+import { appStore } from 'src/stores/appStore';
 import { SttToolbar } from '../appList/stt/sttToolbar';
 
-export const AppButtonDropdown = observer(({ width, height, children, open }) => {
+export const AppButtonDropdown = observer(({ width, height, children, appName }) => {
 	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
 	const [menuId, setMenuId] = useState(99);
 	const openToolbar = (menuId) => {
@@ -15,20 +16,9 @@ export const AppButtonDropdown = observer(({ width, height, children, open }) =>
 	const closeToolbar = () => {
 		setIsToolbarOpen(false);
 	};
-
-	const dropdownEl = useRef();
-	const handleClickOutside = (event) => {
-		if (open && !dropdownEl.current.contains(event.target)) {
-			sttStore.closeDropdown();
-		}
-	};
-	useEffect(() => {
-		document.addEventListener('mousedown', handleClickOutside);
-	});
-
 	return (
 		<>
-			<Frame open={open} ref={dropdownEl} width={width} height={height}>
+			<Frame open={appName === appStore.openAppName} width={width} height={height}>
 				{children.map((menu) => (
 					<Menu key={menu.id}>
 						<Icon>{menu.icon}</Icon>
@@ -57,7 +47,7 @@ const Frame = styled.div`
 	transition: all 0.1s ease-out;
 	opacity: ${(props) => (props.open ? 1 : 0)};
 	/* transform: ${(props) => (props.open ? `scale(1) translate(-50%, -50%)` : `scale(0) translate(-50%, -50%)`)}; */
-	top: 50px;
+	top: 52px;
 	right: -30px;
 	pointer-events: ${(props) => (props.open ? `all` : `none`)};
 `;
