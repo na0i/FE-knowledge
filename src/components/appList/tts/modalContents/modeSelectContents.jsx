@@ -22,9 +22,8 @@ export const ModeSelectContents = () => {
 		},
 	];
 
-	const selectMode = (optionId) => {
-		let newModeId = optionId;
-		console.log(newModeId);
+	const selectMode = (event) => {
+		let newModeId = parseInt(event.target.value);
 		setModeId(newModeId);
 	};
 
@@ -37,9 +36,13 @@ export const ModeSelectContents = () => {
 				<ModeTitle>Mode</ModeTitle>
 				{options.map((option) => (
 					<Option key={option.id}>
-						<OptionSelectBtn defaultChecked={modeId === option.id} onClick={() => selectMode(option.id)} />
-						<BtnLabel></BtnLabel>
-
+						<OptionSelectBtn
+							type="radio"
+							value={option.id}
+							checked={modeId === option.id}
+							onChange={(event) => selectMode(event)}
+						/>
+						<BtnLabel />
 						<OptionName>
 							{option.icon} {option.optionName}
 						</OptionName>
@@ -90,27 +93,43 @@ const Option = styled.div`
 
 const BtnLabel = styled.label`
 	position: absolute;
-	height: 20px;
-	width: 20px;
-	display: block;
-	border-radius: 100%;
-	background: transparent;
-	/* border: 15px solid #000000; */
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: white;
+	border: 1px solid #bebebe;
 `;
 
 const OptionSelectBtn = styled.input`
+	opacity: 0;
 	z-index: 1;
-	display: block;
-	justify-content: center;
-	height: 20px;
-	width: 20px;
-	border-radius: 100%;
-	&:defaultchecked + ${BtnLabel} {
-		background-color: #000000;
-		border: 15px solid #000000;
+	border-radius: 50%;
+	margin-right: 10px;
+	&:hover ~ ${BtnLabel} {
+		background: #bebebe;
+		&::after {
+			content: '';
+			display: block;
+			border-radius: 50%;
+			width: 12px;
+			height: 12px;
+			margin: 5px;
+			background: #ffffff;
+		}
 	}
-	&:hover {
-		cursor: pointer;
+	&:checked + ${BtnLabel} {
+		background: #000000;
+		border: 1px solid #000000;
+		&::after {
+			content: '';
+			display: block;
+			border-radius: 50%;
+			width: 12px;
+			height: 12px;
+			margin: 5px;
+			box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.1);
+			background: white;
+		}
 	}
 `;
 
