@@ -3,16 +3,18 @@ import styled from 'styled-components';
 
 export const Modal = ({ width, height, children, onClose, open }) => {
 	return (
-		<Frame open={open} width={width} height={height}>
-			<Header height={height}>
-				<CloseBtn onClick={onClose}>x</CloseBtn>
-			</Header>
-			<Children height={height}>{children}</Children>
-		</Frame>
+		<ModalWrapper onClick={onClose} open={open}>
+			<Frame onClick={(e) => e.stopPropagation()} open={open} width={width} height={height}>
+				<Header height={height}>
+					<CloseBtn onClick={onClose}>x</CloseBtn>
+				</Header>
+				<Children height={height}>{children}</Children>
+			</Frame>
+		</ModalWrapper>
 	);
 };
 
-// const Overlay = styled.div`
+//const Overlay = styled.div`
 // 	position: fixed;
 // 	top: 0;
 // 	left: 0;
@@ -23,6 +25,18 @@ export const Modal = ({ width, height, children, onClose, open }) => {
 
 // 	will-change: transform, opacity;
 // `;
+
+const ModalWrapper = styled.div`
+	display: ${(props) => (props.open ? 'block' : 'none')};
+	background: rgba(0, 0, 0, 0.7);
+
+	z-index: 200;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+`;
 
 const Frame = styled.div`
 	z-index: 300;
@@ -37,7 +51,6 @@ const Frame = styled.div`
 	border: solid 1px #a1a1a1;
 	border-radius: 1px;
 	transition: all 0.3s ease-out;
-	opacity: ${(props) => (props.open ? 1 : 0)};
 	/* transform: ${(props) => (props.open ? `scale(1) translate(-50%, -50%)` : `scale(0) translate(-50%, -50%)`)}; */
 	pointer-events: ${(props) => (props.open ? `all` : `none`)};
 `;

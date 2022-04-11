@@ -29,10 +29,12 @@ export const ModeSelectContents = () => {
 
 	return (
 		<Frame>
-			<Title>텍스트 음성 변환</Title>
-			<SubTitle>Text - to - Speech</SubTitle>
-			<Desc>보이스를 선택해 내가 원하는 대로 음성으로 만들 수 있습니다.</Desc>
-			<div>
+			<Header>
+				<h1>텍스트 음성 변환</h1>
+				<span>Text - to - Speech</span>
+				<p>보이스를 선택해 내가 원하는 대로 음성으로 만들 수 있습니다.</p>
+			</Header>
+			<Body>
 				<ModeTitle>Mode</ModeTitle>
 				{options.map((option) => (
 					<Option key={option.id}>
@@ -49,31 +51,48 @@ export const ModeSelectContents = () => {
 						<OptionDesc>{option.optionDesc}</OptionDesc>
 					</Option>
 				))}
-			</div>
-			<NextBtn>다음</NextBtn>
+			</Body>
+			<Footer>
+				<NextBtn>다음</NextBtn>
+			</Footer>
 		</Frame>
 	);
 };
 
 const Frame = styled.div`
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 	padding: 20px;
 `;
 
-const Title = styled.span`
-	font-size: 35px;
-	font-weight: 500;
+const Header = styled.div`
+	height: 15%;
+
+	h1 {
+		font-size: 2.2rem;
+		display: inline-block;
+		margin-right: 20px;
+	}
+
+	span {
+		font-size: 1.2rem;
+		font-weight: 200;
+		color: #6b6b6b;
+	}
+
+	p {
+		font-size: 1.2rem;
+		font-weight: 400;
+		padding-top: 25px;
+	}
 `;
 
-const SubTitle = styled.span`
-	font-size: 20px;
-	font-weight: 200;
-	margin-left: 20px;
-	color: #424242;
-`;
-
-const Desc = styled.div`
-	margin: 20px 0px;
-	font-size: 18px;
+const Body = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 50px;
+	height: 75%;
 `;
 
 const ModeTitle = styled.div`
@@ -89,6 +108,7 @@ const Option = styled.div`
 	padding: 60px 0px;
 	display: flex;
 	align-items: center;
+	height: 45%;
 `;
 
 const BtnLabel = styled.label`
@@ -147,6 +167,11 @@ const OptionDesc = styled.div`
 	color: #424242;
 `;
 
+const Footer = styled.div`
+	text-align: center;
+	height: 10%;
+`;
+
 const NextBtn = styled.button`
 	position: absolute;
 	width: 200px;
@@ -155,7 +180,6 @@ const NextBtn = styled.button`
 	border: 1px solid #a0a0a0;
 	border-radius: 5px;
 	left: 500px;
-	bottom: 50px;
 	background-color: #a0a0a0;
 	color: white;
 	&:hover {

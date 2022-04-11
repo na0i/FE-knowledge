@@ -18,7 +18,7 @@ export const SttModalContents = ({ onClose }) => {
 		setCurrentContents(option.contents);
 	};
 
-	if (!appStore.isSettingModalOn) return null;
+	if (!appStore.isSttSettingModalOn) return null;
 
 	return (
 		<ContentsWrapper>

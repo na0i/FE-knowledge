@@ -30,6 +30,7 @@ const Button = styled.button`
 `;
 
 const Icon = styled.div`
+	z-index: 500;
 	padding: 5px;
 	border: 3px solid #212121;
 	border-radius: 5px;

@@ -25,10 +25,12 @@ const sttDropdownContents = [
 	},
 ];
 
-export const SttDropdown = ({ appName }) => {
+export const SttDropdown = ({ appName, open, onClose }) => {
 	return (
 		<AppButtonDropdown
 			appName={appName}
+			open={open}
+			onClose={onClose}
 			width={'230px'}
 			height={'90px'}
 			children={sttDropdownContents}

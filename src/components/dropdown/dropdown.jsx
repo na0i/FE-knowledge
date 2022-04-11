@@ -1,42 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import styled from 'styled-components';
-
 import { appStore } from 'src/stores/appStore';
-import { SttToolbar } from '../appList/stt/sttToolbar';
-import { TtsModal } from '../appList/tts/ttsModal';
 
-export const AppButtonDropdown = observer(({ width, height, children, appName }) => {
-	const [isToolbarOpen, setIsToolbarOpen] = useState(false);
-	const [menuId, setMenuId] = useState(99);
-	const openToolbar = (menuId) => {
-		setIsToolbarOpen(!isToolbarOpen);
-		setMenuId(menuId);
-	};
-
-	const closeToolbar = () => {
-		setIsToolbarOpen(false);
-	};
+export const AppButtonDropdown = observer(({ open, onClose, width, height, children, appName }) => {
 	return (
 		<>
-			<Frame open={appName === appStore.openAppName} width={width} height={height}>
+			<DropdownWrapper onClick={onClose} open={appName === appStore.openAppName && open}></DropdownWrapper>
+			<Frame
+				onClick={() => appStore.handleDropdown('')}
+				open={appName === appStore.openAppName && open}
+				width={width}
+				height={height}
+			>
 				{children.map((menu) => (
 					<Menu key={menu.id}>
 						<Icon>{menu.icon}</Icon>
-						<MenuText onClick={() => openToolbar(menu.id)}>{menu.text}</MenuText>
+						<MenuText onClick={() => appStore.openMenu(appName, menu.id)}>{menu.text}</MenuText>
 						<Tooltip>{menu.desc}</Tooltip>
 					</Menu>
 				))}
 			</Frame>
-			{appName === 'STT' && menuId === 0 ? <SttToolbar open={isToolbarOpen} onClose={closeToolbar} /> : <></>}
-			{appName === 'TTS' && menuId === 0 ? (
-				<TtsModal open={isToolbarOpen} onClose={closeToolbar}></TtsModal>
-			) : (
-				<></>
-			)}
 		</>
 	);
 });
+
+const DropdownWrapper = styled.div`
+	display: ${(props) => (props.open ? 'block' : 'none')};
+	z-index: 100;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	/* background-color: aliceblue; */
+`;
 
 const Frame = styled.div`
 	z-index: 300;
@@ -52,9 +50,9 @@ const Frame = styled.div`
 	border-radius: 2px;
 	transition: all 0.1s ease-out;
 	opacity: ${(props) => (props.open ? 1 : 0)};
+	top: 55px;
+	right: -20px;
 	/* transform: ${(props) => (props.open ? `scale(1) translate(-50%, -50%)` : `scale(0) translate(-50%, -50%)`)}; */
-	top: 52px;
-	right: -30px;
 	pointer-events: ${(props) => (props.open ? `all` : `none`)};
 `;
 
@@ -89,6 +87,7 @@ const Menu = styled.div`
 	margin: 1px;
 	padding: 3px 0px;
 	position: relative;
+	cursor: pointer;
 	&:hover {
 		background-color: #e6e6e6;
 	}
@@ -98,11 +97,9 @@ const Menu = styled.div`
 `;
 
 const MenuText = styled.span`
-	/* padding: 2px 5px 5px 2px; */
 	font-size: 16px;
 	font-weight: 500;
 	height: ${(props) => `calc(100% - ${props.height}/15)`};
-	cursor: pointer;
 `;
 
 const Icon = styled.button`
@@ -110,4 +107,5 @@ const Icon = styled.button`
 	border: transparent;
 	background-color: transparent;
 	align-items: center;
+	cursor: pointer;
 `;
