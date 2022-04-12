@@ -515,6 +515,29 @@ const globalStyles = createGlobalStyle`
 		overflow: hidden;
 		border: 0;
 	}
+	:root {
+    	--color-orange-point: #EF6C00; 
+		--color-blue-point: #3949AB;
+
+		--color-black-text1: #212121;
+		--color-black-text2: #424242;
+		--color-black-text3: #616161;
+		--color-black-text4: #808080;
+
+		--color-gray-button: #DADCE0;
+		--color-gray-button-hover: #C4C4C4;
+		--color-gray-line: #D1D1D1;
+
+		--color-white-bg: #ffffff;
+		--color-white-footer: #F6F6F6;
+		--color-white-hover: #F7F7F9;
+
+		--font-size-12: 12px;
+		--font-size-14: 14px;
+		--font-size-16: 16px;
+		--font-size-18: 18px;
+		--font-size-20: 20px;
+  }
 `;
 
 export default globalStyles;

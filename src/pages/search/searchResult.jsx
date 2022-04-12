@@ -3,7 +3,7 @@ import MoreButton from 'src/components/moreButton';
 import styled from 'styled-components';
 import PaperList from 'src/components/paper/paperList';
 
-const SearchResult = ({ paperList, addSelectedPaper }) => {
+const SearchResult = ({ paperList }) => {
 	return (
 		<>
 			<SearchResultLayout>
@@ -15,7 +15,7 @@ const SearchResult = ({ paperList, addSelectedPaper }) => {
 				</SubHeader>
 				<div>
 					{paperList?.map((paper) => (
-						<PaperList key={paper.id} paper={paper} addSelectedPaper={addSelectedPaper} />
+						<PaperList key={paper.id} paper={paper}/>
 					))}
 				</div>
 			</SearchResultLayout>

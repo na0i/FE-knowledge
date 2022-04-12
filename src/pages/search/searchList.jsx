@@ -6,20 +6,18 @@ import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 import { getPaperSearchList } from 'src/API/search';
-import rootStore from 'src/stores/rootStore'
 
 const SearchList = () => {
 	const yearArr = [
-		{ id: 0, name: '0' },
-		{ id: 1, name: '2022' },
-		{ id: 2, name: '2021' },
-		{ id: 3, name: '2020' },
-		{ id: 4, name: '2019' },
+		{ id: 0, name: '전체 보기' },
+		{ id: 1, name: '2022년 부터' },
+		{ id: 2, name: '2021년 부터' },
+		{ id: 3, name: '2020년 부터' },
+		{ id: 4, name: '2019년 부터' },
 		{ id: 5, name: '사용자지정' },
 	];
 	const [searchedPaperList, setSearchedPaperList] = useState([]);
 	const [selectedYear, setSelectedYear] = useState(0);
-	// const [selectedPapers, setSelectedPaper] = useState([]);
 
 	// query → paper fetch
 	const getPaperList = async () => {
@@ -30,20 +28,8 @@ const SearchList = () => {
 	// set paperList
 	const setPaperList = async (year) => {
 		const paperList = await getPaperList();
-		const filteredPaperList = yearFiltering(paperList, year);
+		const filteredPaperList = paperList.filter((element) => parseInt(element.year) >= year);
 		setSearchedPaperList(filteredPaperList);
-	};
-
-	// get interested paperList from localStorage
-	// const getInterestedPaperList = () => {
-	// 	if (localStorage.getItem('interestedPapers')){
-	// 		setSelectedPaper(JSON.parse(localStorage.getItem('interestedPapers')));
-	// 	}
-	// };
-
-	// filter paperList by year
-	const yearFiltering = (arr, standardYear) => {
-		return arr.filter((element) => parseInt(element.year) >= standardYear);
 	};
 
 	// current year
@@ -51,64 +37,18 @@ const SearchList = () => {
 		setSelectedYear(year.name);
 	};
 
-	// isHere ? true : false
-	// const isHere = (list, id) => {
-	// 	if (list.findIndex((element) => element.id === id) === -1) {
-	// 		return false;
-	// 	}
-	// 	return true;
-	// };
-
-	// add to interested paperlist
-	// const addSelectedPaper = (item) => {
-	// 	if (!isHere(selectedPapers, item.id)) {
-	// 		let newItem = {};
-	// 		newItem.id = item.id;
-	// 		newItem.title = item.title;
-
-	// 		let newArr = [];
-	// 		newArr = [...selectedPapers, newItem];
-	// 		setSelectedPaper(newArr);
-	// 		localStorage.setItem('interestedPapers', JSON.stringify(newArr));
-	// 	}
-	// };
-
-	// remove interested paper
-	// const removeSelectedPaper = (item) => {
-	// 	if (isHere(selectedPapers, item.id)) {
-	// 		let newArr = [];
-	// 		newArr = selectedPapers.filter((element) => element.id !== item.id);
-	// 		setSelectedPaper(newArr);
-	// 		localStorage.setItem('interestedPapers', JSON.stringify(newArr));
-	// 	}
-	// };
-	const { searchStore } = rootStore();
-
 	useEffect(() => setPaperList(selectedYear), [selectedYear]);
-	useEffect(() => searchStore.getInterestedPaperList(), []);
 
 	return (
 		<Wrapper>
 			<SearchHeader font={24} />
-
-			<LeftBox>
-				<PeriodFilter years={yearArr} onSelectedYear={onSelectedYear} />
-			</LeftBox>
-
-			<RighBox>
-				{/* <SearchResult paperList={searchedPaperList} addSelectedPaper={addSelectedPaper}/>
-				<InterestedPaper selectedPapers={selectedPapers} removeSelectedPaper={removeSelectedPaper}/> */}
-				<SearchResult paperList={searchedPaperList}/>
-				<InterestedPaper paperList={searchStore.interestedPaper}/>
-			</RighBox>
+			<Body>
+				<PeriodFilter years={yearArr} selectedYear={selectedYear} onSelectedYear={onSelectedYear} />
+				<SearchResult paperList={searchedPaperList} />
+				<InterestedPaper />
+			</Body>
 		</Wrapper>
 	);
-
-
-
-
-
-
 };
 
 export default SearchList;
@@ -117,12 +57,11 @@ export default SearchList;
 const Wrapper = styled.div`
 	width: 100%;
 `;
-const LeftBox = styled.div`
-	float: left;
-	width: 15%;
-`;
 
-const RighBox = styled.div`
-	float: left;
-	width: 70%;
+const Body = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: auto;
+	width: 990px;
 `;

@@ -4,29 +4,44 @@ import styled from 'styled-components';
 import { FilterButtonLayer } from './filterButtonLayer/filterButtonLayer';
 import { GraphChartLayer } from './chart/graphChart';
 import { HeatmapChartLayer } from './chart/heatmapChart';
+import { useNavigate } from 'react-router-dom';
 import PaperList from 'src/components/paper/paperList';
 
 import { getChartData, getPaperTrend } from 'src/API/chart';
 import { getPaperRecommend } from 'src/API/search';
-import { getAdjacentSubjectLabels, getSubLabels } from 'src/API/subject';
+import { getAdjacentSubjectLabels, getSubLabels, getSubjectData } from 'src/API/subject';
+import { getConceptLabels } from 'src/API/concept';
+
+import { SubjectSelector } from './subjectSelector';
 
 const SubjectFilter = () => {
 	const [chartData, setChartData] = useState([]);
 	const [trendChartData, setTrendChartData] = useState({});
 	const [recommandPaper, setRecommandPaper] = useState();
 	const [adjacentLabel, setAdjacentLabel] = useState([]);
+	const [conceptLabel, setConceptLabel] = useState([]);
 	const [subLabel, setSubLabel] = useState([]);
+	const [subjectData, setSubjectData] = useState([]);
+	const navigate = useNavigate();
 
 	const fetchChartData = async () => {
 		setChartData(await getChartData());
 	};
 
-	const fetchAdjacentLabelData = async () => {
-		setAdjacentLabel(await getAdjacentSubjectLabels());
+	const fetchAdjacentLabelData = async (id) => {
+		setAdjacentLabel(await getAdjacentSubjectLabels(id));
 	};
 
 	const fetchSubLabelData = async () => {
 		setSubLabel(await getSubLabels());
+	};
+
+	const fetchConceptLabelData = async () => {
+		setConceptLabel(await getConceptLabels());
+	};
+
+	const fetchSubjectData = async () => {
+		setSubjectData(await getSubjectData());
 	};
 
 	const fetchRecommandData = async () => {
@@ -37,12 +52,22 @@ const SubjectFilter = () => {
 		setTrendChartData(await getPaperTrend(id));
 	};
 
+	const gotoSubject = (id) => {
+		navigate(`/subjectFilter?si=${id}`);
+	};
+
+	const gotoConcept = (id) => {
+		navigate(`/conceptFilter?ci=${id}`);
+	};
+
 	useEffect(() => {
 		fetchChartData();
 		fetchAdjacentLabelData();
 		fetchRecommandData();
 		fetchSubLabelData();
+		fetchConceptLabelData();
 		getPaperTrendData();
+		fetchSubjectData();
 	}, []);
 
 	return (
@@ -53,24 +78,26 @@ const SubjectFilter = () => {
 					<ContentsFilter>
 						<FilterLayerBox>
 							<Title>주제어 필터</Title>
-							<Select>
-								<option>??</option>
-							</Select>
-							<Select>
-								<option>??</option>
-							</Select>
-							<Select>
-								<option>??</option>
-							</Select>
+							<SubjectSelector data={subjectData} />
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="label" title={'인접 주제'} data={adjacentLabel} />
+							<FilterButtonLayer
+								onClick={gotoSubject}
+								type="label"
+								title={'인접 주제'}
+								data={adjacentLabel}
+							/>
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="label" title={'하위 주제'} data={subLabel} />
+							<FilterButtonLayer onClick={gotoSubject} type="label" title={'하위 주제'} data={subLabel} />
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer type="route" title={'인접 개념어'} data={subLabel} />
+							<FilterButtonLayer
+								onClick={gotoConcept}
+								type="route"
+								title={'인접 개념어'}
+								data={conceptLabel}
+							/>
 						</FilterLayerBox>
 					</ContentsFilter>
 					<ContentsChart>

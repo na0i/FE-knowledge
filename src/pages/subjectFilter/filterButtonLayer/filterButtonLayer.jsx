@@ -2,21 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import { RouteButton, LabelButton } from 'src/components/button/subjectButton';
 
-export const FilterButtonLayer = ({ title, data, type }) => {
+export const FilterButtonLayer = ({ title, data, type, onClick }) => {
 	return (
 		<>
 			<Title>{title}</Title>
 			{type === 'label' ? (
 				<SubjectButtonBox>
 					{data?.map((label) => (
-						<RouteButton key={label.id} text={label.text} />
+						<RouteButton onClick={() => onClick(label.id)} key={label.id} text={label.text} />
 					))}
 				</SubjectButtonBox>
 			) : (
 				<>
 					<SubjectButtonBox>
 						{data?.map((label) => (
-							<LabelButton key={label.id} text={label.text} />
+							<LabelButton onClick={() => onClick(label.id)} key={label.id} text={label.text} />
 						))}
 					</SubjectButtonBox>
 				</>

@@ -1,51 +1,30 @@
 import { observable } from 'mobx';
 
-
 const searchStore = observable({
   // state
-  interestedPaper: [],
-  searchResultIdx: 0,
+  interestedPapers: [],
 
-  getInterestedPaperList(){
+  // action
+  getInterestedPapers(){
     if (localStorage.getItem('interestedPapers')){
-			this.interestedPaper = JSON.parse(localStorage.getItem('interestedPapers'));
-		}
+      let interestedPapers = JSON.parse(localStorage.getItem('interestedPapers'));
+      this.interestedPapers = interestedPapers;
+    } else {
+      this.interestedPaper = [];
+    };
   },
 
   addInterestedPaper(item){
-    let interestedPapersList = JSON.parse(localStorage.getItem('interestedPapers'));
-    if ( interestedPapersList === null ){
-      let newItem = {};
-      newItem.id = item.id;
-      newItem.title = item.title;
-
-      let newArr = [...this.interestedPaper, newItem];
-      console.log(newArr);
-      this.interestedPaper.push(newItem);
-      localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPaper));
-      
-    } else {
-      if (interestedPapersList.findIndex((element) => element.id === item.id) === -1) {
-        let newItem = {};
-        newItem.id = item.id;
-        newItem.title = item.title;
-        
-        let newArr = [...this.interestedPaper, newItem];
-        this.interestedPaper = newArr;
-        localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPaper));
-      }
-    }
+    if (this.interestedPapers.findIndex((element) => element.id === item.id) === -1){
+      this.interestedPapers = [...this.interestedPapers, item];
+      localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPapers));
+    };
   },
 
   removeInterestedPaper(item){
-    const interestedPapersList = JSON.parse(localStorage.getItem('interestedPapers'));
-    if (interestedPapersList.findIndex((element) => element.id === item.id) !== -1) {
-      let newArr = [];
-      newArr = interestedPapersList.filter((element) => element.id !== item.id);
-      localStorage.setItem('interestedPapers', JSON.stringify(newArr));
-    }
-  }
-  
+    this.interestedPapers = this.interestedPapers.filter((element) => element.id !== item.id);
+    localStorage.setItem('interestedPapers', JSON.stringify(this.interestedPapers));
+  },
 });
 
 export { searchStore };

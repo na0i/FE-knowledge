@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import SearchHeader from 'src/components/header/searchHeader';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { FilterButtonLayer } from '../subjectFilter/filterButtonLayer/filterButtonLayer';
 import { HeatmapChartLayer } from '../subjectFilter/chart/heatmapChart';
 import { getPaperTrend } from 'src/API/chart';
 import { getPaperRecommend } from 'src/API/search';
-import { getAdjacentSubjectLabels, getSubLabels } from 'src/API/subject';
+import { getAdjacentSubjectLabels } from 'src/API/subject';
+import { getConceptLabels } from 'src/API/concept';
 import PaperList from 'src/components/paper/paperList';
 
 const ConceptFilter = () => {
+	const navigate = useNavigate();
 	const [conceptValue, setConceptValue] = useState('');
 	const [recommandPaper, setRecommandPaper] = useState([]);
 	const [adjacentLabel, setAdjacentLabel] = useState([]);
@@ -26,7 +29,7 @@ const ConceptFilter = () => {
 	};
 
 	const fetchSubLabelData = async () => {
-		setSubLabel(await getSubLabels());
+		setSubLabel(await getConceptLabels());
 	};
 
 	const getPaperTrendData = async (id) => {
@@ -36,7 +39,17 @@ const ConceptFilter = () => {
 	/* ----------------------------------------------------------- */
 
 	const handleInput = (e) => {
-		if (e.charCode === 13) setConceptValue(e.target.value);
+		if (e.charCode === 13) {
+			setConceptValue(e.target.value);
+		}
+	};
+
+	const gotoSubject = (id) => {
+		navigate(`/subjectFilter?si=${id}`);
+	};
+
+	const gotoConcept = (id) => {
+		navigate(`/conceptFilter?ci=${id}`);
 	};
 
 	useEffect(() => {
@@ -61,10 +74,20 @@ const ConceptFilter = () => {
 					<div className="flex">
 						<ContentsFilter>
 							<FilterLayerBox>
-								<FilterButtonLayer type="route" title={'인접 주제'} data={adjacentLabel} />
+								<FilterButtonLayer
+									onClick={gotoSubject}
+									type="route"
+									title={'인접 주제'}
+									data={adjacentLabel}
+								/>
 							</FilterLayerBox>
 							<FilterLayerBox>
-								<FilterButtonLayer type="label" title={'인접 개념어'} data={subLabel} />
+								<FilterButtonLayer
+									onClick={gotoConcept}
+									type="label"
+									title={'인접 개념어'}
+									data={subLabel}
+								/>
 							</FilterLayerBox>
 						</ContentsFilter>
 						<ContentsChart>
