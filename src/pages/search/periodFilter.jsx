@@ -4,6 +4,7 @@ import listOpen from '../../assets/listOpen.svg';
 import listClose from '../../assets/listClose.svg';
 import styled from 'styled-components';
 
+<<<<<<< HEAD
 const PeriodFilter = ({ years, selectedYear, onSelectedYear }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -65,6 +66,25 @@ const PeriodFilter = ({ years, selectedYear, onSelectedYear }) => {
 		</PeriodDiv>
 	);
 };
+=======
+const PeriodFilter = ({years, onSelectedYear}) => {
+  return(
+    <PeriodDiv>
+      <PeriodTitle className='mt-16 mb-16'>등재일</PeriodTitle>
+      {years.map((year) => {
+        if (year.id === 0){
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>전체보기</Year>)
+        } else if (year.id === 5){
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>{year.name}</Year>)
+        } else {
+          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>{year.name}년 부터</Year>)
+        }
+      }
+      )}
+    </PeriodDiv>
+  );
+}
+>>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 
 export default PeriodFilter;
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Dropdown from 'src/components/button/dropdown';
-import rootStore from 'src/stores/rootStore'
+import rootStore from 'src/stores/rootStore';
 import { observer } from 'mobx-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ const recommandOption = [
 const InterestedPaper = observer(() => {
 	const navigate = useNavigate();
 	const { searchStore } = rootStore();
-	useEffect(()=> searchStore.getInterestedPapers(), []);
+	useEffect(() => searchStore.getInterestedPapers(), []);
 
 	return (
 		<InterestedLayout>
@@ -25,19 +25,22 @@ const InterestedPaper = observer(() => {
 				</h1>
 			</div>
 
-			<div>
+			<>
 				{searchStore.interestedPapers?.map((paper) => (
-					<div key={paper.id}>
+					<Paper key={paper.id}>
 						<LeftBox>
-							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>{paper.title}</div>
+							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
+								{paper.title}
+							</div>
 						</LeftBox>
 						<RightBox>
-							<RemoveButton onClick={() => searchStore.removeInterestedPaper(paper)}>관심 해제</RemoveButton>
+							<RemoveButton onClick={() => searchStore.removeInterestedPaper(paper)}>
+								관심 해제
+							</RemoveButton>
 						</RightBox>
-					</div>
+					</Paper>
 				))}
-
-			</div>
+			</>
 		</InterestedLayout>
 	);
 });
@@ -48,7 +51,7 @@ const LeftBox = styled.div`
 	color: #55a3d7;
 	width: 92%;
 	float: left;
-	margin: 20px 0px 10px 0px;
+	/* margin: 20px 0px 10px 0px; */
 	cursor: pointer;
 	&:hover {
 		text-decoration: 1px underline;
@@ -59,7 +62,7 @@ const LeftBox = styled.div`
 const RightBox = styled.div`
 	width: 8%;
 	float: left;
-	margin: 10px 0px 10px 0px;
+	/* margin: 10px 0px 10px 0px; */
 	justify-content: center;
 `;
 
@@ -87,6 +90,9 @@ const InterestedLayout = styled.ul`
 		padding: 2rem 1rem 1rem 1rem;
 		border-bottom: 1px solid #efefef;
 	}
-	font-family: "Noto Sans KR", sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
+`;
 
+const Paper = styled.div`
+	padding: 1.7rem 0;
 `;

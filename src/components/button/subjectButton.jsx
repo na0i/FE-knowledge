@@ -25,11 +25,6 @@ const LabelClickButton = styled.button`
 	border: 1px solid ${(props) => `${props.borderColor}`};
 	background-color: white;
 	white-space: nowrap;
-	cursor: pointer;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	:hover {
-		transition-duration: 0.5s;
-		background-color: #f9f9f9;
-	}
 `;

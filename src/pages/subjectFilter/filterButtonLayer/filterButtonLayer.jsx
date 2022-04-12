@@ -9,14 +9,14 @@ export const FilterButtonLayer = ({ title, data, type, onClick }) => {
 			{type === 'label' ? (
 				<SubjectButtonBox>
 					{data?.map((label) => (
-						<RouteButton onClick={() => onClick(label.id)} key={label.id} text={label.text} />
+						<RouteButton onClick={onClick} key={label.id} text={label.text} />
 					))}
 				</SubjectButtonBox>
 			) : (
 				<>
 					<SubjectButtonBox>
 						{data?.map((label) => (
-							<LabelButton onClick={() => onClick(label.id)} key={label.id} text={label.text} />
+							<LabelButton onClick={onClick} key={label.id} text={label.text} />
 						))}
 					</SubjectButtonBox>
 				</>

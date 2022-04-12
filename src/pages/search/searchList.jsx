@@ -29,7 +29,11 @@ const SearchList = () => {
 	const setPaperList = async (year) => {
 		const paperList = await getPaperList();
 		const filteredPaperList = paperList.filter((element) => parseInt(element.year) >= year);
+<<<<<<< HEAD
 		setSearchedPaperList(filteredPaperList);
+=======
+ 		setSearchedPaperList(filteredPaperList);
+>>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 	};
 
 	// current year
@@ -42,11 +46,23 @@ const SearchList = () => {
 	return (
 		<Wrapper>
 			<SearchHeader font={24} />
+<<<<<<< HEAD
 			<Body>
 				<PeriodFilter years={yearArr} selectedYear={selectedYear} onSelectedYear={onSelectedYear} />
 				<SearchResult paperList={searchedPaperList} />
 				<InterestedPaper />
 			</Body>
+=======
+
+			<LeftBox>
+				<PeriodFilter years={yearArr} onSelectedYear={onSelectedYear} />
+			</LeftBox>
+
+			<RighBox>
+				<SearchResult paperList={searchedPaperList} />
+				<InterestedPaper />
+			</RighBox>
+>>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 		</Wrapper>
 	);
 };
