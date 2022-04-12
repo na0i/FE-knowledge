@@ -199,4 +199,5 @@ export const getPaperRecommend = (id) => {
 export const getPaperSearchList = async () => {
 	//const res = await request("GET", "URL", "DATA");
 	return paperSearchResultTemp;
+	// return null;
 };

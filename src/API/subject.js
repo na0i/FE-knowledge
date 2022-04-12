@@ -17,7 +17,6 @@ const subjectLabelTemp = [
 	{ id: 337, text: '수학', category: 'L', refId: null },
 	{ id: 338, text: '역사학', category: 'L', refId: null },
 	{ id: 339, text: '지질학', category: 'L', refId: null },
-<<<<<<< HEAD
 	{ id: 340, text: '중간1', category: 'M', refId: 335 },
 	{ id: 341, text: '중간2', category: 'M', refId: 335 },
 	{ id: 342, text: '중간3', category: 'M', refId: 335 },
@@ -33,23 +32,6 @@ const subjectLabelTemp = [
 	{ id: 352, text: '하단3', category: 'S', refId: 346 },
 	{ id: 353, text: '하단4', category: 'S', refId: 349 },
 	{ id: 354, text: '하단5', category: 'S', refId: 349 },
-=======
-	{ id: 340, text: '생명', category: 'M', refId: 335 },
-	{ id: 341, text: '공학', category: 'M', refId: 335 },
-	{ id: 342, text: '수학', category: 'M', refId: 0 },
-	{ id: 343, text: '역사학', category: 'M', refId: 0 },
-	{ id: 344, text: '지질학', category: 'M', refId: 0 },
-	{ id: 345, text: '생명', category: 'M', refId: 0 },
-	{ id: 346, text: '공학', category: 'M', refId: 0 },
-	{ id: 347, text: '수학', category: 'M', refId: 0 },
-	{ id: 348, text: '역사학', category: 'M', refId: 0 },
-	{ id: 349, text: '지질학', category: 'M', refId: 0 },
-	{ id: 350, text: '생명', category: 'L', refId: 0 },
-	{ id: 351, text: '공학', category: 'L', refId: 0 },
-	{ id: 352, text: '수학', category: 'L', refId: 0 },
-	{ id: 353, text: '역사학', category: 'L', refId: 0 },
-	{ id: 354, text: '지질학', category: 'L', refId: 0 },
->>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 ];
 
 /*------------------------------------------------------------ */

@@ -42,7 +42,6 @@ const ConceptFilter = () => {
 		if (e.charCode === 13) {
 			setConceptValue(e.target.value);
 		}
-<<<<<<< HEAD
 	};
 
 	const gotoSubject = (id) => {
@@ -51,8 +50,6 @@ const ConceptFilter = () => {
 
 	const gotoConcept = (id) => {
 		navigate(`/conceptFilter?ci=${id}`);
-=======
->>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 	};
 
 	useEffect(() => {

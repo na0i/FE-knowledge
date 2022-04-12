@@ -63,7 +63,7 @@ const SubjectFilter = () => {
 		fetchSubLabelData();
 		fetchConceptLabelData();
 		getPaperTrendData();
-		fetchSubjectData();
+		// fetchSubjectData();
 	}, []);
 
 	return (

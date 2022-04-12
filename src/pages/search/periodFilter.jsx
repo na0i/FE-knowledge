@@ -4,8 +4,7 @@ import listOpen from '../../assets/listOpen.svg';
 import listClose from '../../assets/listClose.svg';
 import styled from 'styled-components';
 
-<<<<<<< HEAD
-const PeriodFilter = ({ years, selectedYear, onSelectedYear }) => {
+const PeriodFilter = ({ years, selectedYearName, selectedYearValue, onSelectedYear }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openDropdown = () => {
@@ -15,7 +14,7 @@ const PeriodFilter = ({ years, selectedYear, onSelectedYear }) => {
 	return (
 		<PeriodDiv>
 			<SelectButton onClick={() => openDropdown()} className="mt-16 mb-16">
-				<span>{selectedYear}</span>
+				<span>{selectedYearName}</span>
 				{isOpen && (
 					<Arrow>
 						<img src={listClose} alt="" />
@@ -29,68 +28,26 @@ const PeriodFilter = ({ years, selectedYear, onSelectedYear }) => {
 			</SelectButton>
 			<YearDiv>
 				{isOpen &&
-					years.map((year) => {
-						if (year.id === 0) {
-							return (
-								<Year
-									key={year.id}
-									selected={year.name == selectedYear}
-									onClick={() => onSelectedYear(year)}
-								>
-									전체보기
-								</Year>
-							);
-						} else if (year.id === 5) {
-							return (
-								<Year
-									key={year.id}
-									selected={year.name == selectedYear}
-									onClick={() => onSelectedYear(year)}
-								>
-									{year.name}
-								</Year>
-							);
-						} else {
-							return (
-								<Year
-									key={year.id}
-									selected={year.name == selectedYear}
-									onClick={() => onSelectedYear(year)}
-								>
-									{year.name}년 부터
-								</Year>
-							);
-						}
-					})}
+					years.map((year) => (
+          <Year
+            key={year.id}
+            selected={year.name === selectedYearValue}
+            onClick={() => onSelectedYear(year)}
+          >
+            {year.name}
+          </Year>)
+					)}
 			</YearDiv>
 		</PeriodDiv>
 	);
 };
-=======
-const PeriodFilter = ({years, onSelectedYear}) => {
-  return(
-    <PeriodDiv>
-      <PeriodTitle className='mt-16 mb-16'>등재일</PeriodTitle>
-      {years.map((year) => {
-        if (year.id === 0){
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>전체보기</Year>)
-        } else if (year.id === 5){
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>{year.name}</Year>)
-        } else {
-          return(<Year className='mb-8 pointer' key={year.id} onClick={() => onSelectedYear(year)}>{year.name}년 부터</Year>)
-        }
-      }
-      )}
-    </PeriodDiv>
-  );
-}
->>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 
 export default PeriodFilter;
 
 const PeriodDiv = styled.div`
 	font-size: var(--font-size-14);
 	font-family: 'Noto Sans KR', sans-serif;
+	margin-top: 26px;
 `;
 
 const Arrow = styled.span`
@@ -98,12 +55,13 @@ const Arrow = styled.span`
 `;
 
 const SelectButton = styled.button`
-	width: 104px;
+	// width: 123px;
 	height: 36px;
 	border: 1px solid #dadce0;
 	border-radius: 4px;
 	font-weight: 500;
 	margin-bottom: 4px;
+  padding: 0px 15px 0px 14px;
 	background-color: white;
 	&:hover {
 		background-color: #fdf3ef;
@@ -118,6 +76,7 @@ const YearDiv = styled.div`
 	z-index: 100;
 	background-color: white;
 	line-height: 31px;
+  box-shadow: 0px 4px 14px 0px #00000033;
 `;
 
 const Year = styled.div`
