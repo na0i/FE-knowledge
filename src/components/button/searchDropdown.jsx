@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import downIcon from 'src/assets/caretDown.png';
 
-export const SearchDropdown = ({ onChange, value, options }) => {
+export const SearchDropdown = ({ onChange, value, options, onSelect }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
 		<SelectorBox>
 			<Selector>
 				<Input
-					onFocus={() => setIsOpen(true)}
-					onBlur={() => setIsOpen(false)}
-					onChange={onChange}
-					value={value}
+					onClick={() => setIsOpen(!isOpen)}
+					onChange={(e) => {
+						onChange(e);
+						setIsOpen(true);
+					}}
+					value={value ?? null}
 					placeholder="임시"
 				/>
 				<SpreadButton onClick={() => setIsOpen(!isOpen)}>
@@ -22,7 +24,15 @@ export const SearchDropdown = ({ onChange, value, options }) => {
 			{isOpen ? (
 				<ResultBox>
 					{options?.map((option) => (
-						<Option key={option.id}>{option.text}</Option>
+						<Option
+							onClick={() => {
+								onSelect(option.id, option.text);
+								setIsOpen(false);
+							}}
+							key={option.id}
+						>
+							{option.text}
+						</Option>
 					))}
 				</ResultBox>
 			) : (
@@ -71,21 +81,15 @@ const ResultBox = styled.div`
 	display: flex;
 	flex-direction: column;
 	height: 250px;
-<<<<<<< HEAD
 	overflow: scroll;
 	overflow-x: hidden;
-=======
->>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 `;
 
 const Option = styled.div`
 	font-size: 0.875rem;
 	padding: 10px;
-<<<<<<< HEAD
 	cursor: pointer;
 	:hover {
 		background-color: #f9f9f9;
 	}
-=======
->>>>>>> f11c6f49fd5e1c45fc95960e30799c3077f43958
 `;

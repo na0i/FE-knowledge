@@ -16,16 +16,13 @@ import {
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
 const options = {
-	spanGaps: true,
-	maxBarThickness: 30,
-	grouped: true,
 	interaction: {
 		mode: 'index',
 	},
 	plugins: {
 		legend: {
-			position: 'chartArea',
-			align: 'start',
+			position: 'bottom',
+			align: 'end',
 			labels: {
 				usePointStyle: true,
 				pointStyle: 'line',
@@ -37,9 +34,14 @@ const options = {
 			},
 		},
 		tooltip: {
-			backgroundColor: 'rgba(124, 35, 35, 0.4)',
-			padding: 10,
-			bodySpacing: 5,
+			backgroundColor: 'rgba(255, 255, 255, 0.95)',
+			titleColor: '#212121',
+			bodyColor: '#616161',
+			borderWidth: 2,
+			borderColor: '#dadce0',
+			caretSize: 5,
+			padding: 20,
+			bodySpacing: 10,
 			bodyFont: {
 				font: {
 					family: "'Noto Sans KR', sans-serif",
@@ -48,11 +50,15 @@ const options = {
 			usePointStyle: true,
 			filter: (item) => item.parsed.y !== null,
 			callbacks: {
+				labelPointStyle: function (context) {
+					return {
+						pointStyle: 'circle',
+					};
+				},
 				title: (context) => context[0].label,
 				label: (context) => {
 					let label = context.dataset.label + '' || '';
-
-					return context.parsed.y !== null ? label + ': ' + context.parsed.y + '건' : null;
+					return context.parsed.y !== null ? label + '  ' + context.parsed.y + '건' : null;
 				},
 			},
 		},
@@ -79,11 +85,23 @@ const options = {
 			axis: 'x',
 			position: 'bottom',
 			ticks: {
-				minRotation: 45,
 				padding: 5,
 			},
 		},
 		y: {
+			title: {
+				display: true,
+				position: 'bottom',
+				fullSize: false,
+				align: 'start',
+				color: '#616161',
+				font: {
+					size: 12,
+					family: "'Noto Sans KR', sans-serif",
+					weight: 300,
+				},
+				text: '단위: 건',
+			},
 			type: 'linear',
 			grid: {
 				color: '#E2E2E230',
@@ -94,17 +112,6 @@ const options = {
 			axis: 'y',
 			display: true,
 			position: 'left',
-			title: {
-				display: true,
-				align: 'end',
-				color: '#808080',
-				font: {
-					size: 12,
-					family: "'Noto Sans KR', sans-serif",
-					weight: 300,
-				},
-				text: '단위: 건',
-			},
 		},
 	},
 };

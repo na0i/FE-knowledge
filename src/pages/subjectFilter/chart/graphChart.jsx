@@ -8,17 +8,17 @@ export const GraphChartLayer = ({ data, width }) => {
 			<ChartHeader>
 				<ChartTitleBox>
 					<ChartTitle>전기공학, 통신 분야</ChartTitle>
-					<ChartSubTitle>트렌드 연구 주제 수요지표</ChartSubTitle>
+					<ChartTitle>트렌드 연구 주제 수요지표</ChartTitle>
 				</ChartTitleBox>
 				<ChartFilterBox>
 					<ChartFilterSubBox>
-						<ChartFilterTitle>기 간:</ChartFilterTitle>
+						<ChartFilterTitle>기간 </ChartFilterTitle>
 						<ChartFilter>
 							<option>과거 5분기</option>
 						</ChartFilter>
 					</ChartFilterSubBox>
 					<ChartFilterSubBox>
-						<ChartFilterTitle>수요지표:</ChartFilterTitle>
+						<ChartFilterTitle>수요지표 </ChartFilterTitle>
 						<ChartFilter>
 							<option>누적 인용수</option>
 						</ChartFilter>
@@ -46,21 +46,17 @@ const ChartHeader = styled.div`
 `;
 
 const ChartTitleBox = styled.div`
-	width: 70%;
+	width: 60%;
 `;
 
 const ChartTitle = styled.p`
-	font-size: 1.2rem;
+	color: var(--color-black-text1);
 	margin: 10px;
-	font-weight: bold;
-`;
-
-const ChartSubTitle = styled.p`
-	margin: 10px;
+	font-weight: 700;
 `;
 
 const ChartFilterBox = styled.div`
-	width: 40%;
+	width: 50%;
 `;
 
 const ChartFilterSubBox = styled.div`
@@ -71,7 +67,10 @@ const ChartFilterSubBox = styled.div`
 `;
 
 const ChartFilterTitle = styled.div`
+	font-size: 0.75rem;
 	width: 30%;
+	text-align: right;
+	margin-right: 10px;
 `;
 
 const ChartFilter = styled.select`

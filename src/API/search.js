@@ -5,7 +5,7 @@
 const autoCompleteData = [
 	{
 		id: 2312,
-		title: '커뮤니티 기반의 질의 응답서비스(cQA)에서 질문-응답 쌍의 구조적 특징을 이용한 어쩌구 저쩌구 ',
+		title: '커뮤니티 기반의 질의 응답서비스(cQA)에서 질문-응답 쌍의 구조적 특징을 이용한 어쩌구 저쩌구',
 		author: ['배경만', '어쩌구'],
 		date: new Date(2012, 0, 1),
 	},
@@ -199,5 +199,4 @@ export const getPaperRecommend = (id) => {
 export const getPaperSearchList = async () => {
 	//const res = await request("GET", "URL", "DATA");
 	return paperSearchResultTemp;
-	// return null;
 };

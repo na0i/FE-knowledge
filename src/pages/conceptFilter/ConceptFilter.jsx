@@ -9,10 +9,14 @@ import { getPaperRecommend } from 'src/API/search';
 import { getAdjacentSubjectLabels } from 'src/API/subject';
 import { getConceptLabels } from 'src/API/concept';
 import PaperList from 'src/components/paper/paperList';
+import { SortRadioButton } from 'src/components/button/sortRadioButton';
+import { MoreButton } from 'src/components/button/moreButton';
+
+/* commit test주석 작성 */
 
 const ConceptFilter = () => {
 	const navigate = useNavigate();
-	const [conceptValue, setConceptValue] = useState('');
+
 	const [recommandPaper, setRecommandPaper] = useState([]);
 	const [adjacentLabel, setAdjacentLabel] = useState([]);
 	const [subLabel, setSubLabel] = useState([]);
@@ -38,12 +42,6 @@ const ConceptFilter = () => {
 
 	/* ----------------------------------------------------------- */
 
-	const handleInput = (e) => {
-		if (e.charCode === 13) {
-			setConceptValue(e.target.value);
-		}
-	};
-
 	const gotoSubject = (id) => {
 		navigate(`/subjectFilter?si=${id}`);
 	};
@@ -64,13 +62,6 @@ const ConceptFilter = () => {
 			<SearchHeader font={24} />
 			<Frame>
 				<ContentsUpperBox>
-					<ConceptSearchBox>
-						<FilterLayerBox>
-							<Title>개념어 필터</Title>
-							<Input placeholder="개념어 검색하기" onKeyPress={handleInput} />
-						</FilterLayerBox>
-						<SubTitle>{conceptValue ? conceptValue + ' 검색결과' : ''} </SubTitle>
-					</ConceptSearchBox>
 					<div className="flex">
 						<ContentsFilter>
 							<FilterLayerBox>
@@ -95,18 +86,22 @@ const ConceptFilter = () => {
 						</ContentsChart>
 					</div>
 				</ContentsUpperBox>
-				<Divider />
 				<ContentsLowerBox>
 					<LowerBoxHeader>
 						<Title>개념어 관련 논문 추천</Title>
-						<FilterSelect>
+						{/* <FilterSelect>
 							<option>중요도 순</option>
-						</FilterSelect>
+						</FilterSelect> */}
+						{/* <SortRadioButton sortFatchFunction={} /> */}
+						<SortRadioButton />
 					</LowerBoxHeader>
 					<RecommendLayout>
 						{recommandPaper?.map((paper) => (
 							<PaperList paper={paper} key={paper.id} />
 						))}
+						<ButtonWrapper>
+							<MoreButton />
+						</ButtonWrapper>
 					</RecommendLayout>
 				</ContentsLowerBox>
 			</Frame>
@@ -118,12 +113,10 @@ export default ConceptFilter;
 const Frame = styled.div`
 	min-height: calc(100vh - 140px);
 	margin: 0 auto;
-	width: 80vw;
-	border: 1px solid #d5e1e6;
+	width: 990px;
 	padding: 30px;
 `;
 const ContentsUpperBox = styled.div`
-	padding: 20px 10px;
 	min-height: 70%;
 `;
 const ContentsLowerBox = styled.div`
@@ -135,27 +128,14 @@ const LowerBoxHeader = styled.div`
 	justify-content: space-between;
 	align-items: center;
 `;
-const FilterSelect = styled.select`
-	border-radius: 5px;
-	border: 1px solid #9fb8c6;
-	height: 40px;
-	:focus {
-		outline: none;
-	}
-`;
-
-const ConceptSearchBox = styled.div`
-	width: 100%;
-`;
-
-const Divider = styled.hr`
-	border-width: 1px 0px 0px 0px;
-	border-style: solid;
-	height: 1px;
-	width: 98%;
-	border-color: #e9f2f9;
-	margin: 0 auto;
-`;
+// const FilterSelect = styled.select`
+// 	border-radius: 5px;
+// 	border: 1px solid #9fb8c6;
+// 	height: 40px;
+// 	:focus {
+// 		outline: none;
+// 	}
+// `;
 
 const FilterLayerBox = styled.div`
 	margin-bottom: 20px;
@@ -164,34 +144,18 @@ const FilterLayerBox = styled.div`
 const ContentsFilter = styled.div`
 	padding: 30px 20px;
 	display: flex;
-	width: 40%;
+	width: 50%;
 	flex-direction: column;
 `;
 
 const Title = styled.p`
-	font-size: 1.3rem;
+	font-size: var(--font-size-20);
 	margin: 10px 0;
-`;
-
-const SubTitle = styled.p`
-	font-size: 1.1rem;
-	margin: 10px 0;
-`;
-
-const Input = styled.input`
-	width: 100%;
-	border-radius: 5px;
-	border: 1px solid #9fb8c6;
-	height: 40px;
-	padding: 20px;
-	:focus {
-		outline: none;
-	}
 `;
 
 const ContentsChart = styled.div`
 	display: flex;
-	width: 60%;
+	width: 80%;
 	flex-direction: column;
 `;
 
@@ -205,4 +169,9 @@ const RecommendLayout = styled.ul`
 		margin: 0.5rem;
 		line-height: 1.5;
 	}
+`;
+
+const ButtonWrapper = styled.div`
+	display: flex;
+	justify-content: center;
 `;

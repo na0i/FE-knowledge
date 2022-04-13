@@ -8,7 +8,7 @@ import styled from 'styled-components';
 // import { request } from 'src/utils/axios';
 
 /*************************************** JSX ***************************************/
-export const SearchBoxComp = ({ font, height, text }) => {
+export const SearchBoxComp = ({ font, width, height, text }) => {
 	const navigate = useNavigate();
 	const [mounted, setMounted] = useState(true);
 	const [searchText, setSearchText] = useState(text ? text : '');
@@ -70,8 +70,13 @@ export const SearchBoxComp = ({ font, height, text }) => {
 	}, []);
 
 	return (
-		<SearchBoxLayout>
-			<SearchBox height={height} autoCompleteData={autoCompleteData}>
+		<SearchBoxLayout width={width}>
+			<SearchBox inputFocus={inputFocus} height={height} autoCompleteData={autoCompleteData}>
+				<SearchFilter>
+					<Option>논문</Option>
+					<Option>개념어</Option>
+					<Option>주제어</Option>
+				</SearchFilter>
 				<input
 					onFocus={() => {
 						setInputFocus(true);
@@ -88,10 +93,15 @@ export const SearchBoxComp = ({ font, height, text }) => {
 					}}
 				/>
 				<button>
-					<Zoom width={`${height / 2}`} height={`${height / 2}`} onClick={() => gotoSearchPage(searchText)} />
+					<Zoom
+						inputFocus={inputFocus}
+						width={`${height / 2}`}
+						height={`${height / 2}`}
+						onClick={() => gotoSearchPage(searchText)}
+					/>
 				</button>
 			</SearchBox>
-			<AutoCompleteLayout>
+			<AutoCompleteLayout width={width}>
 				<AutoComplete focus={inputFocus} autoComplete={localStorage.getItem('autoComplete')}>
 					{!localStorage.getItem('autoComplete') ? (
 						autoCompleteData.length > 0 &&
@@ -129,18 +139,23 @@ export const SearchBoxComp = ({ font, height, text }) => {
 
 /******************************** styled-components ********************************/
 export const SearchBoxLayout = styled.div`
-	min-width: 800px;
-	width: 800px;
+	min-width: ${(props) => `${props.width}px`};
+	width: ${(props) => `${props.width}px`};
 	max-width: 1200px;
 `;
 
 export const SearchBox = styled.div`
 	width: 100%;
 	max-width: 1200px;
+	border-radius: ${(props) => (props.inputFocus ? `5px 5px 0 0` : `5px`)};
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 	height: ${(props) => `${props.height + 2}px`};
-	border: 2px solid #3352a4;
+	border: 1px solid var(--color-orange-point);
 	display: flex;
 	input {
+		font-family: 'noto sans KR';
+		font-size: var(--font-size-14);
+		font-weight: 500;
 		width: ${(props) => `${100 - props.height / 10}%`};
 		height: ${(props) => `${props.height - 2}px`};
 		border: none;
@@ -152,12 +167,13 @@ export const SearchBox = styled.div`
 	button {
 		display: flex;
 		align-items: center;
+		border-radius: ${(props) => (props.inputFocus ? `0 3px 0 0` : `0 3px 3px 0`)};
 		justify-content: center;
 		width: ${(props) => `${props.height / 10 + 2}%`};
-		height: ${(props) => `${props.height - 2}px`};
+		height: ${(props) => `${props.height}px`};
 		border: none;
 		cursor: pointer;
-		background: #3352a4;
+		background: var(--color-orange-point);
 		&:focus {
 			outline: none;
 		}
@@ -171,13 +187,40 @@ export const SearchBox = styled.div`
 	}
 `;
 
+export const SearchFilter = styled.select`
+	padding: 10px;
+	font-family: 'noto sans KR';
+	font-size: var(--font-size-14);
+	font-weight: 700;
+	width: 20%;
+	border: none;
+	border-radius: 5px 0 0 5px;
+	border-right: 1px solid #dfe1e5;
+
+	:focus {
+		outline: none;
+	}
+`;
+
+export const Option = styled.option`
+	border: none;
+	:focus {
+		outline: none;
+	}
+	:hover {
+		color: var(--color-orange-point);
+	}
+`;
+
 export const AutoComplete = styled.ul`
 	display: ${(props) => (props.focus ? 'block' : 'none')};
 	position: absolute;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
-	box-shadow: 0 2px 3px 0 rgb(0 1 3 / 7%);
-	width: 800px;
+	border: 1px solid var(--color-orange-point);
+	border-top: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	width: inherit;
 	li {
 		list-style: none;
 		padding: 1rem 1.5rem;
@@ -230,6 +273,5 @@ export const HeaderLayout = styled.div`
 `;
 
 export const AutoCompleteLayout = styled.div`
-	width: 800px;
-	max-width: 1200px;
+	width: ${(props) => `${props.width}px`};
 `;

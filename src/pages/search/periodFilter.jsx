@@ -11,9 +11,13 @@ const PeriodFilter = ({ years, selectedYearName, selectedYearValue, onSelectedYe
 		setIsOpen(!isOpen);
 	};
 
+	const closeDropdown = () => {
+		setIsOpen(false);
+	};
+
 	return (
 		<PeriodDiv>
-			<SelectButton onClick={() => openDropdown()} className="mt-16 mb-16">
+			<SelectButton className="center" onClick={() => openDropdown()}>
 				<span>{selectedYearName}</span>
 				{isOpen && (
 					<Arrow>
@@ -29,14 +33,17 @@ const PeriodFilter = ({ years, selectedYearName, selectedYearValue, onSelectedYe
 			<YearDiv>
 				{isOpen &&
 					years.map((year) => (
-          <Year
-            key={year.id}
-            selected={year.name === selectedYearValue}
-            onClick={() => onSelectedYear(year)}
-          >
-            {year.name}
-          </Year>)
-					)}
+						<Year
+							key={year.id}
+							select={year.name === selectedYearName}
+							onClick={() => {
+								onSelectedYear(year);
+								closeDropdown(false);
+							}}
+						>
+							{year.name}
+						</Year>
+					))}
 			</YearDiv>
 		</PeriodDiv>
 	);
@@ -47,7 +54,7 @@ export default PeriodFilter;
 const PeriodDiv = styled.div`
 	font-size: var(--font-size-14);
 	font-family: 'Noto Sans KR', sans-serif;
-	margin-top: 26px;
+	margin: 24px 0;
 `;
 
 const Arrow = styled.span`
@@ -55,14 +62,13 @@ const Arrow = styled.span`
 `;
 
 const SelectButton = styled.button`
-	// width: 123px;
 	height: 36px;
 	border: 1px solid #dadce0;
 	border-radius: 4px;
 	font-weight: 500;
-	margin-bottom: 4px;
-  padding: 0px 15px 0px 14px;
+	padding: 0px 15px 0px 14px;
 	background-color: white;
+	cursor: pointer;
 	&:hover {
 		background-color: #fdf3ef;
 		color: #e16e38;
@@ -76,7 +82,7 @@ const YearDiv = styled.div`
 	z-index: 100;
 	background-color: white;
 	line-height: 31px;
-  box-shadow: 0px 4px 14px 0px #00000033;
+	box-shadow: 0px 4px 14px 0px #00000033;
 `;
 
 const Year = styled.div`
@@ -89,7 +95,7 @@ const Year = styled.div`
 		cursor: pointer;
 	}
 	${(props) =>
-		props.selected
+		props.select
 			? `
   background-color: #FDF3EF;
   color: #E16E38;

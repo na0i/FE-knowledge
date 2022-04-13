@@ -11,7 +11,7 @@ export const HeatmapChartLayer = ({ data, width }) => {
 				</ChartTitleBox>
 				<ChartFilterBox>
 					<ChartFilterSubBox>
-						<ChartFilterTitle>기 간:</ChartFilterTitle>
+						<ChartFilterTitle>기간 </ChartFilterTitle>
 						<ChartFilter>
 							<option>과거 5분기</option>
 						</ChartFilter>
@@ -58,7 +58,8 @@ const ChartFilterSubBox = styled.div`
 `;
 
 const ChartFilterTitle = styled.div`
-	width: 30%;
+	width: 20%;
+	font-size: 0.75rem;
 `;
 
 const ChartFilter = styled.select`

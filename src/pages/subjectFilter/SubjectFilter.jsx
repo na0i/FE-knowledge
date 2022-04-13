@@ -9,10 +9,12 @@ import PaperList from 'src/components/paper/paperList';
 
 import { getChartData, getPaperTrend } from 'src/API/chart';
 import { getPaperRecommend } from 'src/API/search';
-import { getAdjacentSubjectLabels, getSubLabels } from 'src/API/subject';
+import { getAdjacentSubjectLabels, getSubLabels, getSubjectData } from 'src/API/subject';
 import { getConceptLabels } from 'src/API/concept';
 
 import { SubjectSelector } from './subjectSelector';
+import { SortRadioButton } from 'src/components/button/sortRadioButton';
+import { MoreButton } from 'src/components/button/moreButton';
 
 const SubjectFilter = () => {
 	const [chartData, setChartData] = useState([]);
@@ -40,6 +42,10 @@ const SubjectFilter = () => {
 		setConceptLabel(await getConceptLabels());
 	};
 
+	const fetchSubjectData = async () => {
+		setSubjectData(await getSubjectData());
+	};
+
 	const fetchRecommandData = async () => {
 		setRecommandPaper(await getPaperRecommend());
 	};
@@ -63,7 +69,7 @@ const SubjectFilter = () => {
 		fetchSubLabelData();
 		fetchConceptLabelData();
 		getPaperTrendData();
-		// fetchSubjectData();
+		fetchSubjectData();
 	}, []);
 
 	return (
@@ -73,28 +79,19 @@ const SubjectFilter = () => {
 				<ContentsUpperBox>
 					<ContentsFilter>
 						<FilterLayerBox>
-							<Title>주제어 필터</Title>
-							<SubjectSelector />
-						</FilterLayerBox>
-						<FilterLayerBox>
 							<FilterButtonLayer
-								onClick={fetchAdjacentLabelData}
+								onClick={gotoSubject}
 								type="label"
 								title={'인접 주제'}
 								data={adjacentLabel}
 							/>
 						</FilterLayerBox>
 						<FilterLayerBox>
-							<FilterButtonLayer
-								onClick={fetchSubLabelData}
-								type="label"
-								title={'하위 주제'}
-								data={subLabel}
-							/>
+							<FilterButtonLayer onClick={gotoSubject} type="label" title={'하위 주제'} data={subLabel} />
 						</FilterLayerBox>
 						<FilterLayerBox>
 							<FilterButtonLayer
-								onClick={fetchConceptLabelData}
+								onClick={gotoConcept}
 								type="route"
 								title={'인접 개념어'}
 								data={conceptLabel}
@@ -106,18 +103,21 @@ const SubjectFilter = () => {
 						<HeatmapChartLayer width={85} data={trendChartData} />
 					</ContentsChart>
 				</ContentsUpperBox>
-				<Divider />
 				<ContentsLowerBox>
 					<LowerBoxHeader>
 						<Title>주제 관련 논문 추천</Title>
-						<FilterSelect>
+						{/* <FilterSelect>
 							<option>중요도 순</option>
-						</FilterSelect>
+						</FilterSelect> */}
+						<SortRadioButton />
 					</LowerBoxHeader>
 					<RecommendLayout>
 						{recommandPaper?.map((paper) => (
 							<PaperList paper={paper} key={paper.id} />
 						))}
+						<ButtonWrapper>
+							<MoreButton />
+						</ButtonWrapper>
 					</RecommendLayout>
 				</ContentsLowerBox>
 			</Frame>
@@ -129,9 +129,8 @@ export default SubjectFilter;
 const Frame = styled.div`
 	margin: 0 auto;
 	min-height: calc(100vh - 140px);
-	width: 80vw;
+	width: 990px;
 	padding: 30px;
-	border: 1px solid #d5e1e6;
 `;
 
 const ContentsUpperBox = styled.div`
@@ -153,25 +152,14 @@ const FilterLayerBox = styled.div`
 `;
 
 const Title = styled.p`
-	font-size: 1.3rem;
+	font-size: var(--font-size-20);
 	margin: 10px 0;
-`;
-
-const Select = styled.select`
-	width: 80%;
-	border-radius: 5px;
-	border: 1px solid #9fb8c6;
-	margin: 5px;
-	height: 40px;
-	:focus {
-		outline: none;
-	}
 `;
 
 const ContentsChart = styled.div`
 	display: flex;
 	align-items: center;
-	width: 60%;
+	width: 80%;
 	flex-direction: column;
 `;
 
@@ -186,23 +174,14 @@ const LowerBoxHeader = styled.div`
 	align-items: center;
 `;
 
-const FilterSelect = styled.select`
-	border-radius: 5px;
-	border: 1px solid #9fb8c6;
-	height: 40px;
-	:focus {
-		outline: none;
-	}
-`;
-
-const Divider = styled.hr`
-	border-width: 1px 0px 0px 0px;
-	border-style: solid;
-	height: 1px;
-	width: 98%;
-	border-color: #e9f2f9;
-	margin: 0 auto;
-`;
+// const FilterSelect = styled.select`
+// 	border-radius: 5px;
+// 	border: 1px solid #9fb8c6;
+// 	height: 40px;
+// 	:focus {
+// 		outline: none;
+// 	}
+// `;
 
 const RecommendLayout = styled.ul`
 	width: 100%;
@@ -214,4 +193,9 @@ const RecommendLayout = styled.ul`
 		margin: 0.5rem;
 		line-height: 1.5;
 	}
+`;
+
+const ButtonWrapper = styled.div`
+	display: flex;
+	justify-content: center;
 `;

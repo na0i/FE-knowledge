@@ -6,7 +6,7 @@ import SearchResult from './searchResult';
 import InterestedPaper from './interestedPaper';
 import SearchHeader from 'src/components/header/searchHeader';
 import { getPaperSearchList } from 'src/API/search';
-import { SearchNoResult } from './searchNoResult';
+import { SortRadioButton } from 'src/components/button/sortRadioButton';
 
 const SearchList = () => {
 	const yearArr = [
@@ -31,28 +31,36 @@ const SearchList = () => {
 	const setPaperList = async (year) => {
 		const paperList = await getPaperList();
 		const filteredPaperList = paperList.filter((element) => parseInt(element.year) >= year);
- 		setSearchedPaperList(filteredPaperList);
+		setSearchedPaperList(filteredPaperList);
 	};
 
 	// current year
 	const onSelectedYear = (year) => {
-    setSelectedYearValue(year.value);
-    setSelectedYearName(year.name);
+		setSelectedYearValue(year.value);
+		setSelectedYearName(year.name);
 	};
 
 	useEffect(() => setPaperList(selectedYearValue), [selectedYearValue]);
+
 	return (
 		<Wrapper>
 			<SearchHeader font={24} />
 			<Body>
-				<PeriodFilter years={yearArr} selectedYearName={selectedYearName} selectedYearValue={selectedYearValue} onSelectedYear={onSelectedYear} />
-			<SubHeader>
+				<PeriodFilter
+					years={yearArr}
+					selectedYearName={selectedYearName}
+					selectedYearValue={selectedYearValue}
+					onSelectedYear={onSelectedYear}
+				/>
+				<SubHeader>
 					<PaperLength>
-            <span>검색결과 </span>
-            <PointColor>{searchedPaperList.length}</PointColor>
-          </PaperLength>
-          <SortOptions>
-          </SortOptions>
+						<span>검색결과 </span>
+						<PointColor>{searchedPaperList.length}</PointColor>
+					</PaperLength>
+					<div>
+						{/* <SortRadioButton sortFatchFunction={} /> */}
+						<SortRadioButton />
+					</div>
 				</SubHeader>
 				<SearchResult paperList={searchedPaperList} />
 				<InterestedPaper />
@@ -76,25 +84,18 @@ const Body = styled.div`
 	width: 990px;
 `;
 
-
-///////////////////
 const SubHeader = styled.div`
-  padding: 36px 0px 24px 0px;
+	margin: 0 auto 36px auto;
 	display: flex;
 	width: 990px;
-	margin: 0 auto;
 	justify-content: space-between;
-	border-bottom: 1px solid #F0F0F0;
 `;
 
 const PaperLength = styled.span`
-font-size: var(--font-size-16);
-font-weight: 700;
+	font-size: var(--font-size-16);
+	font-weight: 700;
 `;
 
 const PointColor = styled.span`
-  color: var(--color-orange-point);
+	color: var(--color-orange-point);
 `;
-
-const SortOptions = styled.div``
-const Option = styled.span``

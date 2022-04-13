@@ -1,23 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { observer } from 'mobx-react-lite';
+import rootStore from 'src/stores/rootStore';
 import { highlight } from 'src/utils/highlight/highlight';
 import { useNavigate } from 'react-router-dom';
 import { UseLocationQuery } from 'src/utils/useLocation';
-import rootStore from 'src/stores/rootStore';
+import { ReactComponent as Star } from 'src/assets/star.svg';
+import { ReactComponent as YellowStar } from 'src/assets/star-yellow.svg';
 
-const PaperList = ({ paper }) => {
+const PaperList = observer(({ paper }) => {
 	const search = UseLocationQuery();
 	const navigate = useNavigate();
 	const { searchStore } = rootStore();
+
+	const [isHere, setIsHere] = useState(false);
+	const checkIsHere = (paperId) => {
+		let check = searchStore.interestedPapers.find((item) => item.id === paperId);
+		check ? setIsHere(true) : setIsHere(false);
+	};
+
+	useEffect(() => checkIsHere(paper.id), [searchStore.flag]);
 
 	return (
 		<PaperListLayout key={paper.id}>
 			<div>
 				<TitleLayout className="justify-between">
-					<Title className="title-font f-20 m-0" onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
+					<Title className="title-font m-0" onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
 						{search.q ? highlight(paper.title, search.q) : paper.title}
 					</Title>
-					<AddPaperBtn onClick={() => searchStore.addInterestedPaper(paper)}>관심 등록</AddPaperBtn>
+					{isHere ? (
+						<AddPaperBtn className="center" onClick={() => searchStore.removeInterestedPaper(paper)}>
+							<YellowStar />
+							관심해제
+						</AddPaperBtn>
+					) : (
+						<AddPaperBtn className="center" onClick={() => searchStore.addInterestedPaper(paper)}>
+							<Star />
+							관심등록
+						</AddPaperBtn>
+					)}
 				</TitleLayout>
 				<li>
 					<ListTitle>저자</ListTitle>
@@ -46,7 +67,7 @@ const PaperList = ({ paper }) => {
 			</div>
 		</PaperListLayout>
 	);
-};
+});
 
 export default PaperList;
 
@@ -54,21 +75,30 @@ export default PaperList;
 
 const PaperListLayout = styled.ul`
 	width: 100%;
-	padding: 0.5rem 1.5rem;
-	padding: 2rem 1.5rem;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	padding: 18px 0;
+	border-top: 1px solid #f0f0f0;
 	li {
-		font-size: 0.9rem;
+		font-size: 14px;
 		display: flex;
 		list-style: none;
 		margin: 0.8rem;
 		line-height: 1;
+		a {
+			color: var(--color-blue-point);
+		}
 	}
 `;
 
 const Title = styled.div`
-	line-height: 1.5;
+	width: 867px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	line-height: 29px;
 	cursor: pointer;
+	font-size: var(--font-size-20);
 	&:hover {
 		text-decoration: 1px underline;
 		text-underline-position: under;
@@ -82,21 +112,25 @@ const TitleLayout = styled.div`
 
 const ListTitle = styled.div`
 	color: #7f7f7f;
+	font-size: 14px;
 	min-width: 120px;
 `;
 
 const AddPaperBtn = styled.button`
-	border: 1px solid #efefef;
-	margin-left: 1rem;
-	width: 100px;
-	min-width: 100px;
-	height: 35px;
-	max-height: 35px;
-	font-weight: bold;
+	width: 91px;
+	height: 32px;
 	cursor: pointer;
-	background: white;
-	border-radius: 5px;
+	font-size: var(--font-size-12);
+	color: var(--color-black-text3);
+	background: #ffffff;
+	border: 1px solid var(--color-gray-button);
+	box-sizing: border-box;
+	border-radius: 4px;
 	&:hover {
-		background: #f5f5f5;
+		border: 1px solid var(--color-gray-button-hover);
+		background: var(--color-white-hover);
+	}
+	svg {
+		margin-right: 4px;
 	}
 `;

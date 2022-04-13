@@ -37,8 +37,11 @@ const globalStyles = createGlobalStyle`
 		color:#454545;
 		strong{
 			font-weight: bold;
-			color:#252525;
+			
 		}
+	}
+	.tooltip .percent{
+		color:var(--color-orange-point);
 	}
 	.normal {
 		font-weight: 400;
