@@ -6,6 +6,7 @@ const tempChartData = {
 			type: 'line',
 			label: '인공지능',
 			borderColor: 'rgb(54, 162, 235)',
+			backgroundColor: 'rgb(54, 162, 235)',
 			borderWidth: 2,
 			data: [
 				{ x: '2019-4', y: 8 },
@@ -19,7 +20,7 @@ const tempChartData = {
 		{
 			type: 'line',
 			label: '공학 4.0',
-			backgroundColor: 'rgb(255, 99, 132)',
+			backgroundColor: '#FB8A3C',
 			data: [
 				{ x: '2019-4', y: 14 },
 				{ x: '2020-1', y: 20 },
@@ -27,7 +28,7 @@ const tempChartData = {
 				{ x: '2020-3', y: 41 },
 				{ x: '2020-4', y: 15 },
 			],
-			borderColor: 'red',
+			borderColor: '#FB8A3C',
 			borderWidth: 2,
 			yAxisID: 'y',
 		},
@@ -35,6 +36,7 @@ const tempChartData = {
 			type: 'line',
 			label: '운영효율성',
 			borderColor: 'rgb(75, 192, 192)',
+			backgroundColor: 'rgb(75, 192, 192)',
 			borderWidth: 2,
 			data: [
 				{ x: '2019-4', y: 16 },

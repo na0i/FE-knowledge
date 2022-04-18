@@ -24,6 +24,10 @@ const SubjectFilter = () => {
 	const [conceptLabel, setConceptLabel] = useState([]);
 	const [subLabel, setSubLabel] = useState([]);
 	const [subjectData, setSubjectData] = useState([]);
+	const [sortOptions, setSortOptions] = useState([
+		{ id: 1, selected: true, name: '정확도' },
+		{ id: 2, selected: false, name: '최신순' },
+	]);
 	const navigate = useNavigate();
 
 	const fetchChartData = async () => {
@@ -99,17 +103,14 @@ const SubjectFilter = () => {
 						</FilterLayerBox>
 					</ContentsFilter>
 					<ContentsChart>
-						<GraphChartLayer width={85} data={chartData} />
-						<HeatmapChartLayer width={85} data={trendChartData} />
+						<GraphChartLayer width={100} data={chartData} />
+						<HeatmapChartLayer width={100} data={trendChartData} />
 					</ContentsChart>
 				</ContentsUpperBox>
 				<ContentsLowerBox>
 					<LowerBoxHeader>
 						<Title>주제 관련 논문 추천</Title>
-						{/* <FilterSelect>
-							<option>중요도 순</option>
-						</FilterSelect> */}
-						<SortRadioButton />
+						<SortRadioButton sortOptions={sortOptions} setSortOptions={setSortOptions} />
 					</LowerBoxHeader>
 					<RecommendLayout>
 						{recommandPaper?.map((paper) => (
@@ -127,39 +128,39 @@ const SubjectFilter = () => {
 export default SubjectFilter;
 
 const Frame = styled.div`
-	margin: 0 auto;
 	min-height: calc(100vh - 140px);
+	margin: 60px auto;
 	width: 990px;
-	padding: 30px;
 `;
 
 const ContentsUpperBox = styled.div`
-	padding: 20px 10px;
 	min-height: 70%;
 	display: flex;
 	justify-content: space-between;
 `;
 
 const ContentsFilter = styled.div`
-	padding: 30px 20px;
 	display: flex;
 	width: 50%;
+	max-width: 380px;
 	flex-direction: column;
 `;
 
 const FilterLayerBox = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 34px;
 `;
 
 const Title = styled.p`
 	font-size: var(--font-size-20);
-	margin: 10px 0;
+	font-weight: 700;
+	/* margin: 10px 0; */
 `;
 
 const ContentsChart = styled.div`
 	display: flex;
 	align-items: center;
-	width: 80%;
+	width: 50%;
+	max-width: 485px;
 	flex-direction: column;
 `;
 
@@ -168,10 +169,10 @@ const ContentsLowerBox = styled.div`
 `;
 
 const LowerBoxHeader = styled.div`
-	padding: 20px 30px;
+	margin: 80px 0px 20px 0px;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: end;
 `;
 
 // const FilterSelect = styled.select`
@@ -185,14 +186,13 @@ const LowerBoxHeader = styled.div`
 
 const RecommendLayout = styled.ul`
 	width: 100%;
-	padding: 0.5rem 1rem;
-	li {
+	/* li {
 		font-size: 0.85rem;
 		display: flex;
 		list-style: none;
 		margin: 0.5rem;
 		line-height: 1.5;
-	}
+	} */
 `;
 
 const ButtonWrapper = styled.div`

@@ -166,6 +166,33 @@ const globalStyles = createGlobalStyle`
 	.mb-100 {
 		margin-bottom: 100px;
 	}
+	.mr-5 {
+		margin-right: 5px;
+	}
+	.mr-8 {
+		margin-right: 8px;
+	}
+	.mr-16 {
+		margin-right: 16px;
+	}
+	.mr-24 {
+		margin-right: 24px;
+	}
+	.mr-32 {
+		margin-right: 32px;
+	}
+	.mr-40 {
+		margin-right: 40px;
+	}
+	.mr-48 {
+		margin-right: 48px;
+	}
+	.mr-56 {
+		margin-right: 56px;
+	}
+	.mr-100 {
+		margin-right: 100px;
+	}
 
 	.p-8{
 		padding: 8px;

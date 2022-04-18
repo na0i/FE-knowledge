@@ -21,6 +21,10 @@ const ConceptFilter = () => {
 	const [adjacentLabel, setAdjacentLabel] = useState([]);
 	const [subLabel, setSubLabel] = useState([]);
 	const [trendChartData, setTrendChartData] = useState({});
+	const [sortOptions, setSortOptions] = useState([
+		{ id: 1, selected: true, name: '정확도' },
+		{ id: 2, selected: false, name: '최신순' },
+	]);
 
 	/*---------------------- data fetching -----------------------*/
 
@@ -62,7 +66,7 @@ const ConceptFilter = () => {
 			<SearchHeader font={24} />
 			<Frame>
 				<ContentsUpperBox>
-					<div className="flex">
+					<ContentsLayer>
 						<ContentsFilter>
 							<FilterLayerBox>
 								<FilterButtonLayer
@@ -84,16 +88,12 @@ const ConceptFilter = () => {
 						<ContentsChart>
 							<HeatmapChartLayer data={trendChartData} />
 						</ContentsChart>
-					</div>
+					</ContentsLayer>
 				</ContentsUpperBox>
 				<ContentsLowerBox>
 					<LowerBoxHeader>
 						<Title>개념어 관련 논문 추천</Title>
-						{/* <FilterSelect>
-							<option>중요도 순</option>
-						</FilterSelect> */}
-						{/* <SortRadioButton sortFatchFunction={} /> */}
-						<SortRadioButton />
+						<SortRadioButton sortOptions={sortOptions} setSortOptions={setSortOptions} />
 					</LowerBoxHeader>
 					<RecommendLayout>
 						{recommandPaper?.map((paper) => (
@@ -112,63 +112,60 @@ export default ConceptFilter;
 
 const Frame = styled.div`
 	min-height: calc(100vh - 140px);
-	margin: 0 auto;
+	margin: 60px auto;
 	width: 990px;
-	padding: 30px;
 `;
 const ContentsUpperBox = styled.div`
 	min-height: 70%;
 `;
+
+const ContentsLayer = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
 const ContentsLowerBox = styled.div`
 	min-height: 30%;
 `;
 const LowerBoxHeader = styled.div`
-	padding: 20px 30px;
+	margin: 80px 0px 20px 0px;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: end;
 `;
-// const FilterSelect = styled.select`
-// 	border-radius: 5px;
-// 	border: 1px solid #9fb8c6;
-// 	height: 40px;
-// 	:focus {
-// 		outline: none;
-// 	}
-// `;
 
 const FilterLayerBox = styled.div`
-	margin-bottom: 20px;
+	margin-bottom: 34px;
 `;
 
 const ContentsFilter = styled.div`
-	padding: 30px 20px;
 	display: flex;
 	width: 50%;
+	max-width: 380px;
 	flex-direction: column;
 `;
 
 const Title = styled.p`
 	font-size: var(--font-size-20);
-	margin: 10px 0;
+	font-weight: 700;
 `;
 
 const ContentsChart = styled.div`
 	display: flex;
-	width: 80%;
+	width: 50%;
+	max-width: 485px;
 	flex-direction: column;
 `;
 
 const RecommendLayout = styled.ul`
 	width: 100%;
-	padding: 0.5rem 1rem;
-	li {
+	/* li {
 		font-size: 0.85rem;
 		display: flex;
 		list-style: none;
 		margin: 0.5rem;
 		line-height: 1.5;
-	}
+	} */
 `;
 
 const ButtonWrapper = styled.div`

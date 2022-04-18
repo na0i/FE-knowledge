@@ -40,8 +40,8 @@ const options = {
 			borderWidth: 2,
 			borderColor: '#dadce0',
 			caretSize: 5,
-			padding: 20,
-			bodySpacing: 10,
+			padding: 10,
+			bodySpacing: 13,
 			bodyFont: {
 				font: {
 					family: "'Noto Sans KR', sans-serif",

@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import noResult from '../../assets/noResult.svg';
+import { UseLocationQuery } from 'src/utils/useLocation';
 
 export const SearchNoResult = () => {
+	const search = UseLocationQuery();
+
 	return (
 		<Wrapper>
 			<img src={noResult} alt=""></img>
 			<Title>
-				<PointColor>'학술'</PointColor>에 대한 검색 결과는 모두 <PointColor>0건</PointColor>이 조회되었습니다.
+				<PointColor>{"'" + search.q + "'"}</PointColor>에 대한 검색 결과는 모두 <PointColor>0건</PointColor>이
+				조회되었습니다.
 			</Title>
 			<Desc>
 				<div>검색결과를 찾을 수 없습니다.</div>
@@ -34,6 +38,7 @@ const Title = styled.div`
 
 const PointColor = styled.span`
 	color: var(--color-orange-point);
+	font-weight: 700;
 `;
 
 const Desc = styled.div`

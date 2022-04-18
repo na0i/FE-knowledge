@@ -14,57 +14,72 @@ const InterestedPaper = observer(() => {
 
 	return (
 		<InterestedLayout>
-			<div className="justify-between">
-				<h1 className="f-24 justify-between title-font">
-					관심있는 논문
-					{/* <SortRadioButton sortFatchFunction={} /> */}
-					<SortRadioButton />
-				</h1>
-			</div>
+			<h1>
+				관심있는 논문
+				{/* <SortRadioButton /> */}
+			</h1>
 
-			<div className="mt-32">
-				{searchStore.interestedPapers?.map((paper) => (
-					<div key={paper.id}>
-						<LeftBox>
-							<div key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
-								{paper.title}
-							</div>
-						</LeftBox>
-						<RightBox>
-							<RemoveButton className="center" onClick={() => searchStore.removeInterestedPaper(paper)}>
-								<YellowStar />
-								관심해제
-							</RemoveButton>
-						</RightBox>
-					</div>
-				))}
-			</div>
+			{searchStore.interestedPapers?.map((paper) => (
+				<PaperLayout key={paper.id}>
+					<TitleBox>
+						<p key={paper.id} onClick={() => navigate(`/search/paper?id=${paper.id}`)}>
+							{paper.title}
+						</p>
+					</TitleBox>
+					<RemoveButton onClick={() => searchStore.removeInterestedPaper(paper)}>
+						<YellowStar />
+						관심해제
+					</RemoveButton>
+				</PaperLayout>
+			))}
 		</InterestedLayout>
 	);
 });
 
 export default InterestedPaper;
 
-const LeftBox = styled.div`
-	color: #55a3d7;
-	width: 867px;
-	float: left;
-	margin: 20px 0px 10px 0px;
-	cursor: pointer;
-	&:hover {
-		text-decoration: 1px underline;
-		text-underline-position: under;
+const InterestedLayout = styled.ul`
+	width: 990px;
+	margin: 80px 0;
+	h1 {
+		border-bottom: 1px solid #efefef;
+		font-size: var(--font-size-20);
+		font-weight: 700;
+		padding-bottom: 20px;
+	}
+	font-family: 'Noto Sans KR', sans-serif;
+`;
+
+const PaperLayout = styled.div`
+	width: 990px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 18px 0px;
+`;
+
+const TitleBox = styled.div`
+	color: #000000;
+	p {
+		padding-bottom: 3px; // g, p, q, j가 잘리는 현상 때문에
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 1;
+		-webkit-box-orient: vertical;
+		font-size: var(--font-size-18);
+		&:hover {
+			cursor: pointer;
+			text-decoration: 1px underline;
+			text-underline-position: under;
+		}
 	}
 `;
 
-const RightBox = styled.div`
-	float: left;
-	margin: 10px 0px 10px 0px;
-
-	justify-content: center;
-`;
-
 const RemoveButton = styled.button`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	width: 91px;
 	height: 32px;
 	cursor: pointer;
@@ -81,20 +96,4 @@ const RemoveButton = styled.button`
 	svg {
 		margin-right: 4px;
 	}
-`;
-
-const InterestedLayout = styled.ul`
-	margin: 5rem 0;
-
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	width: 990px;
-	h1 {
-		width: 100%;
-		padding: 2rem 1rem 1rem 1rem;
-		border-bottom: 1px solid #efefef;
-	}
-	font-family: 'Noto Sans KR', sans-serif;
 `;

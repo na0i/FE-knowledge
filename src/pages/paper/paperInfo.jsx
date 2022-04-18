@@ -102,6 +102,9 @@ const PaperInfoLayout = styled.ul`
 	span {
 		color: black;
 	}
+	a {
+		color: var(--color-blue-point);
+	}
 `;
 
 const ListTitle = styled.div`

@@ -12,13 +12,11 @@ export const SubjectSelector = ({ data }) => {
 	const [valueSub, setValueSub] = useState('');
 
 	const handleLargeOption = (text) => {
-		console.log(data?.filter((item) => item.refId === null));
 		setValueLarge(data[0]?.text);
 		setLargeRef(data[0]?.id);
 		setValueLargeOptions(data?.filter((item) => item.refId === null));
 	};
 	const handleMiddleOption = (id, text) => {
-		console.log(data?.filter((item) => item.refId === id));
 		setLargeRef(id);
 		setValueLarge(text);
 		setValueMiddle('');
@@ -26,7 +24,6 @@ export const SubjectSelector = ({ data }) => {
 		setValueMiddleOptions(data?.filter((item) => item.refId === id));
 	};
 	const handleSubOptions = (id, text) => {
-		console.log(data?.filter((item) => item.refId === id));
 		setMiddleRef(id);
 		setValueMiddle(text);
 		setValueSub('');
@@ -53,7 +50,6 @@ export const SubjectSelector = ({ data }) => {
 	};
 
 	useEffect(() => {
-		console.log(data);
 		handleLargeOption();
 	}, [data]);
 

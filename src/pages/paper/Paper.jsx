@@ -59,7 +59,7 @@ const SearchDetail = styled.div`
 const PaperHeader = styled.div`
 	width: 100%;
 	line-height: 35px;
-	padding: 1rem 1rem 2rem 1rem;
+	padding-bottom: 30px;
 	border-bottom: 1px solid #efefef;
 `;
 

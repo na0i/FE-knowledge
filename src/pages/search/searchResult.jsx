@@ -7,14 +7,14 @@ const SearchResult = ({ paperList }) => {
 	return (
 		<SearchResultLayout>
 			<div>
-				{paperList.length ? (
+				{!paperList.length ? (
+					<SearchNoResult />
+				) : (
 					<>
 						{paperList.map((paper) => (
 							<PaperList key={paper.id} paper={paper} />
 						))}
 					</>
-				) : (
-					<SearchNoResult />
 				)}
 			</div>
 		</SearchResultLayout>

@@ -35,11 +35,11 @@ export const GraphChartLayer = ({ data, width }) => {
 const ChartPaper = styled.div`
 	width: ${(props) => (props.width ? `${props.width}%` : '100%')};
 	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2);
-	margin: 10px 0;
+	margin-bottom: 26px;
 `;
 
 const ChartHeader = styled.div`
-	padding: 10px 30px;
+	padding: 22px 20px 42px 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -63,7 +63,7 @@ const ChartFilterSubBox = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 10px;
+	margin: 10px 0px;
 `;
 
 const ChartFilterTitle = styled.div`

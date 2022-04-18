@@ -74,14 +74,14 @@ export default PaperList;
 /******************************** styled-components ********************************/
 
 const PaperListLayout = styled.ul`
-	width: 100%;
-	padding: 18px 0;
+	width: 990px;
+	padding: 19px 0;
 	border-top: 1px solid #f0f0f0;
 	li {
-		font-size: 14px;
+		font-size: var(--font-size-14);
 		display: flex;
 		list-style: none;
-		margin: 0.8rem;
+		margin: 10px 0;
 		line-height: 1;
 		a {
 			color: var(--color-blue-point);
@@ -90,7 +90,8 @@ const PaperListLayout = styled.ul`
 `;
 
 const Title = styled.div`
-	width: 867px;
+	max-width: 849px;
+	padding-bottom: 16px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;
@@ -107,7 +108,6 @@ const Title = styled.div`
 
 const TitleLayout = styled.div`
 	width: 100%;
-	padding: 0 8px 8px 8px;
 `;
 
 const ListTitle = styled.div`
@@ -126,6 +126,7 @@ const AddPaperBtn = styled.button`
 	border: 1px solid var(--color-gray-button);
 	box-sizing: border-box;
 	border-radius: 4px;
+	margin-left: 50px;
 	&:hover {
 		border: 1px solid var(--color-gray-button-hover);
 		background: var(--color-white-hover);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+
 /************************************* jsx *************************************/
 //trendChart
 export const TrendChart = ({ chartData }) => {
@@ -16,9 +17,10 @@ export const TrendChart = ({ chartData }) => {
 			type: 'heatmap',
 			toolbar: {
 				offsetX: -15,
-				offsetY: -35,
+				offsetY: -47,
 				show: true,
 				tools: {
+					// download: '<img src="src/assets/menu.svg" class="ico-download" width="20">',
 					download: true,
 					selection: false,
 					zoom: false,

@@ -26,12 +26,13 @@ export const FilterButtonLayer = ({ title, data, type, onClick }) => {
 };
 
 const Title = styled.p`
-	font-size: 0.875rem;
+	font-size: var(--font-size-12);
 	font-weight: 700;
-	margin: 10px 0;
+	margin: 12px 0;
 `;
 
 const SubjectButtonBox = styled.div`
+	font-size: var(--font-size-12);
 	width: 100%;
 	display: flex;
 	flex-wrap: wrap;

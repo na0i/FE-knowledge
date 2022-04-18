@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { useNavigate } from 'react-router-dom';
-import { SearchBoxComp } from 'src/components/search';
+import { SearchBoxComp } from 'src/components/search/search';
 import { UseLocationQuery } from 'src/utils/useLocation';
 import { ReactComponent as Logo } from 'src/assets/logo-header.svg';
 
@@ -20,7 +20,7 @@ const SearchHeader = () => {
 				<LogoFrame onClick={gotoMain}>
 					<Logo />
 				</LogoFrame>
-				<SearchBoxComp font={16} width={540} height={50} text={search.q} />
+				<SearchBoxComp font={16} width={540} selectWidth={110} height={50} text={search.q} />
 			</HeaderFrame>
 		</SearchHeaderLayout>
 	);

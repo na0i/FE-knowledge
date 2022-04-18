@@ -1,10 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import listOpen from '../../assets/listOpen.svg';
-import listClose from '../../assets/listClose.svg';
+import { ReactComponent as UpSVG } from 'src/assets/listClose.svg';
 import styled from 'styled-components';
 
-const PeriodFilter = ({ years, selectedYearName, selectedYearValue, onSelectedYear }) => {
+const PeriodFilter = ({ years, selectedYear, setSelectedYear, onSelectedYear }) => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const openDropdown = () => {
@@ -18,26 +17,19 @@ const PeriodFilter = ({ years, selectedYearName, selectedYearValue, onSelectedYe
 	return (
 		<PeriodDiv>
 			<SelectButton className="center" onClick={() => openDropdown()}>
-				<span>{selectedYearName}</span>
-				{isOpen && (
-					<Arrow>
-						<img src={listClose} alt="" />
-					</Arrow>
-				)}
-				{!isOpen && (
-					<Arrow>
-						<img src={listOpen} alt="" />
-					</Arrow>
-				)}
+				<span>{selectedYear.name}</span>
+				<Arrow isOpen={isOpen}>
+					<UpSVG />
+				</Arrow>
 			</SelectButton>
 			<YearDiv>
 				{isOpen &&
-					years.map((year) => (
+					years.map((year, idx) => (
 						<Year
 							key={year.id}
-							select={year.name === selectedYearName}
+							select={year.id === selectedYear.id}
 							onClick={() => {
-								onSelectedYear(year);
+								onSelectedYear(idx);
 								closeDropdown(false);
 							}}
 						>
@@ -59,6 +51,10 @@ const PeriodDiv = styled.div`
 
 const Arrow = styled.span`
 	padding-left: 13px;
+	svg {
+		transition: all 0.2s;
+		transform: ${(props) => (props.isOpen ? '0' : 'rotate(180deg)')};
+	}
 `;
 
 const SelectButton = styled.button`

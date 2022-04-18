@@ -1,34 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-export const SortRadioButton = ({ sortFatchFunction }) => {
-	const [selected, setSelected] = useState('정확도');
-
-	const changeSelect = (sortBy) => {
-		setSelected(sortBy);
+export const SortRadioButton = ({ sortOptions, setSortOptions }) => {
+	const changeSelect = (id) => {
+		let sortOptionsTemp = sortOptions;
+		sortOptionsTemp.forEach((option) => {
+			if (option.id === id) option.selected = true;
+			else option.selected = false;
+		});
+		setSortOptions([...sortOptionsTemp]);
 	};
 
 	return (
 		<Select>
-			<Option
-				selected={selected === '정확도'}
-				onClick={() => {
-					// sortFatchFunction();
-					changeSelect('정확도');
-				}}
-			>
-				정확도
-			</Option>
-			<Line />
-			<Option
-				selected={selected === '최신순'}
-				onClick={() => {
-					// sortFatchFunction();
-					changeSelect('최신순');
-				}}
-			>
-				최신순
-			</Option>
+			{sortOptions?.map((option) => {
+				return (
+					<div key={option.id}>
+						<Option select={option.selected} onClick={() => changeSelect(option.id)}>
+							{option.name}
+						</Option>
+						{option.id < sortOptions.length ? <Line /> : <></>}
+					</div>
+				);
+			})}
 		</Select>
 	);
 };
@@ -46,13 +40,7 @@ const Option = styled.span`
 	&:hover {
 		cursor: pointer;
 	}
-	${(props) =>
-		props.selected
-			? `
-			font-weight: 700;
-			color: var(--color-black-text2);
-  	`
-			: `none`};
+	font-weight: ${(props) => (props.select ? 'bold' : 'normal')};
 `;
 
 const Line = styled.div`

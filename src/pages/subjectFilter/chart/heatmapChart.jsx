@@ -30,7 +30,7 @@ const ChartPaper = styled.div`
 `;
 
 const ChartHeader = styled.div`
-	padding: 10px 30px;
+	padding: 22px 30px 16px 20px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -41,8 +41,8 @@ const ChartTitleBox = styled.div`
 `;
 
 const ChartTitle = styled.p`
-	font-size: 1.2rem;
-	margin: 10px;
+	font-size: var(--font-size-16);
+	/* margin: 10px; */
 	font-weight: bold;
 `;
 
@@ -74,4 +74,5 @@ const ChartFilter = styled.select`
 
 const ChartBox = styled.div`
 	height: 80%;
+	font-size: var(--font-size-12);
 `;
