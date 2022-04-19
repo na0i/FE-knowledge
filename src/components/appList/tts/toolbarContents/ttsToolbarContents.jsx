@@ -7,19 +7,24 @@ import { PlayMenu } from './playMenu';
 import { PlaySpeedMenu } from './playSpeedMenu';
 
 export const TtsToolbarContents = () => {
+	const ttsToolbarMenuList = [
+		{ key: 0, value: <TextMenu /> },
+		{ key: 1, value: <VoiceMenu /> },
+		{ key: 2, value: <PlayMenu /> },
+		{ key: 3, value: <PlaySpeedMenu /> },
+	];
+
 	return (
-		<>
-			<ContentsWrapper>
-				<TextMenu />
-				<VoiceMenu />
-				<PlayMenu />
-				<PlaySpeedMenu />
-			</ContentsWrapper>
-		</>
+		<ContentsWrapper>
+			{ttsToolbarMenuList.map((menu) => {
+				return <>{menu.value}</>;
+			})}
+		</ContentsWrapper>
 	);
 };
 
 const ContentsWrapper = styled.div`
+	position: relative;
 	display: flex;
 	justify-content: space-around;
 	&:hover {

@@ -29,8 +29,8 @@ const Frame = styled.div`
 	display: ${(props) => (props.open ? 'block' : 'none')};
 	z-index: 100;
 	position: absolute;
-	top: 80%;
-	left: 29%;
+	/* top: 80%;
+	left: 29%; */
 	background-color: white;
 `;
 

@@ -29,18 +29,24 @@ export const SpeedSelectDropdown = ({ open, right, options, setOptions, handleSp
 };
 
 const DropdownWrapper = styled.div`
-	display: ${(props) => (props.open ? 'block' : 'none')};
+	/* display: ${(props) => (props.open ? 'block' : 'none')};
 	z-index: 100;
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
 	background-color: black;
+	position: fixed;
+	padding: 0;
+	margin: 0;
+	width: 100vw;
+	height: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0; */
 `;
 
 const Frame = styled.div`
 	position: absolute;
-	top: 80%;
-	left: 80%;
+	/* top: 80%;
+	left: 80%; */
 	display: ${(props) => (props.open ? 'block' : 'none')};
 	z-index: 100;
 	width: 40px;
