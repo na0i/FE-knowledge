@@ -6,6 +6,7 @@ import { TtsDropdown } from './ttsDropdown';
 import { TtsModal } from './ttsModal';
 import { observer } from 'mobx-react-lite';
 import { appStore } from 'src/stores/appStore';
+import { TtsToolbar } from './ttsToolbar';
 
 export const Tts = observer(() => {
 	const appName = 'TTS';
@@ -18,7 +19,8 @@ export const Tts = observer(() => {
 				onClick={() => appStore.handleDropdown(appName)}
 			></AppButton>
 			<TtsDropdown appName={appName} open={appStore.isDropdownOpen} onClose={() => appStore.handleDropdown('')} />
-			<TtsModal appName={appName} open={appStore.isTtsModalOpen} onClose={() => appStore.closeMenu(appName)} />
+			{/* <TtsModal appName={appName} open={appStore.isTtsModalOpen} onClose={() => appStore.closeMenu(appName)} /> */}
+			<TtsToolbar open={appStore.isTtsModalOpen} onClose={() => appStore.closeMenu(appName)} />
 		</>
 	);
 });
