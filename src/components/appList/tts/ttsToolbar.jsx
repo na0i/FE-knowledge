@@ -1,6 +1,6 @@
 import React from 'react';
 import { Toolbar } from 'src/components/toolbar/toolbar';
-import { TtsToolbarContents } from './ttsToolbarContents';
+import { TtsToolbarContents } from './toolbarContents/ttsToolbarContents';
 
 export const TtsToolbar = ({ open, onClose }) => {
 	return (

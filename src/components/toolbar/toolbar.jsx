@@ -17,7 +17,7 @@ export const Toolbar = ({ width, height, children, onClose, open }) => {
 };
 
 const Frame = styled.div`
-	opacity: ${(props) => (props.open ? 1 : 0)};
+	display: ${(props) => (props.open ? 'block' : 'none')};
 	width: ${(props) => props.width};
 	height: ${(props) => props.height};
 	z-index: 100;
