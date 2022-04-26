@@ -41,9 +41,9 @@ export const useMic = () => {
 				const source = audioContext.createMediaStreamSource(stream);
 				if (window.Worker) {
 					const worker = new Worker('worklet/recordWorker.js');
-					worker.postMessage('워커 실행');
+					worker.postMessage('워커실행');
 					worker.onmessage = function (e) {
-						console.log('메인', e.data);
+						console.log(e.data);
 					};
 					worker.terminate();
 				}

@@ -1,11 +1,30 @@
-onmessage = function (e) {
-	console.log('Worker: Message received from main script');
-	const result = e.data[0] * e.data[1];
-	if (isNaN(result)) {
-		postMessage('Please write two numbers');
-	} else {
-		const workerResult = 'Result: ' + result;
-		console.log('Worker: Posting message back to main script');
-		postMessage(workerResult);
-	}
+// var i = 0;
+
+// function timedCount() {
+// 	console.log('d');
+// 	i = i + 1;
+// 	postMessage(i);
+
+// 	setTimeout(function () {
+// 		timedCount();
+// 	}, 500);
+// }
+
+// timedCount();
+var i = 0; // 1씩 증가시켜서 전달할 변수
+
+// 메시지 수신
+this.onmessage = function (e) {
+	loop();
 };
+
+// 호출한 페이지에 1씩 증가시킨 i를 1초마다 전달한다.
+function loop() {
+	// 1씩 증가시켜서 전달
+	postMessage(++i);
+
+	// 1초뒤에 다시 실행
+	setTimeout(function () {
+		loop();
+	}, 1000);
+}
