@@ -1,4 +1,4 @@
-### 220427
+###  220427
 
 #### Hyperbrain.ai 음성지능 페이지 source 분석하기
 
@@ -145,15 +145,17 @@ class ASR_master{
 				_samplerate=context.sampleRate;
 				_igcd = _samplerate / getGCD(_samplerate, 16000)
 				
+            	// recorder_wakeup.js의 record 함수 실행
 				rec.record();
 				sr=context.sampleRate
-				// console.log('recording');
 	
 			})
 			.catch(function (err) {
 				console.log(err);
 			});
-	
+		
+        // setInterval: 주기적으로 이벤트 발생
+        // 0.1초마다 recorder_wakeup.js의 getBuffer 함수 실행
 		this.intervalId = setInterval(this.startRec, 100);
 
 	
@@ -225,7 +227,7 @@ class Recorder {
 		
         // scriptprocess의 입력 버퍼가 처리될 준비가 되면 시작하는 이벤트를 나타냄
         this.node.onaudioprocess = (e) => {
-            if (!this.recording) return; // record 상태가 아니라면 return;
+            if (!this.recording) return; // 녹음 버튼 클릭하면 record() 함수 실행되고 recording = true;
 
             // numChannel: 1
             var buffer = [];
@@ -259,11 +261,16 @@ class Recorder {
                     notVoiceCnt += 1;
                 }
                 buffer.push(_resampled_data)
-
+				
+                // voiceCnt가 3을 넘으면 = 말을 하고 있으면
+                // wakeupFlag는 True
                 if(voiceCnt > this.wakeUpThreshold) {
                     _wakeupFlag = true;
                     _endToken = false;
                 }
+                
+                // notVoiceCnt(잡음보다 작은 소리)가 20보다 작다면
+                // endToken은 True
                 else if(_endToken === false && notVoiceCnt > this.endOfVoiceLength){
                     _endToken = true;
                     _wakeupFlag = false;
@@ -279,9 +286,12 @@ class Recorder {
             });
         };
 
+        // source(microphone)에 node를 연결
+        // node를 destination(출력)에 연결
         source.connect(this.node);
         this.node.connect(this.context.destination);    //this should not be necessary
 
+        // worker
         let self = {};
         this.worker = new InlineWorker(function () {
             let recLength = 0,
@@ -300,8 +310,6 @@ class Recorder {
                         init(e.data.config);
                         break;
                     case 'record':
-			// var resampled = waveResampler.resample(e.data.buffer, this.config.sr, 16000);
-                        // record(resampled, e.data.wakeup_flag, e.data.end_token);
                          record(e.data.buffer, e.data.wakeup_flag, e.data.end_token);
                         break;
                     case 'getBuffer':
@@ -316,7 +324,7 @@ class Recorder {
             function init(config) {
                 sampleRate = config.sampleRate;
                 numChannels = config.numChannels;
-                initBuffers();
+                initBuffers(); // recBuffers[0] 비우기
             }
 
             function record(inputBuffer, wakeupFlag, endToken) {
@@ -324,32 +332,44 @@ class Recorder {
                 _wakeupFlag_old = _wakeupFlag;
                 _wakeupFlag = wakeupFlag;
                 _endToken = endToken;
-
+				
+                // recBuffers[0]에 inputBuffer[0](=AUDIO INPUT)을 push
                 recBuffers[0].push(inputBuffer[0]);
                 recLength += inputBuffer[0].length;
 
                 if(_wakeupFlag === false && recBuffers[0].length > 10){
+                    // wakeupFlag === false: 잡음이라면
+                    // recBuffer에서 shift하고 length에서도 빼주자
+                    // shift: 배열에서 첫번째 요소를 제거하고 제거된 요소를 반환
                     tmp = recBuffers[0].shift();
                     recLength -= tmp.length;
                 }
             }
        
             function getBuffer() {
-		// var step_len = 1486
-		var step_len = 4096
+                var step_len = 4096
 
                 let buffers = [];
-                if(_wakeupFlag === true && _statusFlag === false){ // start asr
+                // _wakeupFlag === true: (잡음이 아닌) 정상적인 녹음 상태 시작이고
+                // _statusFlag === false: 녹음 중이 아니었을 때
+                // => 녹음을 시작했을 때
+                if(_wakeupFlag === true && _statusFlag === false){
                     _statusFlag = true;
 
                     _startIndex = 0;
-                    _endIndex = recBuffers[0].length;                
+                    _endIndex = recBuffers[0].length;
+                    
+                    // mergeBuffers: 빈 배열을 만들어 recBuffers[0]의 정보를 복사해 반환
                     buffers.push(mergeBuffers(recBuffers[0], (_endIndex - _startIndex) * step_len, _startIndex, _endIndex));
 
                     this.postMessage({command: 'getBuffer', data: buffers, wakeup_flag: _wakeupFlag, end_token:_endToken,
                     status_flag: _statusFlag});
                 }
-                else if(_endToken === false && _statusFlag === true){ // ongoing
+                
+                // _endToken === false: 녹음 상태 시작
+                // _statusFlag === true: 녹음 중인 상태
+                // => 녹음 중
+                else if(_endToken === false && _statusFlag === true){
    
                     _startIndex = _endIndex;
                     _endIndex = recBuffers[0].length;
@@ -358,7 +378,11 @@ class Recorder {
                     this.postMessage({command: 'getBuffer', data: buffers, wakeup_flag: _wakeupFlag, end_token:_endToken,
                     status_flag: _statusFlag});
                 }
-                else if(_endToken === true && _statusFlag === true){ // stop end
+                
+                // _endToken === true: (잡음만 들리거나 말이 없는 상태) 녹음 상태 아님 
+                // _statusFlag === true: 녹음 중인 상태
+                // => 녹음 중지
+                else if(_endToken === true && _statusFlag === true){
 
                     _startIndex = _endIndex;
                     _endIndex = recBuffers[0].length;
@@ -383,9 +407,10 @@ class Recorder {
 
             function mergeBuffers(recBuffers, recLength, start, end) {
                     
-                let result = new Float32Array(recLength);
+                let result = new Float32Array(recLength); // recLength 바이트 크기의 internal array buffer 생성 
                 let offset = 0;
                 for (let i=start; i < end; i++) {
+                    // set: offset 인덱스부터 recBuffers[i]의 배열을 복사해 저장
                     result.set(recBuffers[i], offset);
                     offset += recBuffers[i].length;
                 }
@@ -431,6 +456,72 @@ class Recorder {
         this.worker.postMessage({command: 'getBuffer'});
     }
 }
+
+```
+
+<br>
+
+##### inline_worker.js
+
+```javascript
+function InlineWorker(func, self) {
+  var _this = this;
+  var functionBody;
+
+  self = self || {};
+
+  if (WORKER_ENABLED) {
+    functionBody = func
+      .toString() // 문자열 반환
+      .trim() // 공백 제거
+      // match() 메서드
+      // - 문자열이 정규식과 매치되는 부분을 검색
+      // - 실행결과 일치하는 모든 문자열은 배열로 저장
+      
+      // ^: 입력 시작 문자열 매칭: function으로 시작함
+      // $: 입력 끝 문자열에 매칭
+      // ?: 0~1번 반복되는 문자열에 매칭
+      // *: 0번 이상 반복되는 문자열에 매칭
+      // \s: space를 표현(공백문자)
+      // \w: 알파벳, 숫자, _ 중 한 문자
+      // (): 그룹을 표현하며, 그룹으로 처리함
+      // [abc]: a 또는 b 또는 c와 일치, 점(.)이나 별표(*) 같은 특수 문자는 []안에서 특수 문자가 아님
+      
+      // function _ _ _ (_ _ _) {_ _ _}
+      .match(/^function\s*\w*\s*\([\w\s,]*\)\s*{([\w\W]*?)}$/)[1];
+
+    return new global.Worker(
+      // Blob: Blob: Binary Large Object의 줄임말로서 이미지, 사운드 파일과 같이 하나의 큰 파일을 의미
+      // URL.createObjectURL: 주어진 객체(여기선 Blob)를 가리키는 URL을 DOMString으로 변환하는 기능
+      // 예: http://localhost:1234/28ff8746-94eb-4dbe-9d6c-2443b581dd30
+        
+      global.URL.createObjectURL(
+        new global.Blob([functionBody], { type: "text/javascript" })
+      )
+      // 인자로 받은 func을 blob 객체로 그리고 다시 DOMString으로 변환해 return
+    );
+  }
+
+  
+  function postMessage(data) {
+    setTimeout(function () {
+      _this.onmessage({ data: data });
+    }, 0);
+  }
+
+  this.self = self;
+  this.self.postMessage = postMessage;
+
+  setTimeout(func.bind(self, self), 0);
+}
+
+InlineWorker.prototype.postMessage = function postMessage(data) {
+  var _this = this;
+
+  setTimeout(function () {
+    _this.self.onmessage({ data: data });
+  }, 0);
+};
 
 ```
 
