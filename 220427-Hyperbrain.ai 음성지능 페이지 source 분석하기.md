@@ -512,9 +512,14 @@ function InlineWorker(func, self) {
   this.self = self;
   this.self.postMessage = postMessage;
 
+  // setTimeout에 객체 내부 함수를 전달할 때 객체와 분리된 상태의 함수가 전달되는 문제가 있음
+  // 즉, this 가 사라지게 됨
+  // this를 수정할수 있는 bind 메서드를 사용
+  // 1번째 인자는 this 키워드를 설정하고, 나머지 인자들은 그 함수의 인자로 전달
   setTimeout(func.bind(self, self), 0);
 }
 
+// 워커 내장 postMessage 함수 대체
 InlineWorker.prototype.postMessage = function postMessage(data) {
   var _this = this;
 
