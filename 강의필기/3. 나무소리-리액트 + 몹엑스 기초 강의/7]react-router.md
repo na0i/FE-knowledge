@@ -31,7 +31,7 @@
 
 ![image](https://user-images.githubusercontent.com/77482972/153337143-fd5bfc0e-832a-4bc5-abbe-ab492e80ab6a.png)
 
-##### BrouserRouter
+##### BrowserRouter
 - 라우팅할 모든 컴포넌트를 감싸게 되는 컴포넌트
 - 라우트할 수 있는 기능들을 사용할 수 있도록
 
