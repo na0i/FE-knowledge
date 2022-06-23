@@ -2,6 +2,10 @@
 
 #### 영문 폰트 따로 설정하기 with Styled Component
 
+##### 참고한 사이트
+
+> https://jineecode.tistory.com/104
+
 <br>
 
 한글 폰트는 Noto Sans KR, 영문 폰트는 Montserrat를 사용하고 싶었다.
