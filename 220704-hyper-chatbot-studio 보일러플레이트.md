@@ -7,7 +7,7 @@ https://chanyeong.com/blog/post/17
 1. 프로젝트 생성(yarn create vite '프로젝트 이름')
 
    - chatbot-studio v1의 코드양이 그렇게 길지 않은데 빌드하는데 생각보다 오랜 시간이 걸렸다.
-   - webpack이 범용성이 좋긴 하지만 속도도 빠르고 도전하는 마인드로 vite 도입 결정
+   - webpack이 범용성이 좋긴 하지만 vite가 속도도 빠르고 새로운 것에 도전하는 마인드로 vite 도입 결정
    - 위와 비슷한 이유로 yarn berry 사용(yarn set version berry)
 
 2. yarn
