@@ -46,4 +46,8 @@ https://chanyeong.com/blog/post/17
 
 eslintrc.js의 rules: 필요없는 데 에러뜨는 것들에 대해서 경고문구를 띄울지 말지
 
+------------
 
+https://github.com/airbnb/javascript#naming-conventions
+
+네이밍 컨벤션은 airbnb를 따르는 걸로
