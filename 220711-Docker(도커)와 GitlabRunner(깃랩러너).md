@@ -1,6 +1,8 @@
 ### 220711
 
-#### Docker(도커)
+#### Docker(도커)와 GitlabRunner(깃랩러너)
+
+#### Docker
 
 ##### 컨테이너
 
@@ -12,17 +14,14 @@
   - 호스트 OS위에 게스트 OS 전체를 가상화하여 사용하는 방식
   - 사용법은 간단하지만 무겁고 느렸다.
   - 예) VirtualBox
-
 - KVM과 Xen
 
   - 전체 가상화 방식을 개선하기 위해 등장
   - 게스트 OS가 필요하긴 하지만 전체 OS를 가상화하는 방식은 아니었음
-
 - 전가상화든 반가상화든 추가적인 OS를 설치하여 가상화하는 방법은 성능문제가 있었기 때문에 **프로세스를 격리** 하는 개선 방식이 등장
-
 - 하나의 서버에 여러개의 컨테이너를 실행하면 서로 영향을 미치지 않고 독립적으로 실행
-
 - 가벼운 VM을 사용하는 느낌을 준다.
+- 컨테이너는 프로세스이기 때문에 실행중인 프로세스가 없으면 컨테이너는 종료
 
 <br>
 
@@ -33,6 +32,7 @@
 - 컨테이너는 이미지를 실행한 상태, 추가되거나 변하는 값은 컨테이너에 저장
 - 같은 이미지로 여러 개의 컨테이너를 생성할 수 있고 컨테이너의 상태가 바뀌거나 컨테이너가 삭제되더라도 이미지는 변하지 않음
 - 도커 이미지는 Docker hub에 등록하거나 Docker Registry 저장소를 직접 만들어 관리할 수 있다.
+- 도커는 이미지를 만들기 위해 컨테이너의 상태를 그대로 이미지로 저장(어떤 애플리케이션을 이미지로 만든다면 리눅스만 설치된 컨테이너에 애플리케이션을 설치하고 그 상태를 그대로 이미지로 저장)
 
 <br>
 
@@ -69,6 +69,60 @@
 
 <br>
 
+#####  도커 기본 명령어
+
+- docker run ${ID}: 컨테이너 실행하기
+
+- docker ps: 실행중인 컨테이너 목록
+- docker ps -a: 실행했다가 종료된 컨테이너까지 보임
+- docker stop ${ID}: 실행중인 컨테이너 중지
+- docker rm ${ID}: 종료된 컨테이너를 제거
+- docker images: 도커가 다운로드한 이미지 목록 보기
+- docker pull [이미지 이름]: 최신버전으로 이미지 다운받기
+- docker rmi ${ID}: 이미지 삭제
+- docker build [OPTIONS] PATH | URL | : 이미지 빌드하기
+
+<br>
+
+##### 도커 파일 기본 명령어(DSL)
+
+- FROM: 베이스 이미지를 지정
+- MAINTAINER: Dockerfile을 관리하는 사람의 이름 또는 이메일 정보를 적습니다. 빌드에 딱히 영향을 주지는 않음
+- COPY: 파일이나 디렉토리를 이미지로 복사, 일반적으로 소스를 복사하는 데 사용
+- RUN: 명령어를 그대로 실행
+
+<br>
+
 ##### 참고한 사이트
 
-https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html
+>  https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html
+
+<br>
+
+#### Gitlab Runner
+
+- Gitlab Runner 동작과정
+
+![image](https://user-images.githubusercontent.com/77482972/178412039-537a62d4-6f76-42f7-9b7f-96c5b46bc6f6.png)
+
+- Pipeline
+  - 한 단계의 모든 Job이 성공하면, 파이프라인은 다음 단계로 넘어갑니다.
+  - 한 단계의 어떤 Job이 실패하면, 다음 단계는 (일반적으로) 실행되지 않고 파이프라인이 일찍 종료됩니다.
+- Jobs
+  - Job은 `.gitlab-ci.yml` 파일의 가장 기본적인 요소
+  - Job은 Runner가 실행해야 하는 명령 모음
+- Variables
+  - Jobs 및 파이프라인의 동작을 제어
+  - 재사용하려는 값을 저장
+  - `.gitlab-ci.yml` 파일에 값을 하드 코딩하는 것을 방지
+- Runners
+  - `.gitlab-ci.yml`에 정의된 코드를 실행
+
+<br>
+
+#### 정리해보기
+
+1. 깃랩에 코드 푸시
+2. .gitlab-ci.yml 이 runner를 트리거
+3. .gitlab-ci.yml 에 작성된 내용을 기반으로 runner에서 작업 실행
+4. runner로 docker 관련 작업 수행
