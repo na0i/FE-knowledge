@@ -151,3 +151,4 @@ const obj = {
 
 console.log(obj.sayHi()); // 하이 Lee
 ```
+                       
