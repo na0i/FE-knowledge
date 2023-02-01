@@ -140,5 +140,6 @@
 |                    | 16장        | 프로퍼티 어트리뷰트                 | DeepDive-16장-프로퍼티 어트리뷰트.md                   |
 | 2022.01.09 ~ 01.12 | 19장        | 프로토타입                          | DeepDive-19장-프로토타입.md                            |
 | 2022.01.16 ~ 01.18 | 18장        | 함수와 일급 객체                    | DeepDive-18장-함수와 일급 객체.md                      |
-|                    | 20장        | strict mode                     |                                                        |
-
+|                    | 20장        | strict mode                     | DeepDive-20장-strict mode.md                      |
+| 2022.01.30 ~ 02.01 | 21장        | 빌트인 객체                    | DeepDive-21장-빌트인 객체.md                      |
+|                    | 22장        | this                        | DeepDive-22장-this.md                      |
