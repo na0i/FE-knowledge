@@ -143,3 +143,4 @@
 |                    | 20장        | strict mode                     | DeepDive-20장-strict mode.md                      |
 | 2022.01.30 ~ 02.01 | 21장        | 빌트인 객체                    | DeepDive-21장-빌트인 객체.md                      |
 |                    | 22장        | this                        | DeepDive-22장-this.md                      |
+| 2022.02.07 ~ 02.08 | 23장        | 실행 컨텍스트                   | DeepDive-23장-실행 컨텍스트.md                      |
