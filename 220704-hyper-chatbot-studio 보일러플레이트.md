@@ -28,7 +28,7 @@ https://chanyeong.com/blog/post/17
    yarn add -D eslint-plugin-react eslint-plugin-react-hooks
    yarn add -D eslint-plugin-jsx-a11y eslint-plugin-import
    ```
-
+		
 4. prettierrc 생성 후 설정
 
 5. eslintrc.js 생성 후 설정
