@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>구구단</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- {{}} 중괄호 두번은 데이터를 렌더링 가능 -->
+    <!-- 중괄호 내부에 자바스크립트 식 가능 ex) {{first + 100}} -->
+    <div> {{first}} 곱하기 {{second}} 는?</div>
+    <form>
+      <!-- input과 data의 value를 연결 -->
+      <input type="number" v-model="value">
+      <!-- input에서 받아온 value를 data의 value가 받아서 이곳에 다시 렌더링(양방향 바인딩) -->
+      <div>{{value}}</div>
+      <button>입력</button>
+    </form>
+    <div></div>
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#root',
+      // 리액트는 state를 선언하고, vue는 data를 선언(둘다 data 중심으로 돌아감)
+      data: {
+        first: Math.ceil(Math.random()*9),
+        second: Math.ceil(Math.random()*9),
+        value: '',
+        result: '',
+      },
+      methods: {
+
+      },
+    })
+  </script>
+</body>
+</html>
