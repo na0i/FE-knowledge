@@ -1,3 +1,5 @@
+### 230129
+
 # 1. 정확한 단어 고르기
 
 ## 1-1. 다른 뜻을 가진 단어와 구분하기
@@ -42,11 +44,11 @@ isLoading과 isFetching이라는 변수를 지원한다. 이 때, 데이터가 �
 ### 예시: `get`과 `query`
 
 ```javascript
-expect(screen.getByText('Username')).toBeInTheDocument();
-expect(screen.queryByText('Username')).toBeInTheDocument();
+expect(screen.getByText("Username")).toBeInTheDocument();
+expect(screen.queryByText("Username")).toBeInTheDocument();
 ```
 
-- get은 가져오다 
+- get은 가져오다
 - query는 질문하다
 
 <br>
@@ -70,9 +72,11 @@ App Bar와 Global Navigation Bar와 Local Navigation Bar의 차이를 이해하�
 <br>
 
 #### Card
+
 하나의 주제로 묶인 컨텐츠와 액션, 그 모든 것
 
 #### Box
+
 내용물을 감싸는 래퍼의 개념에 가깝게 사용된다.
 
 <br>
@@ -80,11 +84,11 @@ App Bar와 Global Navigation Bar와 Local Navigation Bar의 차이를 이해하�
 ### Card 예시
 
 ```javascript
-const FruitCard = fruit => (
-	<div>
-		<span>{fruit.name}</span>
-		<img src={fruit.img} />
-	</div>
+const FruitCard = (fruit) => (
+  <div>
+    <span>{fruit.name}</span>
+    <img src={fruit.img} />
+  </div>
 );
 ```
 
@@ -95,11 +99,7 @@ const FruitCard = fruit => (
 ### Box 예시
 
 ```javascript
-const FruitBox = children => (
-	<div>
-		{children}
-	</div>
-)
+const FruitBox = (children) => <div>{children}</div>;
 ```
 
 박스라는 이름에 걸맞게 테두리를 담당하는 역할만 맡게 된다.
@@ -127,11 +127,12 @@ Select는 하나의 결과를 항상 선택하고, Search는 모든 결과를 �
 
 ```javascript
 if (expirationTime < PROMOTION_END_TIME) {
-	return remainTime / totalTime;
+  return remainTime / totalTime;
 }
 ```
 
 위 코드가 아쉬운 점은<br>
+
 1. 조건문에서는 값을 비교하고
 2. return은 값을 나누고 있다.
 
@@ -140,29 +141,33 @@ if (expirationTime < PROMOTION_END_TIME) {
 ### 어떻게 개선할까?
 
 1. 값을 비교하는 조건문이니까 값에 가까운 단어를 사용하자.
-> 조건문은 값을 비교하고 있기 때문에 시간값의 비교에서는 순서가 중요하다. 시간보다는 시각이라는 단어가 더 적절할 것 같다. <br>
-> expirationTime, PROMOTION_END_TIME → expirationDate, PROMOTION_END_DATE
+   > 조건문은 값을 비교하고 있기 때문에 시간값의 비교에서는 순서가 중요하다. 시간보다는 시각이라는 단어가 더 적절할 것 같다. <br>
+   > expirationTime, PROMOTION_END_TIME → expirationDate, PROMOTION_END_DATE
 
 <br>
 
 2. 정량적인 값을 return 할 것이라는 것을 보여주자.
-> return 값이 나누는 값이기 때문에 나눌 수 있는 양인지를 나타내면 좋겠다. 기간을 의미하는 단어인 Duration을 사용하여 양의 느낌을 명확히 줄 수 있을 것 같다.<br>
-> remainTime, totalTime → remainDuration, totalDuration
+   > return 값이 나누는 값이기 때문에 나눌 수 있는 양인지를 나타내면 좋겠다. 기간을 의미하는 단어인 Duration을 사용하여 양의 느낌을 명확히 줄 수 있을 것 같다.<br>
+   > remainTime, totalTime → remainDuration, totalDuration
 
 <br>
 
 ### 주로 사용할 수 있는 대체 단어
 
-##### get 
+##### get
+
 → extract(추출하다), parse(분해하다), aggregate(합치다)
 
 ##### number
+
 → limit(제한이 되는 수), count(총계)
 
 ##### change
+
 → convert(변환하다), filter(거르다), override(덮어쓰다)
 
 ##### changed
+
 → dirty(더러운 = 수정이 이루어진)
 
 <br>
@@ -176,7 +181,9 @@ const MIN_TO_SEC = 60;
 const HOUR_TO_SEC = MIN_TO_SEC * 60;
 const DAY_TO_SEC = HOUR_TO_SEC * 24;
 
-convertSecondToText(3 * DAY_TO_SEC + 12 * HOUR_TO_SEC + 30 * MIN_TO_SEC).toEqual('3.5days');
+convertSecondToText(
+  3 * DAY_TO_SEC + 12 * HOUR_TO_SEC + 30 * MIN_TO_SEC
+).toEqual("3.5days");
 ```
 
 **좀 더 나은 예시**
@@ -186,7 +193,7 @@ const MIN = 60;
 const HOUR = MIN * 60;
 const DAY = HOUR * 24;
 
-convertSecondToText(3 * DAY + 12 * HOUR + 30 * MIN).toEqual('3.5days');
+convertSecondToText(3 * DAY + 12 * HOUR + 30 * MIN).toEqual("3.5days");
 ```
 
 MIN, HOUR, DAY가 좀 더 모호하지만 아래가 좀 더 잘 읽힌다. 따라서, 항상 정확한 표현을 찾기 보다는 문맥에 맞추어 가독성을 고민해보는 것이 효과적이다.
@@ -200,16 +207,15 @@ MIN, HOUR, DAY가 좀 더 모호하지만 아래가 좀 더 잘 읽힌다. 따�
 **아쉬운 예시**
 
 ```javascript
-const type = 
-exception
-	? undefined
-	: condA
-	? 'A'
-	: condB
-	? condC
-		? 'BC'
-		: 'BD'
-	: 'A'; 
+const type = exception
+  ? undefined
+  : condA
+  ? "A"
+  : condB
+  ? condC
+    ? "BC"
+    : "BD"
+  : "A";
 ```
 
 직관적으로 코드가 눈에 들어오지 않는다.
@@ -225,25 +231,26 @@ exception
 **let과 if문 사용한 예시**
 
 ```javascript
-let type = 'A';
+let type = "A";
 if (exception) type = undefined;
-if (condA) type = 'A';
+if (condA) type = "A";
 if (condB) {
-	if (condC) type = 'BC';
-	else type = 'BD';
+  if (condC) type = "BC";
+  else type = "BD";
 }
 ```
 
 <br>
 
 **즉시 실행함수와 early return의 활용**
+
 ```javascript
 const type = (function () {
-	if (exception) return undefined;
-	if (condA) return 'A';
-	if (condB && condC) return 'BC';
-	if (condB && !condC) return 'BD';
-	return 'A';
+  if (exception) return undefined;
+  if (condA) return "A";
+  if (condB && condC) return "BC";
+  if (condB && !condC) return "BD";
+  return "A";
 })();
 ```
 
@@ -252,17 +259,17 @@ const type = (function () {
 **아쉬운 예시**
 
 ```javascript
-let str = '';
+let str = "";
 
 switch (type) {
-	case 'apple':
-		str = '사과';
-		break;
-	case 'banana':
-		str = '바나나';
-		break;
-	default:
-		str = '포도';
+  case "apple":
+    str = "사과";
+    break;
+  case "banana":
+    str = "바나나";
+    break;
+  default:
+    str = "포도";
 }
 ```
 
@@ -271,12 +278,13 @@ switch (type) {
 <br>
 
 **대응 관계를 일직선 상에 가깝게 위치한 예시**
+
 ```javascript
 const FRUIT_MAP = {
-	apple: '사과',
-	banana: '바나나',
-	DEFAULT: '포도',
-}
+  apple: "사과",
+  banana: "바나나",
+  DEFAULT: "포도",
+};
 
 const str = FRUIT_MAP[type] || FRUIT_MAP.DEFAULT;
 ```
@@ -284,5 +292,7 @@ const str = FRUIT_MAP[type] || FRUIT_MAP.DEFAULT;
 <br>
 
 ## 2-2. 목차
+
 ## 2-3. 용어 정리
+
 ## 2-4. 각주
