@@ -855,11 +855,12 @@ console.log(colorRectangle.toString()); // width = 2, height = 4, color = red
 
 ##### 2. 수퍼클래스의 인스턴스 생성과 this 바인딩
 
-수퍼클래스는 new 연산자와 함께 호출되었을 때 암묵적으로 빈 객체(인스턴스)를 생성하고 this에 바인딩한다. 따라서, 수퍼클래스의 constructor 내부의 this는 생성된 인스턴스를 가리킨다. 
+수퍼클래스의 constructor 내부 코드가 실행되기 전에 암묵적으로 빈 객체(인스턴스)를 생성하고 this에 바인딩한다. 따라서, 수퍼클래스의 constructor 내부의 this는 생성된 인스턴스를 가리킨다. 
 
 <br>
 
-하지만, new 연산자와 함께 호출된 클래스가 서브클래스라면 new.target은 서브클래스를 가리킨다. 따라서, 인스턴스는 new.target이 가리키는 서브클래스가 생성한 것으로 처리된다.
+즉, 인스턴스는 수퍼클래스가 생성한 것이다. 하지만 new 연산자와 함께 호출된 클래스는 서브클래스로 new.target은 서브클래스를 가리킨다. 따라서, **인스턴스는 new.target이 가리키는 서브클래스가 생성한 것으로 처리**된다. 따라서 **생성된 인스턴스의 프로토타입은 수퍼클래스의 prototype이 아니라 서브 클래스의 prototype이 된다.**
+
 
 ```javascript
 // 수퍼클래스
@@ -868,4 +869,62 @@ class Rectangle {
 		console.log(this); // ColorRectangle {}
 		console.log(new.target); // ColorRectangle
 ...
+```
+
+<br>
+
+##### 3. 수퍼클래스의 인스턴스 초기화
+
+수퍼클래스의 constructor가 실행되어 인스턴스를 초기화 한다. this에 바인딩되어있는 인스턴스에 프로퍼티를 추가하고 constructor가 인수로 전달받은 초기값으로 프로퍼티 값을 초기화한다.
+
+<br>
+
+##### 4. 서브클래스 constructor로의 복귀와 this 바인딩
+
+super의 호출이 종료되고 서브클래스의 constructor로 돌아온다. 이 때, **super가 반환한 인스턴스가 그대로 this에 바인딩되고 서브클래스는 별도의 인스턴스를 생성하지 않고 super가 반환한 인스턴스를 this에 바인딩하여 그대로 사용한다.** 이러한 이유로, super가 호출되지 않으면 인스턴스가 생성되지 않고 this 바인딩도 할 수가 없다.
+
+<br>
+
+따라서, 서브클래스 constructor 내부의 인스턴스 초기화는 반드시 super 호출 이후에 처리되어야 한다.
+
+<br>
+
+##### 5. 서브클래스의 인스턴스 초기화
+
+서브클래스의 constructor에 기술된 인스턴스 초기화가 실행된다.
+
+<br>
+
+##### 6. 인스턴스 반환
+
+클래스의 모든 처리가 끝나면 완성된 인스턴스가 바인딩된 this가 암묵적으로 반환된다.
+
+<br>
+
+#### 25.8.7 표준 빌트인 생성자 함수 확장
+
+extends 키워드 다음에는 [[Construct]] 내부 메서드를 갖는 함수 객체로 평가될 수 있는 모든 표현식(String, Number, Array 포함)을 사용할 수 있다.
+
+```javascript
+// Array 생성자 함수를 상속받아 확장한 MyArray
+class MyArray extends Array {
+	uniq() {
+		return this.filter((v, i, self) => self.indexOf(v) === i);
+	}
+
+	average() {
+		return this.reduce((pre, cur) => pre + cur, 0) / this.length;
+	}
+}
+```
+
+MyArray 클래스가 생성한 인스턴스는 Array.prototype과 MyArray.prototype의 모든 메서드를 사용할 수 있다.
+
+##### 주의할 점
+
+map, filter와 같이 새로운 배열을 반환하는 메서드는 인스턴스를 반환한다는 것이다. 만약 새로운 배열을 반환하는 메서드가 MyArray의 클래스 인스턴스가 아닌 Array의 인스턴스를 반환하게 되면 MyArray 클래스의 메서드에 접근이 불가능해져 메서드 체이닝이 불가능해진다.
+
+```javascript
+// 메서드 체이닝
+console.log(myArray.filter(v => v % 2).uniq().average()); // 2
 ```
