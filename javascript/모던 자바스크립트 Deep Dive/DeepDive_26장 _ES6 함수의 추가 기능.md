@@ -44,6 +44,8 @@ constructor: 인스턴스를 생성할 수 있는 함수 객체
 - 일반 함수는 constructor
 - ES6의 메서드와 화살표 함수는 non-constructor
 
+<br>
+
 ### 26.2 메서드
 
 일반적으로 메서드는 객체에 바인딩된 함수를 일컬었지만 ES6 사양에서 메서드는 이제 **메서드 축약 표현으로 정의된 함수**만을 의미한다.
@@ -169,6 +171,144 @@ const arrow = (a, a) => a + a; // SyntaxError
 
 #### 26.3.3 this
 
-화살표 함수가 일반 함수가 구별되는 가장 큰 특징이 this다.
+화살표 함수가 일반 함수가 구별되는 가장 큰 특징이 this다. 화살표 함수의 this는 **콜백 함수 내부의 this가 외부 함수 this와 다르기 때문에 발생하는 문제를 해결하기 위해** 의도적으로 설계된 것이다.
 
 > this 바인딩은 함수의 호출 방식에 의해 동적으로 결정된다. 즉, 함수를 호출할 때 함수가 어떻게 호출되었는지에 따라 this에 바인딩할 객체가 결정된다.
+
+##### 예시
+
+```javascript
+class Prefixer {
+	constructor(prefix) {
+		this.prefix = prefix;
+	}
+
+	add(arr) {
+		// 1
+		return arr.map(function (item) {
+			// TypeError
+			return this.prefix + item; // 2
+		});
+	}
+}
+
+const prefixer = new Prefixer('webkit');
+console.log(prefixer.add['transition', 'user-select']);
+```
+
+위 예시에서 TypeError가 나는 이유는 1과 달리(1에서 this는 메서드를 호출한 객체 = prefixer) 2에서 this는 undefined를 가리키기 때문이다. 이러한 문제가 **콜백 함수 내부의 this 문제(콜백 함수의 this와 외부 함수의 this가 같지 않음)** 이다.
+
+<br>
+
+> 일반 함수로서 호출되는 함수 내부의 this는 전역 객체를 가리킨다. 그러나 클래스 내부는 암묵적으로 strict mode가 적용되어 strict mode 내 일반 함수로 호출되는 함수 내부의 this는 undefined가 바인딩된다. 
+
+<br>
+
+##### 콜백 함수 내부의 this 문제를 해결하기 위한 방법(ES6 이전)
+
+**1. this를 일단 회피시킨 후 콜백 함수 내부에서 사용한다.**
+
+```javascript
+...
+add(arr) {
+	const that = this; // this 회피
+	return arr.map(function (item) {
+		return that.prefix + item; // this 대신 that 참조
+	});
+}
+...
+```
+
+<br>
+
+**2. Array.prototype.map의 두번째 인수로 prefixer 객체를 가리키는 this를 전달한다.**
+
+> Array.prototype.map은 콜백 함수 내부의 this 문제를 해결하기 위해 두 번째 인수로 콜백 함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+
+```javascript
+...
+add(arr) {
+	return arr.map(function (item) {
+		return this.prefix + item;
+	}, this);
+}
+...
+```
+
+<br>
+
+**3. Function.prototype.bind 메서드를 사용한다.**
+
+```javascript
+...
+add(arr) {
+	return arr.map(function (item) {
+		return this.prefix + item;
+	}.bind(this)); // this에 바인딩된 값이 콜백 함수 내부의 this에 바인딩된다.
+}
+...
+```
+
+<br>
+
+**ES6에서는 화살표 함수를 사용하여 해결할 수 있다.**
+
+```javascript
+...
+add(arr) {
+	return arr.map(item => this.prefix + item);
+}
+...
+```
+
+##### lexical this
+
+- 화살표 함수는 함수 자체의 this 바인딩을 갖지 않는다. 
+- 따라서 **화살표 내부에서 this를 참조하면 상위 스코프의 this를 그대로 참조한다.**
+- 화살표 함수의 this가 함수가 정의된 위치에 의해 결정된다.
+
+<br>
+
+화살표 함수는 함수 자체의 this 바인딩이 존재하지 않기 때문에 화살표 함수 내부에서 this를 참조하면 일반적인 식별자처럼 스코프 체인을 통해 상위 스코프에서 this를 탐색한다. 만약, 화살표 함수와 화살표 함수가 중첩되어 있다면 스코프 체인 상에서 가장 가까운 상위 함수 중, 화살표 함수가 아닌 함수의 this를 참조한다. 만약 화살표 함수가 전역 함수라면 화살표 함수의 this는 전역 객체를 가리키게 된다. 전역 함수의 상위 스코프는 전역이기 때문이다. 프로퍼티에 할당된 함수도 마찬가지다.
+
+```javascript
+// bar 함수는 화살표 함수를 반환한다.
+// 화살표 함수는 this 바인딩이 없으므로 상위 스코프에서 this를 탐색하지만
+// bar 함수도 화살표 함수이므로
+// 즉시 실행 함수의 this를 참조하게 된다.
+(function () {
+	const bar = () => () => console.log(this);
+	bar()();
+}).call({a:1}); // {a:1}
+
+// 전역함수의 상위 스코프는 전역
+const foo = () => console.log(this);
+foo(); // window
+
+// increase의 상위 스코프가 전역
+const counter = {
+	num: 1,
+	increase: () => ++this.num;
+}
+console.log(counter.increase()); // NaN
+```
+
+<br>
+
+화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 `Function.prototype.call`, `Function.prototype.apply`, `Function.prototype.bind`를 사용해도 화살표 함수 내부의 this를 교체할 수 없다. 화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 this를 교체할 수 없고 언제나 상위 스코프의 this 바인딩을 참조한다.
+
+```javascript
+window.x = 1;
+
+const normal = function () { return this.x };
+const arrow = () => this.x;
+
+console.log(normal.call({x:10}); // 10
+console.log(arrow.call({x:10}); // 1
+```
+
+<br>
+
+메서드를 화살표 함수로 정의하는 것은 피해야 한다.
+
+
