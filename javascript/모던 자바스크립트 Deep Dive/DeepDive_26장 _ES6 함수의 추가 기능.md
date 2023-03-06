@@ -27,6 +27,10 @@ constructor: 인스턴스를 생성할 수 있는 함수 객체
 
 <br>
 
+> 일반함수의 this: 전역, 메서드의 this: 메서드를 호출한 대상, 화살표함수 this: 자체적인 this 갖지 않음(상위 스코프의 this)
+
+<br>
+
 생성자 함수가 아닌 함수가 constructor라는 것은 prototype 프로퍼티를 가지며, 프로토타입 객체도 생성한다는 것을 의미하므로 성능 면에서 문제가 있다. 콜백 함수도 마찬가지로 constructor이기 때문에 불필요한 프로토타입 객체를 생성한다.
 
 <br>
@@ -269,7 +273,7 @@ add(arr) {
 
 <br>
 
-화살표 함수는 함수 자체의 this 바인딩이 존재하지 않기 때문에 화살표 함수 내부에서 this를 참조하면 일반적인 식별자처럼 스코프 체인을 통해 상위 스코프에서 this를 탐색한다. 만약, 화살표 함수와 화살표 함수가 중첩되어 있다면 스코프 체인 상에서 가장 가까운 상위 함수 중, 화살표 함수가 아닌 함수의 this를 참조한다. 만약 화살표 함수가 전역 함수라면 화살표 함수의 this는 전역 객체를 가리키게 된다. 전역 함수의 상위 스코프는 전역이기 때문이다. 프로퍼티에 할당된 함수도 마찬가지다.
+화살표 함수는 함수 자체의 this 바인딩이 존재하지 않기 때문에 화살표 함수 내부에서 this를 참조하면 일반적인 식별자처럼 스코프 체인을 통해 상위 스코프에서 this를 탐색한다. 만약, 화살표 함수와 화살표 함수가 중첩되어 있다면 스코프 체인 상에서 가장 가까운 상위 함수 중, 화살표 함수가 아닌 함수의 this를 참조한다. 만약 화살표 함수가 전역 함수라면 화살표 함수의 this는 전역 객체를 가리키게 된다. 전역 함수의 상위 스코프는 전역이기 때문이다??. 프로퍼티에 할당된 함수도 마찬가지다.
 
 ```javascript
 // bar 함수는 화살표 함수를 반환한다.
@@ -295,7 +299,7 @@ console.log(counter.increase()); // NaN
 
 <br>
 
-화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 `Function.prototype.call`, `Function.prototype.apply`, `Function.prototype.bind`를 사용해도 화살표 함수 내부의 this를 교체할 수 없다. 화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 this를 교체할 수 없고 언제나 상위 스코프의 this 바인딩을 참조한다.
+**화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 `Function.prototype.call`, `Function.prototype.apply`, `Function.prototype.bind`를 사용해도 화살표 함수 내부의 this를 교체할 수 없다.** 화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 this를 교체할 수 없고 언제나 상위 스코프의 this 바인딩을 참조한다.
 
 ```javascript
 window.x = 1;
@@ -311,4 +315,177 @@ console.log(arrow.call({x:10}); // 1
 
 메서드를 화살표 함수로 정의하는 것은 피해야 한다.
 
+```javascript
+const person = {
+	name: "Lee",
+	sayHi: () => console.log(`Hi ${this.name}`)
+}
 
+person.sayHi(); // Hi
+
+// sayHi 메서드는 화살표 함수로 정의되었으므로 this 바인딩이 존재하지 않는다.
+// 따라서 this.name은 window.name과 같으며
+// window.name은 이미 존재하는 빌트인 프로퍼티이다.
+```
+
+> window.name: 창의 이름을 얻거나 설정할 때 사용하는 전역 객체 window의 빌트인 프로퍼티이다.
+
+위 예시와 같은 일이 발생할 수 있으므로 메서드를 정의할 때는 메서드 축약 표현으로 정의하는 것이 좋다.
+
+<br>
+
+```
+// 아쉬운 예
+function Person(name) {
+	this.name = name;
+}
+
+Person.prototype.sayHi = () => console.log(`Hi ${this.name}`);
+
+const person = new Person('Lee');
+person.sayHi(); // Hi
+
+
+// 좋은 예 - 일반 함수를 사용
+function Person(name) {
+	this.name = name;
+}
+
+Person.prototype.sayHi = function() { console.log(`Hi ${this.name}`) };
+
+const person = new Person('Lee');
+person.sayHi(); // Hi Lee
+
+// 좋은 예 - ES6 메서드 사용
+function Person(name) {
+	this.name = name;
+}
+
+Person.prototype = {
+	// ES6 메서드는 non-constructor이므로 
+	// constructor 프로퍼티와 생성자 함수 간의 연결을 재설정한다.
+	constructor: Person, 
+	sayHi() { console.log(`Hi ${this.name}`) }
+}
+
+const person = new Person('Lee');
+person.sayHi(); // Hi Lee
+
+// 좋은 예 - 클래스 필드 정의 제안 사용
+class Person {
+	name = 'Lee';
+	sayHi() { console.log(`Hi ${this.name}`) }
+}
+
+const person = new Person('Lee');
+person.sayHi(); // Hi Lee
+```
+
+> 클래스 필드는 클래스 기반 객체지향 언어에서 클래스가 생성할 인스턴스의 프로퍼티를 가리키는 용어다. 클래스 필드에 함수를 할당하는 경우, 이 함수는 인스턴스 메서드가 된다. 모든 클래스 필드는 인스턴스 프로퍼티가 되기 때문이다. 따라서, 클래스 필드에 함수를 할당하는 것은 권장하지 않는다.
+
+485쪽 아무리 봐도 이해가 안됩니다..
+
+<br>
+
+<img width="508" alt="스크린샷 2023-03-06 오전 12 16 36" src="https://user-images.githubusercontent.com/77482972/222969214-3b34ed53-b245-4f22-93e6-ed87b48e5cd8.png">
+
+
+- constructor 재설정을 안해도 제대로 출력되는 이유가 무엇인지
+- es6 메서드 축약표현의 this는 그대로 메서드를 호출한 객체인지
+
+
+#### 26.3.4 super
+
+화살표 함수는 함수 자체의 super 바인딩을 갖지 않는다. 따라서 화살표 함수 내부에서 super를 참조하면 this와 마찬가지로 상위 스코프의 super를 참조한다. 
+
+<br>
+
+> super는 내부 슬롯 [[HomeObject]]를 갖는 ES6 메서드 내에서만 사용할 수 있는 키워드다. 화살표 함수는 ES6 메서드는 아니지만 애초에 함수 자체의 super 바인딩을 갖지 않으므로 super를 참조해도 에러가 발생하지 않는다.
+
+
+<br>
+
+#### 26.3.5 arguments
+
+화살표 함수는 함수 자체의 arguments 바인딩을 갖지 않는다. 따라서 화살표 함수 내부에서 arguments를 참조하면 this와 마찬가지로 상위 스코프의 arguments를 참조한다. 
+
+> arguments 객체는 함수를 정의할 때 매개변수 개수를 확정할 수 없는 가변 인자 함수를 구현할 때 유용하다. 하지만 화살표 함수는 arguments 객체를 사용해 자신에게 전달된 인수 목록을 확인할 수 없으므로 **화살표 함수로 가변 인자 함수를 구현해야 할 때에는 Rest 파라미터를 사용해야 한다.**
+
+<br>
+
+### 26.4 Rest 파라미터
+
+#### 26.4.1 기본 문법
+
+Rest 파라미터는 매개변수 이름 앞에 세개의 점 `...`을 붙여서 정의한 매개변수를 의미한다. Rest 파라미터는 함수에 전달된 인수들의 목록을 배열로 전달받는다.
+
+
+##### 예시
+```
+function foo(...rest) {
+	console.log(rest); // [1, 2, 3, 4, 5]
+}
+
+foo(1, 2, 3, 4, 5); 
+
+function bar(param, ...rest) {
+	console.log(param); // 1
+	console.log(rest); // [2, 3, 4, 5]
+}
+
+bar(1, 2, 3, 4, 5);
+```
+
+<br>
+
+##### Rest 파라미터의 특징
+- 먼저 선언된 매개변수에 할당된 인수를 제외한 나머지 인수들로 구성된 배열이 할당된다.
+- Rest 파라미터는 반드시 마지막 파라미터여야 한다.
+- 단 하나만 선언할 수 있다.
+- 함수 객체 length 프로퍼티에 영향을 주지 않는다.(예: x, y, ...rest가 인수일 경우 length는 2)
+
+<br>
+
+#### 26.4.2 Rest 파라미터와 arguments 객체
+
+arguments 객체는 배열이 아닌 유사 배열 객체이므로 배열 메서드를 사용하려면 Function.prototype.call 혹은 Function.prototype.apply 메서드를 사용해 arguments 객체를 배열로 변환해야 하는 번거로움이 있었다.
+
+<br>
+
+ES6의 rest 파라미터를 사용하면 인자 목록을 배열로 직접 전달받을 수 있어 배열로 변환하는 번거로움이 없다.
+
+<br>
+
+화살표 함수는 arguments를 갖지 않으므로 화살표 함수를 사용할 경우에는 반드시 rest 파라미터를 사용해야 한다.
+
+<br>
+
+### 26.5 매개변수 기본값
+
+자바스크립트 엔진은 매개변수 개수와 인수 개수를 체크하지 않아, 두 개의 개수가 동일하지 않을 때에도 에러를 발생시키지 않았다. 따라서 인수가 전달되지 않았을 경우에 매개변수에 기본값을 할당하는 방어코드가 필요했다.
+
+<br>
+
+하지만 ES6에서 도입된 매개변수 기본값을 사용하면 이를 간소화 할 수 있다.
+
+```javascript
+// ES6 도입 이전 코드
+function sum(x, y) {
+	x = x || 0;
+	y = y || 0;
+
+	return x + y;
+}
+
+// ES6 도입 이후 코드
+function sum(x = 0, y= 0) {
+	return x + y;
+}
+
+```
+
+<br>
+
+매개변수 기본값은 함수 객체의 length 프로퍼티와 arguments 객체에 아무런 영향을 주지 않는다.
+
+> rest 파라미터에는 기본값을 지정할 수 없다.
