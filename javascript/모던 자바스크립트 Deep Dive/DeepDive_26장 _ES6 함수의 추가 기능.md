@@ -390,7 +390,7 @@ person.sayHi(); // Hi Lee
 <img width="508" alt="스크린샷 2023-03-06 오전 12 16 36" src="https://user-images.githubusercontent.com/77482972/222969214-3b34ed53-b245-4f22-93e6-ed87b48e5cd8.png">
 
 
-- constructor 재설정을 안해도 제대로 출력되는 이유가 무엇인지
+- constructor 재설정을 안해도 제대로 출력되는 이유가 무엇인지: 애초에 메서드 축약 표현은 클래스필드 정의에 해당하지 않음
 - es6 메서드 축약표현의 this는 그대로 메서드를 호출한 객체인지
 
 
