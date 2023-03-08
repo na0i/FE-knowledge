@@ -1,5 +1,7 @@
 ### 230129
 
+> 이 글은 kakaoTech의 '섬세한 ISFP의 코드 가독성 개선 경험' 영상을 보고 작성되었습니다. 
+
 # 1. 정확한 단어 고르기
 
 ## 1-1. 다른 뜻을 가진 단어와 구분하기
@@ -44,11 +46,11 @@ isLoading과 isFetching이라는 변수를 지원한다. 이 때, 데이터가 �
 ### 예시: `get`과 `query`
 
 ```javascript
-expect(screen.getByText("Username")).toBeInTheDocument();
-expect(screen.queryByText("Username")).toBeInTheDocument();
+expect(screen.getByText('Username')).toBeInTheDocument();
+expect(screen.queryByText('Username')).toBeInTheDocument();
 ```
 
-- get은 가져오다
+- get은 가져오다 
 - query는 질문하다
 
 <br>
@@ -72,11 +74,9 @@ App Bar와 Global Navigation Bar와 Local Navigation Bar의 차이를 이해하�
 <br>
 
 #### Card
-
 하나의 주제로 묶인 컨텐츠와 액션, 그 모든 것
 
 #### Box
-
 내용물을 감싸는 래퍼의 개념에 가깝게 사용된다.
 
 <br>
@@ -84,11 +84,11 @@ App Bar와 Global Navigation Bar와 Local Navigation Bar의 차이를 이해하�
 ### Card 예시
 
 ```javascript
-const FruitCard = (fruit) => (
-  <div>
-    <span>{fruit.name}</span>
-    <img src={fruit.img} />
-  </div>
+const FruitCard = fruit => (
+	<div>
+		<span>{fruit.name}</span>
+		<img src={fruit.img} />
+	</div>
 );
 ```
 
@@ -99,7 +99,11 @@ const FruitCard = (fruit) => (
 ### Box 예시
 
 ```javascript
-const FruitBox = (children) => <div>{children}</div>;
+const FruitBox = children => (
+	<div>
+		{children}
+	</div>
+)
 ```
 
 박스라는 이름에 걸맞게 테두리를 담당하는 역할만 맡게 된다.
@@ -127,12 +131,11 @@ Select는 하나의 결과를 항상 선택하고, Search는 모든 결과를 �
 
 ```javascript
 if (expirationTime < PROMOTION_END_TIME) {
-  return remainTime / totalTime;
+	return remainTime / totalTime;
 }
 ```
 
 위 코드가 아쉬운 점은<br>
-
 1. 조건문에서는 값을 비교하고
 2. return은 값을 나누고 있다.
 
@@ -141,33 +144,29 @@ if (expirationTime < PROMOTION_END_TIME) {
 ### 어떻게 개선할까?
 
 1. 값을 비교하는 조건문이니까 값에 가까운 단어를 사용하자.
-   > 조건문은 값을 비교하고 있기 때문에 시간값의 비교에서는 순서가 중요하다. 시간보다는 시각이라는 단어가 더 적절할 것 같다. <br>
-   > expirationTime, PROMOTION_END_TIME → expirationDate, PROMOTION_END_DATE
+> 조건문은 값을 비교하고 있기 때문에 시간값의 비교에서는 순서가 중요하다. 시간보다는 시각이라는 단어가 더 적절할 것 같다. <br>
+> expirationTime, PROMOTION_END_TIME → expirationDate, PROMOTION_END_DATE
 
 <br>
 
 2. 정량적인 값을 return 할 것이라는 것을 보여주자.
-   > return 값이 나누는 값이기 때문에 나눌 수 있는 양인지를 나타내면 좋겠다. 기간을 의미하는 단어인 Duration을 사용하여 양의 느낌을 명확히 줄 수 있을 것 같다.<br>
-   > remainTime, totalTime → remainDuration, totalDuration
+> return 값이 나누는 값이기 때문에 나눌 수 있는 양인지를 나타내면 좋겠다. 기간을 의미하는 단어인 Duration을 사용하여 양의 느낌을 명확히 줄 수 있을 것 같다.<br>
+> remainTime, totalTime → remainDuration, totalDuration
 
 <br>
 
 ### 주로 사용할 수 있는 대체 단어
 
-##### get
-
+##### get 
 → extract(추출하다), parse(분해하다), aggregate(합치다)
 
 ##### number
-
 → limit(제한이 되는 수), count(총계)
 
 ##### change
-
 → convert(변환하다), filter(거르다), override(덮어쓰다)
 
 ##### changed
-
 → dirty(더러운 = 수정이 이루어진)
 
 <br>
@@ -181,9 +180,7 @@ const MIN_TO_SEC = 60;
 const HOUR_TO_SEC = MIN_TO_SEC * 60;
 const DAY_TO_SEC = HOUR_TO_SEC * 24;
 
-convertSecondToText(
-  3 * DAY_TO_SEC + 12 * HOUR_TO_SEC + 30 * MIN_TO_SEC
-).toEqual("3.5days");
+convertSecondToText(3 * DAY_TO_SEC + 12 * HOUR_TO_SEC + 30 * MIN_TO_SEC).toEqual('3.5days');
 ```
 
 **좀 더 나은 예시**
@@ -193,7 +190,7 @@ const MIN = 60;
 const HOUR = MIN * 60;
 const DAY = HOUR * 24;
 
-convertSecondToText(3 * DAY + 12 * HOUR + 30 * MIN).toEqual("3.5days");
+convertSecondToText(3 * DAY + 12 * HOUR + 30 * MIN).toEqual('3.5days');
 ```
 
 MIN, HOUR, DAY가 좀 더 모호하지만 아래가 좀 더 잘 읽힌다. 따라서, 항상 정확한 표현을 찾기 보다는 문맥에 맞추어 가독성을 고민해보는 것이 효과적이다.
@@ -207,15 +204,16 @@ MIN, HOUR, DAY가 좀 더 모호하지만 아래가 좀 더 잘 읽힌다. 따�
 **아쉬운 예시**
 
 ```javascript
-const type = exception
-  ? undefined
-  : condA
-  ? "A"
-  : condB
-  ? condC
-    ? "BC"
-    : "BD"
-  : "A";
+const type = 
+exception
+	? undefined
+	: condA
+	? 'A'
+	: condB
+	? condC
+		? 'BC'
+		: 'BD'
+	: 'A'; 
 ```
 
 직관적으로 코드가 눈에 들어오지 않는다.
@@ -231,26 +229,25 @@ const type = exception
 **let과 if문 사용한 예시**
 
 ```javascript
-let type = "A";
+let type = 'A';
 if (exception) type = undefined;
-if (condA) type = "A";
+if (condA) type = 'A';
 if (condB) {
-  if (condC) type = "BC";
-  else type = "BD";
+	if (condC) type = 'BC';
+	else type = 'BD';
 }
 ```
 
 <br>
 
 **즉시 실행함수와 early return의 활용**
-
 ```javascript
 const type = (function () {
-  if (exception) return undefined;
-  if (condA) return "A";
-  if (condB && condC) return "BC";
-  if (condB && !condC) return "BD";
-  return "A";
+	if (exception) return undefined;
+	if (condA) return 'A';
+	if (condB && condC) return 'BC';
+	if (condB && !condC) return 'BD';
+	return 'A';
 })();
 ```
 
@@ -259,17 +256,17 @@ const type = (function () {
 **아쉬운 예시**
 
 ```javascript
-let str = "";
+let str = '';
 
 switch (type) {
-  case "apple":
-    str = "사과";
-    break;
-  case "banana":
-    str = "바나나";
-    break;
-  default:
-    str = "포도";
+	case 'apple':
+		str = '사과';
+		break;
+	case 'banana':
+		str = '바나나';
+		break;
+	default:
+		str = '포도';
 }
 ```
 
@@ -278,13 +275,12 @@ switch (type) {
 <br>
 
 **대응 관계를 일직선 상에 가깝게 위치한 예시**
-
 ```javascript
 const FRUIT_MAP = {
-  apple: "사과",
-  banana: "바나나",
-  DEFAULT: "포도",
-};
+	apple: '사과',
+	banana: '바나나',
+	DEFAULT: '포도',
+}
 
 const str = FRUIT_MAP[type] || FRUIT_MAP.DEFAULT;
 ```
@@ -293,6 +289,76 @@ const str = FRUIT_MAP[type] || FRUIT_MAP.DEFAULT;
 
 ## 2-2. 목차
 
+**예시 상황**<br>
+
+모달 A, 모달 B, 모달 C가 존재하고 z-index가 아래와 같은 상황이다.
+- 모달 A의 z-index: 100
+- 모달 B의 z-index: 300
+- 모달 C의 z-index: 500
+
+<br>
+
+모달 A를 모달 B 위에 띄우기 위해 A의 z-index를 1000으로 수정하면 의도치 않게 모달 C보다 위에 위치하게 되어 버린다.
+
+<br>
+
+**목차 작성을 응용한다면?**
+
+```javascript
+export const ZINDEX_USAGES = {
+	HEADER_DROPDOWN: 900,
+	HEADER: 1000,
+	MODAL_A: 100,
+	MODAB_B: 300,
+	ALERT_SNACKBAR: 9999,
+}
+```
+
+앱 내에서 사용한 모든 z-index를 한 곳에서 확인할 수 있어 가독성이 좋아진다.
+
+<br>
+
 ## 2-3. 용어 정리
 
+**아쉬운 예시**
+
+```javascript
+if (accessType === 'kakao') {
+	return Array.from(data)
+		.filter(item => !(item.sugar > 5000))
+		.sort((a, b) => a.energy - b.energy);
+}
+```
+
+동작 과정을 이해하는 데 문제는 없지만 다른 개발자가 의도를 이해하지 못할 수도 있지 않을까?
+
+<br>
+
+**개선한 예시**
+```javascript
+const shouldDisplay = accessType === 'kakao'; // 보여줘야 할지 말지의 기준이었다.
+
+if (shouldDisplay) {
+	const foods = Array.from(data); // data는 사실 foods 였다.
+	const healthyFoods = foods.filter(menu => {
+		const isUnhealthy = food.sugar > 5000; // 5000은 사실 건강함의 척도였다는 것을 삽입
+		return !isUnhealthy;
+	})
+
+	const calorieOrderedFoods = healthyFoods.sort((a, b) => a.energy - b.energy);
+	return calorieOrderedFoods;
+}
+```
+
+코드는 길어졌을 지라도 용어를 정리하듯 의도를 명확히 함으로써 좀 더 가독성이 좋아졌다.
+
+<br>
+
 ## 2-4. 각주
+
+이 부분은 HOC 기법을 사용해서 설명해주셨는데 아직 HOC를 잘 사용하지 못해 감이 오질 않는다. 나중에 다시 볼 예정이다.
+
+<br>
+
+> '섬세한 ISFP의 코드 가독성 개선 경험' 다시보기
+> https://www.youtube.com/watch?v=emGLxi0LvNI
