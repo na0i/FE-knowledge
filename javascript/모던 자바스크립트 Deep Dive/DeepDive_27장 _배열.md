@@ -164,4 +164,235 @@ Array.of 메서드는 전달된 인수를 요소로 갖는 배열을 생성한�
 
 #### 27.4.4 Array.from
 
-Array.from 메서드는 유사 배열 객체 또는 이터러블 객체를 인수로 전달받아 배열로 변환하여 반환한다.
+Array.from 메서드는 유사 배열 객체 또는 이터러블 객체를 인수로 전달받아 배열로 변환하여 반환한다. 두번째 인수로 전달한 콜백 함수를 통해 값을 만들면서 요소를 채울 수 있다.
+
+```javascript
+// 유사 배열 객체
+Array.from({length: 2, 0: 'a', 1: 'b'}); // ['a', 'b']
+
+// 이터러블 변환
+Array.from('Hello'); // ['H', 'e', 'l', 'l', 'o']
+
+// 두번째 인수로 전달한 콜백 함수의 반환값으로 구성된 배열 반환
+Array.from({length : 3}, (_, i) => i);
+```
+
+> 유사 배열 객체: 배열처럼 인덱스로 프로퍼티 값에 접근할 수 있고 length 프로퍼티를 갖는 객체
+
+> 이터러블 객체: Symbol.iterator 메서드를 구현하여 for ...of문으로 순회할 수 있으며, 스프레드 문법과 배열 디스트럭처링 할당의 대상으로 사용할 수 있는 객체
+
+<br>
+
+### 27.5 배열 요소의 참조
+
+배열의 요소를 참조할 때는 대괄호 표기법을 사용하고 대괄호 안에는 인덱스가 와야한다. 
+
+<br>
+
+존재하지 않는 요소에 접근하면 undefined가 반환된다. 배열은 인덱스를 나타내는 문자열을 프로퍼티 키로 갖는 객체이기 때문에 존재하지 않는 프로퍼티 키로 객체의 프로퍼티에 접근했을 때 undefined를 반환하는 것과 동일하다.
+
+<br>
+
+### 27.6 배열 요소의 추가와 갱신
+
+배열에도 요소를 동적으로 추가할 수 있다.
+- 존재하지 않는 인덱스를 사용해 값을 할당하면 새로운 요소가 추가되며 length 값은 자동 갱신된다.
+- 이미 존재하는 요소에 값을 재할당하면 요소값이 갱신된다.
+- 정수 이외의 값을 인덱스처럼 사용하면 요소가 생성되는 것이 아니라 프로퍼티가 생성된다.
+
+```javascript
+const arr = [0];
+
+arr[1] = 1;
+console.log(arr); // [0, 1]
+console.log(arr.length); // 2
+
+// 배열 요소의 추가
+arr[10] = 10;
+console.log(arr); // [0, 1, empty * 8, 10]
+console.log(arr.length); // 11
+
+// 요소값의 갱신
+arr[1] = 10;
+console.log(arr); // [0, 10, empty * 8, 10]
+```
+
+![스크린샷 2023-03-15 오후 2 37 56](https://user-images.githubusercontent.com/77482972/225217048-429c5255-6216-4a50-ab95-5d1148827fb9.png)
+
+<br>
+
+### 27.7 배열 요소의 삭제
+
+배열은 객체이기 때문에 배열의 특정 요소를 삭제하기 위해 `delete` 연산자를 사용할 수 있다. 다만 delete 연산자는 객체의 프로퍼티를 삭제하므로 delete arr[1]은 arr에서 프로퍼티 키가 '1'인 프로퍼티를 삭제한다. 따라서 희소 배열을 만드는 delete 연산자는 사용하지 않는 것이 좋다.
+
+```javascript
+const arr = [1, 2, 3];
+
+delete arr[1];
+
+console.log(arr); // [1, empty, 3]
+console.log(arr.length); // 3
+```
+
+<br>
+
+희소 배열을 만들지 않으면서 배열의 특정 요소를 삭제하려면 `Array.prototype.splice` 메서드를 사용한다.
+
+> Array.prototype.splice(삭제를 시작할 인덱스, 삭제할 요소 수)
+
+```javascript
+const arr = [1, 2, 3];
+
+arr.splice(1, 1);
+
+console.log(arr); // [1, 3]
+console.log(arr.length); // 2
+```
+
+<br>
+
+### 27.8 배열 메서드
+
+초창기 배열 메서드 중에는 원본 배열을 직접 변경하는 경우가 많다. 가급적 원본 배열을 직접 변경하지 않는 메서드를 사용하는 것이 권장된다.
+
+<br>
+
+#### 27.8.1 Array.isArray
+
+`Array.isArray`는 Array 생성자 함수의 정적 메서드로 **전달된 인수가 배열이면 true, 아니면 false를 반환한다.**
+
+```javascript
+Array.isArray([]); // true
+
+Array.isArray(); // false
+Array.isArray({}); // false
+```
+
+<br>
+
+#### 27.8.2 Array.prototype.indexOf
+
+`indexOf` 메서드는 원본 배열에서 인수로 전달된 요소를 검색하여 인덱스를 반환한다. 배열에 특정 요소가 존재하는지 확인할 때 유용하다.
+
+- 중복되는 요소가 여러개라면 첫번째로 검색된 요소의 인덱스를 반환한다.
+- 인수로 전달된 요소가 존재하지 않으면 -1을 반환한다.
+
+<br>
+
+ES7에서 도입된 `Array.prototype.includes` 메서드를 사용하면 가독성이 더 좋다.
+
+```javascript
+const foods = ['apple', 'banana'];
+
+if (foods.indexOf('orange') === -1) {
+	foods.push('orange');
+}
+
+if (!foods.includes('orange')) {
+	foods.push('orange');
+}
+```
+
+<br>
+
+#### 27.8.3 Array.prototype.push
+
+`push` 메서드는 인수로 전달받은 모든 값을 원본 배열의 마지막 요소로 추가하고 변경된 length 프로퍼티 값을 반환한다. **push 메서드는 원본을 직접 변경한다.**
+
+- push 메서드는 성능이 좋지 않으므로 추가할 요소가 하나라면 length 프로퍼티를 사용하여 배열의 마지막에 요소를 직접 추가하는 게 더 빠르다.
+- 원본 배열을 직접 변경하는 부수효과가 있으므로 ES6의 스프레드 문법을 사용하는 편이 좋다.
+
+<br>
+
+#### 27.8.4 Array.prototype.pop
+
+`pop` 메서드는 원본 배열에서 마지막 요소를 제거하고 제거된 요소를 반환한다. 
+
+- 원본 배열이 빈 배열이면 undefined를 반환한다.
+- 원본 배열을 직접 변경한다.
+- pop과 push 메서드를 사용하면 스택(자료구조)을 쉽게 구현할 수 있다.
+
+<br>
+
+#### 27.8.5 Array.prototype.unshift
+
+`unshift` 메서드는 인수로 전달받은 모든 값을 원본 배열의 선두에 요소로 추가하고 변경된 length 프로퍼티 값을 반환한다.
+
+- 원본 배열을 직접 변경하므로 스프레드 문법을 사용하는 편이 좋다.
+
+```javascript
+const arr = [1, 2];
+
+let result = arr.unshift(3, 4);
+
+console.log(result); // 4
+console.log(arr); // [3, 4, 1, 2]
+```
+
+<br>
+
+#### 27.8.6 Array.prototype.shift
+
+`shift` 메서드는 원본 배열에서 첫 번째 요소를 제거하고 제거한 요소를 반환한다. 
+
+- 원본 배열이 빈 배열이면 undefined를 반환한다.
+- 원본 배열을 직접 변경한다.
+- shift와 push 메서드를 사용하면 큐(자료구조)를 쉽게 구현할 수 있다.
+
+```javascript
+const arr = [1, 2];
+
+let result = arr.shift();
+
+console.log(result); // 1
+console.log(arr); // [2]
+```
+
+<br>
+
+#### 27.8.7 Array.prototype.concat
+
+`concat` 메서드는 인수로 전달된 값들(배열 혹은 원시값)을 원본 배열의 마지막 요소로 추가한 새로운 배열을 반환한다.
+
+- 인수로 전달한 값이 배열인 경우 배열을 해체하여 새로운 배열의 요소로 추가한다.
+- 원본 배열은 변경되지 않는다.
+- push와 unshift 메서드는 concat 메서드로 대체할 수 있다.
+- concat 메서드를 사용할 경우 반환값을 반드시 변수에 할당받아야 한다.
+- concat 메서드는 스프레드 문법으로 대체할 수 있다.
+
+```javascript
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+
+let result = arr1.concat(arr2); // [1, 2, 3, 4]
+result = arr1.concat(3); // [1, 2, 3]
+result = arr1.concat(arr2, 5); // [1, 2, 3, 4, 5]
+result = [...[1, 2], ...[3, 4]]; // [1, 2, 3, 4]
+
+console.log(arr1); // [1, 2]
+```
+
+> 결론적으로 push/unshift/concat 보다 스프레드 문법을 사용하는 것이 권장된다.
+
+<br>
+
+#### 27.8.8 Array.prototype.splice
+
+원본 배열의 중간에 요소를 추가하거나 중간에 있는 요소를 제거하려면 `splice` 메서드를 사용한다.
+
+- 제거한 요소가 배열로 반환된다.
+- 3개의 매개변수가 있다.(start, deleteCount, items)
+	- start: 원본 배열의 요소를 제거하기 시작할 인덱스, start만 지정되면 start부터 모든 요소를 제거한다. start가 음수인 경우 배열 끝의 인덱스를 나타낸다.
+	- deleteCount(옵션): start부터 제거할 요소의 개수로 0일 경우 아무것도 제거되지 않는다.
+	- items(옵션): 제거한 위치에 삽입할 요소들의 목록이다.
+- 배열에서 특정 요소를 제거하려면 indexOf 메서드를 통해 요소의 인덱스를 취득한 다음 splice 메서드를 사용한다.
+
+```javascript
+const arr = [1, 2, 3, 4];
+
+const result = arr.splice(1, 2, 20, 30);
+
+console.log(result); // [2, 3]
+console.log(arr); // [1, 20, 30, 4]
+```
+
