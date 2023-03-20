@@ -396,3 +396,85 @@ console.log(result); // [2, 3]
 console.log(arr); // [1, 20, 30, 4]
 ```
 
+<br>
+
+#### 27.8.9 Array.prototype.slice
+
+`slice` 메서드는 인수로 전달된 범위의 요소들을 복사하여 배열로 반환한다.
+
+- 원본 배열은 변경되지 않는다.(splice는 원본 배열을 변경한다.)
+- 두 개의 매개변수를 갖는다.(start, end)
+	- start: 복사를 시작할 인덱스 / 음수인 경우 배열의 끝에서의 인덱스
+	- end: 복사를 종료할 인덱스로 생략시 기본값은 length 프로퍼티 값이다.
+- end 생략시 start부터 모든 요소를 복사하여 배열로 반환한다.
+- 인수를 모두 생략하면 원본 배열의 복사본을 생성하여 반환한다.(얕은 복사)
+- slice 메서드를 이용하여 arguments, HTMLCollection, NodeList 같은 유사 배열 객체를 배열로 변환할 수 있다.
+
+> ![스크린샷 2023-03-20 오전 10 33 42](https://user-images.githubusercontent.com/77482972/226226893-87bb4b34-0802-4bab-85e8-f34731fec94f.png)
+
+> 얕은 복사와 깊은 복사: https://bbangson.tistory.com/78
+
+<br>
+
+#### 27.8.10 Array.prototype.join
+
+`join` 메서드는 원본 배열의 모든 요소를 문자열로 변환한 후, 인수로 전달받은 문자열을 구분자로 연결한 문자열을 반환한다.
+
+- 구분자는 생략 가능하며 기본 구분자는 `,`이다.
+
+```javascript
+const arr = [1, 2, 3, 4];
+
+arr.join(); // '1,2,3,4'
+arr.join(''); // '1234'
+arr.join(':'); // '1:2:3:4'
+```
+
+<br>
+
+#### 27.8.11 Array.prototype.reverse
+
+`reverse` 메서드는 원본 배열 순서를 반대로 뒤집는다.
+
+- 원본 배열이 변경된다.
+- 반환값은 변경된 배열이다.
+
+```javascript
+const arr = [1, 2, 3];
+const result = arr.reverse();
+
+console.log(arr); // [3, 2, 1]
+console.log(result); // [3, 2, 1]
+```
+
+<br>
+
+#### 27.8.12 Array.prototype.fill
+
+`fill` 메서드는 인수로 전달받은 값을 배열의 처음부터 끝까지 요소로 채운다. fill 메서드를 사용해 배열을 생성하면서 특정 값으로 요소를 채울 수도 있다. 
+
+- 원본 배열이 변경된다.
+- 두번째 인수로 요소 채우기를 시작할 인덱스를 전달한다.
+- 세번째 인수로 요소 채우기를 멈출 인덱스를 전달한다.
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+arr.fill(0); // [0, 0, 0, 0, 0]
+
+arr.fill(0, 2); // [1, 2, 0, 0, 0]
+
+arr.fill(0, 1, 3); // [1, 0, 0, 4, 5]
+
+const arr = new Array(3); // [empty * 3]
+const arr2 = arr.fill(1); // [1, 1, 1]
+```
+
+<br>
+
+fill 메서드로는 모든 요소를 하나의 값만으로 채울 수 밖에 없지만 `Array.from` 메서드를 사용하면 콜백함수를 통해 요소값을 만들면서 배열을 채울 수 있다.
+
+```javascript
+const sequences = (length = 0) => Array.from({ length }, (_, i) => i);
+console.log(sequences(3)); // [0, 1, 2]
+```
