@@ -579,6 +579,7 @@ for문은 반복을 위한 변수를 선언해야 하며, 조건식과 증감식
 - 반복문을 추상화한 고차함수로서 반복문을 통해 자신을 호출한 배열을 순회하면서 수행해야 할 처리를 콜백 함수로 전달받아 반복 호출한다.
 - forEach 메서드의 콜백 함수는 forEach 메서드를 호출한 배열의 요소값과 인덱스, this(forEach를 호출한 배열)를 순차적으로 전달받을 수 있다.
 - 원본 배열을 변경하지는 않지만 콜백함수를 통해 원본 배열을 변경할 수는 있다.
+- forEach 메서드의 반환값은 undefined다.
 
 ```javascript
 [1, 2, 3].forEach((item, index, arr) => {
@@ -588,4 +589,251 @@ for문은 반복을 위한 변수를 선언해야 하며, 조건식과 증감식
 // 1 0 [1, 2, 3]
 // 2 1 [1, 2, 3]
 // 3 2 [1, 2, 3]
+
+const numbers = [1, 2, 3];
+numbers.forEach((item, index, arr) => { arr[index] = item ** 2; }); // [1, 4, 9]
+
+const result = [1, 2, 3].forEach(console.log);
+console.log(result); // undefined
+```
+
+<br>
+
+- forEach 메서드의 두 번째 인수로 forEach 메서드의 콜백 함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+```javascript
+class Numbers {
+	numberArray = [];
+	
+	multiply(arr) {
+		arr.forEach(function (item) {
+			this.numberArray.push(item * item); // TypeError
+		});
+	}
+}
+
+const numbers = new Numbers();
+numbers.multiply([1, 2, 3])
+```
+
+위 예시에서 forEach 메서드의 콜백함수 내부의 this는 undefined를 가리킨다.
+> why? <br>일반 함수로 호출되어 this가 전역을 가리킬 것 같지만, 클래스 내부의 모든 코드는 암묵적으로 strict mode 이므로 undefined를 가리킨다.
+<br>
+
+따라서, forEach 메서드 콜백 함수 내부의 this와 multiply 메서드 내부의 this를 일치시키려면 forEach 메서드의 두 번째 인수로 this로 사용할 객체를 전달한다.
+
+```javascript
+class Numbers {
+	numberArray = [];
+	
+	multiply(arr) {
+		arr.forEach(function (item) {
+			this.numberArray.push(item * item);
+		}, this);
+	}
+}
+
+const numbers = new Numbers();
+numbers.multiply([1, 2, 3])
+```
+
+더 나은 방법은 화살표 함수를 사용하는 것이다.
+> why? <br>
+화살표 함수는 함수 자체의 this 바인딩을 갖지 않기 때문에 화살표 함수 내부에서 this를 참조하면 상위 스코프, 즉 multiply 메서드 내부의 this를 그대로 참조한다.
+
+```javascript
+class Numbers {
+	numberArray = [];
+	
+	multiply(arr) {
+		arr.forEach(item => this.numberArray.push(item * item));
+	}
+}
+
+const numbers = new Numbers();
+numbers.multiply([1, 2, 3])
+```
+
+<br>
+
+- forEach 메서드도 내부에서는 반복문을 통해 배열을 순회할 수 밖에 없다. 단, 반복문을 메서드 내부로 은닉하여 로직의 흐름을 이해하기 쉽게 하고 복잡성을 해결한다.
+- break, continue 문을 사용할 수 없다.(배열의 모든 요소를 빠짐없이 순회하며 중간에 순회를 중단할 수 없다.)
+- 희소 배열의 경우, 존재하지 않는 요소는 순회 대상에서 제외된다.
+
+<br>
+
+**forEach 메서드는 for 문에 비해 성능이 좋지는 않지만 가독성은 더 좋다.** 따라서 높은 성능이 필요한 경우가 아니라면 forEach 문을 사용할 것이 권장된다.
+
+<br>
+
+#### 27.9.3 Array.prototype.map
+
+`map` 메서드는 콜백 함수의 반환값들로 구성된 새로운 배열을 반환한다.
+
+- 원본 배열은 변경되지 않는다.
+- map 메서드가 생성하여 반환하는 새로운 배열의 length 프로퍼티 값은 map 메서드를 호출한 배열의 length 프로퍼티 값과 반드시 일치한다. (map 메서드를 호출한 배열과 map 메서드가 생성하여 반환한 배열은 1:1 매핑한다.)
+- map 메서드의 콜백함수는 map 메서드를 호출한 배열의 요소값, 인덱스, this(map 메서드를 호출한 배열 자체)를 순차적으로 전달받을 수 있다.
+- map 메서드의 두번째 인수로 map 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+
+<br>
+
+forEach와 map 메서드는 자신을 호출한 배열의 모든 요소를 순회하면서 인수로 전달받은 콜백 함수를 반복 호출한다는 공통점이 있지만, forEach는 언제나 undefined를 반환하고 map은 콜백함수의 반환값들로 구성된 새로운 배열을 반환하는 차이가 있다. **forEach 메서드는 반복문을 대체하기 위한 고차 함수고, map 메서드는 요소값을 다른 값들로 매핑한 새로운 배열을 생성하기 위한 고차 함수다.**
+
+<br>
+
+#### 27.9.4 Array.prototype.filter
+
+`filter` 메서드는 콜백 함수의 반환값이 true인 요소로만 구성된 새로운 배열을 반환한다. 
+
+- 원본 배열은 변경하지 않는다.
+- filter 메서드는 자신을 호출한 배열에서 필터링 조건을 만족하는 특정 요소만 추출하여 새롱누 배열을 만들고 싶을 때 사용한다.
+- filter 메서드가 생성하여 반환한 새로운 배열의 length 프로퍼티 값은 filter 메서드를 호출한 배열의 length 프로퍼티 값과 같거나 작다.
+- filter 메서드의 콜백 함수는 filter 메서드를 호출한 배열의 요소값과, 인덱스, this(filter 메서드를 호출한 배열 자체)를 순차적으로 전달받을 수 있다.
+- filter 메서드의 두번째 인수로 filter 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+- filter 메서드는 자신을 호출한 배열에서 특정 요소를 제거하기 위해 사용할 수도 있다.
+- filter 메서드를 사용해 특정 메서드를 제거할 경우 중복된 요소가 모두 제거된다.
+
+<br>
+
+#### 27.9.5 Array.prototype.reduce
+
+`reduce` 메서드는 **콜백 함수의 반환값을 다음 순회 시에 콜백 함수의 첫 번째 인수로 전달하면서 콜백 함수를 호출하여 하나의 결과값을 만들어 반환한다.**
+
+- 원본 배열은 변경하지 않는다.
+- reduce 메서드는 첫 번째 인수로 콜백 함수, 두 번째 인수로 초기값(옵션)을 전달받는다. 
+- reduce 메서드의 콜백함수는 4개의 인수(초기값 or 콜백 함수의 이전 반환값 / reduce 메서드를 호출한 배열의 요소값 / 인덱스 / this(reduce 메서드를 호출한 배열 자체)) 가 전달된다.
+- reduce 메서드는 자신을 호출한 배열의 모든 요소를 순회하며 하나의 결과값을 구해야 하는 경우에 사용한다.
+- reduce 메서드의 두 번째 인수로 전달하는 초기값은 옵션이지만 언제나 초기값을 전달하는 경우가 안전하다.
+
+```javascript
+const sum = [1, 2, 3, 4].reduce((accumulator, currentValue, index, array) => accumulator + currentValue, 0);
+
+console.log(sum); // 10
+
+// 평균 구하기
+const values = [1, 2, 3, 4, 5, 6];
+const avg = values.reduce((acc, cur, i, { length }) => {
+	return i === length - 1 ? (acc + cur) / length : acc + cur;
+}, 0);
+
+// 최대값 구하기(Math.max가 더 직관적)
+const values = [1, 2, 3, 4, 5, 6];
+const max = values.reduce((acc, cur) => (acc > cur ? acc : cur), 0);
+
+// 요소의 중복 횟수 구하기
+const fruits = ['apple', 'banana', 'orange', 'orange'];
+const count = fruits.reduce((acc, cur) => {
+	acc[cur] = (acc[cur] || 0) + 1;
+	return acc;
+}, {});
+
+// 중첩 배열 평탄화(flat 메서드가 더 직관적)
+const values = [1, [2, 3], 4, [5, 6]];
+const flatten = values.reduce((acc, cur) => acc.concat(cur), []);
+
+// 중복 요소 제거(filter 메서드가 더 직관적)
+const values = [1, 2, 1, 3, 5, 4, 5, 3, 4, 4];
+const result = values.reduce(
+	(unique, val, i, _values) => _values.indexOf(val) === i ? [...unique, val] : unique, []
+);
+
+// 초기값을 전달하지 않을 때 생기는 문제
+const products = [
+	{id: 1, price: 100},
+	{id: 2, price: 200},
+	{id: 3, price: 300}
+]
+
+const priceSum = products.reduce((acc, cur) => acc.price + cur.price); 
+// acc가 300이 되어버려 acc.price는 undefined가 되고 결국 priceSum은 NaN이 된다.
+```
+
+<br>
+
+> Set: 중복되지 않는 유일한 값들의 집합
+```javascript
+const values = [1, 2, 1, 3, 5, 4, 5, 3, 4, 4];
+
+const result = [...new Set(values)];
+```
+
+<br>
+
+#### 27.9.6 Array.prototype.some
+
+`some` 메서드는 콜백 함수의 반환값이 **단 한 번이라도 참이면 true, 모두 거짓이면 false를 반환**한다.
+
+- 빈 배열일 경우 언제나 false를 반환한다.
+- some 메서드의 콜백 함수는 some 메서드를 호출한 요소값과, 인덱스, this(some 메서드를 호출한 배열 자체)를 전달받을 수 있다.
+- some 메서드의 두번째 인수로 some 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+
+```javascript
+[5, 10, 15].some(item => item > 10); // true
+[].some(item => item > 3); // false
+```
+
+<br>
+
+#### 27.9.7 Array.prototype.every
+
+`every` 메서드는 콜백 함수의 반환값이 **모두 참이면 true, 단 한 번이라도 거짓이라면 false를 반환**한다.
+
+- 빈 배열일 경우 언제나 true를 반환한다.
+- every 메서드의 콜백 함수는 every 메서드를 호출한 요소값과, 인덱스, this(every 메서드를 호출한 배열 자체)를 전달받을 수 있다.
+- every 메서드의 두번째 인수로 every 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+
+```javascript
+[5, 10, 15].every(item => item > 3); // true
+[].every(item => item > 3); // true
+```
+
+<br>
+
+#### 27.9.8 Array.prototype.find
+
+`find` 메서드는 반환값이 true인 첫번째 요소를 반환한다. 
+
+- true인 요소가 존재하지 않는다면 undefined를 반환한다.
+- filter 메서드는 true인 요소만 추출하여 새로운 배열을 반환하지만, find는 콜백 함수의 반환값이 true인 첫 번째 요소를 반환하므로 결과값은 배열이 아닌 해당 요소값이다.
+- find 메서드의 콜백 함수는 find 메서드를 호출한 요소값과, 인덱스, this(find 메서드를 호출한 배열 자체)를 전달받을 수 있다.
+- find 메서드의 두번째 인수로 find 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+
+```javascript
+const users = [
+	{ id: 1, name: 'Lee'},
+	{ id: 2, name: 'Park'},
+]
+
+users.find(user => user.id === 2); // { id: 2, name: 'Park' }
+```
+
+<br>
+
+#### 27.9.9 Array.prototype.findIndex
+
+`findIndex` 메서드는 반환값이 true인 첫 번째 요소의 인덱스를 반환한다.
+
+- true인 요소가 존재하지 않는다면 -1을 반환한다.
+- findIndex 메서드의 콜백 함수는 findIndex 메서드를 호출한 요소값과, 인덱스, this(findIndex 메서드를 호출한 배열 자체)를 전달받을 수 있다.
+- findIndex 메서드의 두번째 인수로 findIndex 메서드의 콜백함수 내부에서 this로 사용할 객체를 전달할 수 있다.
+- forEach와 마찬가지로 화살표 함수를 사용하는 것이 낫다.
+
+<br>
+
+#### 27.9.10 Array.prototype.flatMap
+
+`flatMap` 메서드는 map 메서드를 통해 생성된 새로운 배열을 평탄화한다. map 메서드와 flat 메서드를 순차적으로 실행하는 효과가 있다.
+
+- flatMap 메서드는 flat 메서드처럼 평탄화 깊이를 지정할 수는 없고 1단계만 평탄화할 수 있다.
+- 따라서, 평탄화 깊이를 지정하고 싶다면 flatMap 메서드가 아니라 map과 flat 메서드를 각각 호출한다.
+
+```javascript
+const arr = ['hello', 'world'];
+
+arr.map(x => x.split('')); // [['h', 'e', 'l', 'l', 'o'], ['w', 'o', 'r', 'l', 'd']]
+arr.map(x => x.split('')).flat(); // ['h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd']
 ```
