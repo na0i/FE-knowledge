@@ -75,3 +75,9 @@ https://velog.io/@jjunyjjuny/React-TS-boilerplate-%EC%A0%9C%EC%9E%91%EA%B8%B0-%E
 
 ##### 모바일화면 100vh로 맞추기
 https://velog.io/@eunddodi/React-%EB%AA%A8%EB%B0%94%EC%9D%BC-%EC%9B%B9-%EC%95%B1-100vh-%EC%8B%A4%EC%A0%9C-%ED%99%94%EB%A9%B4-%ED%81%AC%EA%B8%B0%EB%A1%9C-%EB%A7%9E%EC%B6%94%EA%B8%B0
+
+<br>
+
+리액트로 개발한 후 웹뷰 형식으로 개발하려고 했으나 uiux 적으로 어느정도 한계가 존재할 것 같아 결국 react native로 변경하기로 결정했다.
+
+- 기본 환경 세팅: https://velog.io/@willy4202/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EB%84%A4%EC%9D%B4%ED%8B%B0%EB%B8%8C-%EC%B4%88%EA%B8%B0-%EC%84%B8%ED%8C%85%EB%B2%95
