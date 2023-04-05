@@ -149,3 +149,5 @@
 | 2023.03.30 ~ 03.31 | 28장        | Number                              | DeepDive-28장-Number.md                               |
 |                    | 29장        | Math                                | DeepDive-29장-Math.md                                 |
 |                    | 30장        | Date                                | DeepDive-30장-Date.md                                 |
+| 2023.04.05 ~ 04.05 | 31장        | RegExp                              | DeepDive-31장-RegExp.md                               |
+|                    | 32장        | String                              | DeepDive-32장-String.md                               |
