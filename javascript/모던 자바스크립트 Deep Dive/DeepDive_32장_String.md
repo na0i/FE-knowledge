@@ -231,9 +231,9 @@ str.repeat(-1);  // -> RangeError: Invalid count value
 
 `replace` 메서드는 
 - 첫 번째 인수로 전달받은 문자열/정규표현식 을 검색하여
-- 두 번째 인수로 전달한 문자열로
+- 두 번째 인수로 전달한 문자열로 치환한 
 
-치환한 문자열을 반환한다.
+문자열을 반환한다.
 
 - 검색된 문자열이 여럿일 경우 첫 번째 검색된 문자열만 치환한다.
 - 특수한 교체 패턴을 사용할 수 있다. ($& => 검색된 문자열)
@@ -269,6 +269,7 @@ snakeToCamel('hello_world'); // -> 'helloWorld'
 const str = 'How are you doing?';
 
 str.split(' '); // -> ["How", "are", "you", "doing?"]
-str.split(/\s/); // -> ["How", "are", "you", "doing?"] // \s는 공백 문자str.split(); // -> ["How are you doing?"]
+str.split(/\s/); // -> ["How", "are", "you", "doing?"] // \s는 공백 문자
+str.split(); // -> ["How are you doing?"]
 str.split(' ', 2); // -> ["How", "are"]
 ```

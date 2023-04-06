@@ -202,10 +202,14 @@ target.match(regExp3); // ['AA', 'AAA']
 const regExp4 = /A+/g;
 target.match(regExp4); // ['A', 'AA', 'A', 'AAA']
 
-// color 다음 u가 최대 1번(0~1) 반복되고 r이 이어지는 문자열을 전역 검색한다. ???
+// color 다음 u가 최대 1번(0~1) 반복되고 r이 이어지는 문자열을 전역 검색한다.
 const target2 = 'color colour colouur';
 const regExp5 = /colou?r/g;
 target2.match(regExp5); // ['color', 'colour']
+
+const target3 = 'colr'
+const regExp6 = /colo?u?r/g;
+target3.match(regExp6); // ['colr']
 ```
 
 <br>
@@ -220,8 +224,7 @@ target2.match(regExp5); // ['color', 'colour']
 const target = 'A AA B BB Aa Bb';
 
 const regExp1 = /A|B/g;
-target.match(regExp1); // ["A", "A", "A", "B", "B", "B", "A",
-"B"]
+target.match(regExp1); // ["A", "A", "A", "B", "B", "B", "A", "B"]
 
 const regExp2 = /A+|B+/g;
 target.match(regExp2); // ["A", "AA", "B", "BB", "A", "B"]
