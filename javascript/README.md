@@ -151,3 +151,5 @@
 |                    | 30장        | Date                                | DeepDive-30장-Date.md                                 |
 | 2023.04.05 ~ 04.05 | 31장        | RegExp                              | DeepDive-31장-RegExp.md                               |
 |                    | 32장        | String                              | DeepDive-32장-String.md                               |
+| 2023.04.18 ~ 04.19 | 33장        | 7번째 데이터 타입 Symbol            | DeepDive-33장-7번째 데이터 타입 Symbol.md             |
+|                    | 34장        | 이터러블                            | DeepDive-34장-이터러블.md                             |
