@@ -153,3 +153,6 @@
 |                    | 32장        | String                              | DeepDive-32장-String.md                               |
 | 2023.04.18 ~ 04.19 | 33장        | 7번째 데이터 타입 Symbol            | DeepDive-33장-7번째 데이터 타입 Symbol.md             |
 |                    | 34장        | 이터러블                            | DeepDive-34장-이터러블.md                             |
+| 2023.04.26 ~ 04.27 | 35장        | 스프레드 문법               | DeepDive-35장-스프레드 문법.md              |
+|                    | 36장        | 디스트럭처링 할당                   | DeepDive-36장-디스트럭처링 할당.md                    |
+|                    | 37장        | Set과 Map                           | DeepDive-37장-Set.md                                  |

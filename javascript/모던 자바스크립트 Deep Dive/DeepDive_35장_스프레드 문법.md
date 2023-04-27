@@ -90,7 +90,100 @@ arr1.splice(1, 0, arr2); // arr1: [1, [2, 3], 4]
 
 // ES5 ver2
 Array.prototype.splice.apply(arr1, [1, 0].concat(arr2)); // [1, 2, 3, 4]
+// [1, 0].concat(arr2)의 결과인 [1, 0, 2, 3]이
+// splice 메서드에 해체되어 1 0 2 3 으로 전달되고
+// arr1인 [1, 4]의 1번째 요소부터 0개의 요소를 제거하고 2, 3을 삽입한다
 
 // ES6
 arr1.splice(1, 0, ...arr2); // [1, 2, 3, 4]
+```
+
+<br>
+
+#### 35.2.3 배열 복사
+
+```javascript
+// ES5: ES5에서는 slice를 배열 복사로 사용한다
+const origin = [1, 2];
+const copy1 = origin.slice();
+
+// ES6
+const copy2 = [...origin];
+```
+
+이 때 복사본은 얕은 복사하여 생긴 객체다.(slice도 마찬가지)
+
+<br>
+
+#### 35.2.4 이터러블을 배열로 변환
+
+- ES5: `Function.prototype.apply` 또는 `Function.prototype.call` 메서드 사용하여 slice 메서드 호출
+
+```javascript
+// ES5
+function sum() {
+	const args = Array.prototype.slice.call(arguments);
+
+	return args.reduce(function (pre, cur) {
+		return pre + cur;
+	}, 0);
+}
+
+const arrayLike = {
+	0: 1,
+	1: 2,
+	2: 3,
+	length: 3,
+}
+
+const arr = Array.prototype.slice.call(arrayLike); // [1, 2, 3]
+
+
+// ES6 with 스프레드 문법
+function sum() {
+	return [...arguments].reduce((pre, cur) => pre + cur, 0);
+}
+
+// ES6 with Rest 파라미터
+const sum = (...args) => args.reduce((pre, cur) => pre + cur, 0);
+```
+
+<br>
+
+단, 이터러블이 아닌 유사 배열 객체는 스프레드 문법의 대상이 될 수 없다.
+
+```javascript
+const arrayLike = {
+	0: 1,
+	1: 2,
+	2: 3,
+	length: 3,
+}
+
+const arr = [...arrayLike]; // TypeError
+
+// ES6 with Array.from
+// 이터러블이 아닌 유사 배열 객체를 배열로 변경
+Array.from(arrayLike); // [1, 2, 3]
+```
+
+<br>
+
+### 35.3 객체 리터럴 내부에서 사용하는 경우
+
+`Rest 프로퍼티`와 `스프레드 프로퍼티`가 현재 ES2018에 도입되었다. 스프레드 프로퍼티는 스프레드 문법의 대상이 이터러블에 한정됐던 것에 반해, 일반 객체를 대상으로도 스프레드 문법 사용을 허용한다.
+
+```javascript
+const obj = { x: 1, y: 2 };
+const copy = { ...obj }; // { x: 1, y: 2 }
+
+const merged = { x: 1, y: 2, ...{ a: 3, b: 4 } }; // { x: 1, y: 2, a: 3, b: 4 }
+```
+
+<br>
+
+스프레드 프로퍼티가 제안되기 전에는 ES6의 Object.assign 메서드를 이용하면 여러 개의 객체를 병합하거나 특정 프로퍼티를 변경 또는 추가했다.
+
+```javascript
+const merged = Object.assign({}, { x: 1, y: 2 }, { y: 10, z: 3 }); // { x: 1, y: 10, z: 3 }
 ```
