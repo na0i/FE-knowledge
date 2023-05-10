@@ -179,3 +179,62 @@ map.clear(); // Map(0) {}
 	- 첫번째 인수: 현재 순회중인 요소값
 	- 두번째 인수: 현재 순회중인 요소키
 	- 세번째 인수: 현재 순회중인 Map 객체 자체
+
+```javascript
+const lee = { name: 'Lee' };
+const kim = { name: 'Kim' };
+
+const map = new Map([[lee, 'developer'], [kim, 'designer']])
+
+map.forEach((v, k, map) => console.log(v, k, map));
+// developer { name: 'lee' } Map(2) {...생략}
+```
+
+<br>
+
+Map 객체는 이터러블이므로 for ...of 문으로 순회 가능하며, 스프레드 문법과 배열 디스트럭처링 할당의 대상이 될 수도 있다.
+
+```javascript
+const lee = { name: 'Lee' };
+const kim = { name: 'Kim' };
+
+const map = new Map([[lee, 'developer'], [kim, 'designer']]);
+
+for (const entry of map) {
+	console.log(entry); 
+}
+// [{ name: 'Lee' } => 'developer']
+// [{ name: 'Kim' } => 'designer']
+
+console.log([...map]);
+// [[lee, 'developer'], [kim, 'designer']]
+
+const [a, b] = map;
+// a [{ name: 'Lee' } => 'developer']
+// b [{ name: 'Kim' } => 'designer']
+```
+
+<br>
+
+Map 객체는 이터레이터인 객체를 반환하는 메서드를 제공한다.
+
+![스크린샷 2023-05-10 오후 10 34 28](https://github.com/na0i/Algorithm-study/assets/77482972/239664f3-c756-4ab8-b776-cd758febea48)
+
+```javascript
+const lee = { name: 'Lee' };
+const kim = { name: 'Kim' };
+
+const map = new Map([[lee, 'developer'], [kim, 'designer']]);
+
+for (const key of map.keys()) {
+  console.log(key); // {name: "Lee"} {name: "Kim"}
+}
+
+for (const value of map.values()) {
+  console.log(value); // developer designer
+}
+
+for (const entry of map.entries()) {
+  console.log(entry); // [{name: "Lee"}, "developer"]  [{name: "Kim"}, "designer"]
+}
+```
