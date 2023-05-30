@@ -162,3 +162,52 @@ window 객체, Document, HTMLElement 타입의 DOM 노드 객체는 이벤트에
 	$button.addEventListener('click', handleClick);
 </script>
 ```
+
+<br>
+
+### 40.4 이벤트 핸들러 제거
+
+addEventListener 메서드로 등록한 이벤트 핸들러를 제거하려면 `Event.prototype.removeEventListener` 메서드를 사용한다. 
+
+- 이벤트 핸들러 프로퍼티 방식으로 등록한 이벤트 핸들러는 removeEventListener 메서드로 제거할 수 없다.
+- removeEventListener에 전달하는 인수는 addEventListener과 동일하다.
+- 인수가 일치하지 않으면 이벤트 핸들러가 제거되지 않는다. 
+- 따라서 무명 함수를 이벤트로 등록한 경우 제거할 수 없다.
+- 이벤트 핸들러 내부에서 removeEventListener를 호출하여 제거하는 것은 가능하지만 이 이벤트 핸들러는 한 번만 호출되게 된다.
+
+```javascript
+$button.addEventListener('click', function foo() {
+  $button.removeEventListener('click', foo);
+});
+```
+
+<br>
+
+> 이벤트 핸들러 어트리뷰트 방식도 결국 이벤트 핸들러 프로퍼티 방식과 동일하니까 removeEventListener로 제거할 수 없을까?
+
+<br>
+
+### 40.5 이벤트 객체
+
+**이벤트가 발생**하면 이벤트에 관련한 다양한 정보를 담고 있는 **이벤트 객체가 동적으로 생성**된다. 생성된 이벤트 객체는 **이벤트 핸들러의 첫번째 인수로 전달**된다.
+
+<br>
+
+`이벤트 발생 > 이벤트 객체 생성 > 이벤트 핸들러 첫번째 인수로 전달`
+
+<br>
+
+따라서, 이벤트 핸들러를 정의할 때 이벤트 객체를 전달받을 매개변수를 명시적으로 선언해야 한다.<br>
+
+`예: const func = (e) => console.log(e)`
+
+<br>
+
+매개변수 이름으로 다른 이름을 사용하여도 괜찮으나 이벤트 핸들러 어트리뷰트 방식으로 이벤트 핸들러를 등록했다면 매개변수 이름으로 무조건 **`event`**를 전달해야 한다.
+
+> 이벤트 핸들러 어트리뷰트 방식은 이벤트 핸들러 어트리뷰트 값이 사실 이벤트 핸들러 함수 몸체를 의미하기 떄문이다. 이벤트 핸들러 어트리뷰트 방식은 이는 암묵적으로 함수를 생성하고 전달된 값이 함수 몸체가 되는데 이 때 암묵적으로 생성된 함수의 첫 번째 매개변수 이름은 event로 명명되기 때문이다.
+
+<br>
+
+
+
