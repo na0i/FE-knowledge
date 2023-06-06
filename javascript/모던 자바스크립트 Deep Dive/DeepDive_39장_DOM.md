@@ -892,3 +892,193 @@ appendChild, insertBefore 메서드는 현재 위치에서 노드를 제거하�
 `Node.prototype.removeChild(child)` 메서드는 child 매개변수에 인수로 전달한 노드를 DOM에서 삭제한다.
 
 - 인수로 전달한 노드는 removeChild 메서드를 호출한 노드의 자식 노드여야 한다.
+
+<br>
+
+### 39.7 어트리뷰트
+
+#### 39.7.1 어트리뷰트 노드와 attributes 프로퍼티
+
+HTML 요소는 여러개의 어트리뷰트를 가질 수 있다. 어트리뷰트는 시작 태그에 `어트리뷰트 이름='어트리뷰트 값'` 형식으로 정의한다.
+
+<br>
+
+- 글로벌 어트리뷰트: id, class, style, title, lang, tabindex, draggable, hidden 등
+- 이벤트 핸들러 어트리뷰트: onclick, onchange, onfocus, onblur, oninput, onkeypress, onkeydown, onkeyup, onmouseover, onsubmit, onload 등
+
+<br>
+
+글로벌 어트리뷰트와 이벤트 핸들러 어트리뷰트는 모든 HTML 요소에서 공통적으로 사용할 수 있지만 특정 HTML 요소에만 한정적으로 사용 가능한 어트리뷰트도 있다.
+
+<br>
+
+HTML 문서가 파싱될 때 HTML 어트리뷰트는 어트리뷰트 노드로 변환되어 요소 노드와 연결된다.
+
+- HTML 어트리뷰트 하나당 허나의 어트리뷰트 노드가 생성된다.(3개의 어트리뷰트트 노드가 있으면 3개의 어트리뷰트 노드가 생성됨)
+- 어트리뷰트 노드의 참조는 NamedNodeMap 객체에 담겨서 요소 노드의 attributes 프로퍼티에 저장된다.
+- 어트리뷰트 노드는 요소 노드의 Element.prototype.attributes 프로퍼티로 취득할 수 있다.
+	- 읽기 전용자 프로퍼티이며(getter)
+	- 모든 어트리뷰트 노드의 참조가 담긴 NameNodeMap 객체를 반환한다.
+
+![스크린샷 2023-06-06 오후 5 10 10](https://github.com/na0i/FE-knowledge/assets/77482972/c1a10a59-d6f0-4608-b255-ea35064cb296)
+
+<br>
+
+#### 39.7.2 HTML 어트리뷰트 조작
+
+`Element.prototype.getAttribute/setAttribute` 메서드를 사용하면 attributes 프로퍼티를 통하지 않고 요소 노드에서 메서드를 통해 직접 HTML 어트리뷰트 값을 취득하거나 변경할 수 있다.
+
+- 값 참조: Element.prototype.getAttribute(attributeName)
+- 값 변경: Element.prototype.setAttribute(attributeName, attributeValue)
+- 존재 확인: Element.prototype.hasAttribute(attributeName)
+- 삭제: Element.prototype.removeAttribute(attributeName)
+
+<br>
+
+#### 39.7.3 HTML 어트리뷰트 vs DOM 프로퍼티
+
+##### DOM 프로퍼티 
+
+요소 노드 객체에는 HTML 어트리뷰트에 대응하는 프로퍼티가 존재하고 이를 DOM 프로퍼티라 한다.
+
+- DOM 프로퍼티들은 HTML 어트리뷰트 값을 초기값으로 가지고 있다.
+- getter와 setter 모두 존재하는 접근자 프로퍼티다.
+
+<br>
+
+HTML 어트리뷰트는 요소 노드의 attributes와 DOM 프로퍼티 두 곳에서 중복 관리되어 있는 것처럼 보이지만 그렇지 않다. 
+
+##### HTML 어트리뷰트의 역할
+
+- HTML 요소의 초기 상태를 지정
+- 즉, 초기 상태를 의미할 뿐 변하지 않는다.
+
+<br>
+
+##### 예시
+
+1. input 요소의 value에 'nayoung'을 지정
+2. value 어트리뷰트는 어트리뷰트 노드로 변환되어 attributes 프로퍼티에 저장 / value 어트리뷰트 값은 요소 노드의 value 프로퍼티에 할당
+3. 요소 노드 생성부터 첫 렌더링 시점까지 어트리뷰트 노드의 어트리뷰트 값 === 요소 노드 value 프로퍼티 값 === HTML 어트리뷰트 값
+4. 사용자가 input 요소에 무언가를 입력 시작
+5. 요소 노드는 초기 상태와 최신 상태를 관리하게 됨
+	- 초기 상태: 어트리뷰트 노드
+	- 최신 상태: DOM 프로퍼티
+
+최신 상태 뿐만 아니라, 웹페이지를 처음 표시하거나 새로 고침할 때를 위해 초기 상태 또한 관리해주어야 한다.
+
+<br>
+
+##### 어트리뷰트 노드
+- HTML 요소의 초기 상태는 어트리뷰트 노드에서 관리한다.
+- 어트리뷰트 값은 사용자 입력에 의해 상태가 변경되어도 변하지 않고 초기 상태를 그대로 유지
+- getAttribute로 취득한 값은 초기 상태 값으로 변하지 않는다.
+- setAttribute 메서드는 초기 상태 값을 변경한다.
+
+<br>
+
+##### DOM 프로퍼티
+- 사용자가 입력한 최산 상태는 DOM 프로퍼티가 관리한다.
+- 사용자 입력에 의한 상태 변화에 반응하여 언제나 최신 상태를 유지한다.
+- 단, 모든 DOM 프로퍼티가 사용자 입력에 의해 변경된 최신 상태를 관리하는 것은 아니다.(에: id 프로퍼티는 사용자 입력과 관계가 없다.)
+- 즉, 사용자 입력에 의한 상태 변화와 관계있는 DOM 프로퍼티만 최신 상태 값을 관리한다.
+
+<br>
+
+##### HTML 어트리뷰트와 DOM 프로퍼티의 대응 관계
+
+대부분의 HTML 어트리뷰트와 HTML 어트리뷰트 이름과 동일한 DOM 프로퍼티와 1:1로 대응한다.
+
+- id 어트리뷰트와 id 프로퍼티는 1:1 대응하며 동일한 값으로 연동된다.
+- value 어트리뷰트와 value 프로퍼티는 1:1 대응하지만 value 어트리뷰트는 초기 상태를, value 프로퍼티는 최신 상태를 갖는다.
+- class 어트리뷰트는 className, classList 프로퍼티와 대응한다.
+- for 어트리뷰트는 htmlFor 프로퍼티와 1:1 대응한다.
+- td 요소의 colspan 어트리뷰트는 대응하는 프로퍼티가 존재하지 않는다.
+- textContent 프로퍼티는 대응하는 어트리뷰트가 존재하지 않는다.
+- 어트리뷰트 이름은 대소문자를 구별하지 않지만 대응하는 프로퍼티 키는 카멜 케이스를 따른다.(maxlength - maxLength)
+
+<br>
+
+##### DOM 프로퍼티 값의 타입
+
+- getAttribute 메서드로 취득한 값은 언제나 문자열이다.
+- 하지만 DOM 프로퍼티로 취득한 값은 문자열이 아닐 수 있다.
+
+<br>
+
+#### 39.7.4 data 어트리뷰트와 dataset 프로퍼티
+
+data 어트리뷰트와 dataset 프로퍼티를 사용하면 HTML 요소에 정의한 사용자 정의 어트리뷰트와 자바스크립트 간에 데이터를 교환할 수 있다. 
+
+##### data 어트리뷰트
+- `data-` 접두사 다음에 임의의 이름을 붙여 사용한다.
+- data 어트리뷰트 값은 HTMLElement.dataset 프로퍼티로 취득할 수 있다.
+
+<br>
+
+##### dataset 프로퍼티
+- HTML 요소의 모든 data 어트리뷰트 정보를 제공하는 DOMStringMap 객체를 반환한다.
+- data 어트리뷰트 값을 취득하거나 변경할 수 있다.
+- data 어트리뷰트의 data- 접두사 다음에 붙인 임의의 이름을 카멜 케이스로 변환한 프로퍼티를 가지고 있다.
+- 카멜 케이스 프로퍼티 키는 케밥케이스로 자동 변경되어 추가된다.
+
+<br>
+
+### 39.8 스타일
+
+#### 39.8.1 인라인 스타일 조작
+
+`HTMLElement.prototype.style` 프로퍼티는 getter와 setter 모두 존재하는 접근자 프로퍼티로 요소 노드의 인라인 스타일을 취득하거나 추가, 변경한다.
+
+- style 프로퍼티를 참조하면 CSSStyleDeclaration 타입의 객체를 반환한다.
+- CSSStyleDeclaration 객체는 다양한 CSS 프로퍼티에 대응하는 프로퍼티를 가지고 있으며, 이 프로퍼티에 값을 할당하면 해당 CSS 프로퍼티가 인라인 스타일로 HTML 요소에 추가되거나 변경된다.
+- CSS 프로퍼티는 케밥 케이스를 따르고, CSSStyleDeclaration 객체의 프로퍼티는 카멜 케이스를 따른다.
+
+```javascript
+$div.style.backgroundColor = 'yellow';
+$div.style['background-color'] = 'yellow';
+```
+
+<br>
+
+#### 39.8.2 클래스 조작
+
+##### className
+
+`Element.prototype.className` 프로퍼티는 class 어트리뷰트 값을 취득하거나 변경한다.
+
+- getter와 setter 모두 존재하는 접근자 프로퍼티다.
+- className 프로퍼티를 참조하면 class 어트리뷰트 값을 문자열로 반환하고
+- 문자열을 할당하면 class 어트리뷰트 값을 할당한 문자열로 변경한다.
+
+<br>
+
+##### classList
+
+`Element.prototype.classList` 프로퍼티는 class 어트리뷰트 정보를 담은 DOMTokenList 객체를 반환한다.
+
+##### DOMTokenList의 메서드
+- add(...className): 인수로 전달한 1개 이상의 문자열을 class 어트리뷰트 값으로 추가
+- remove(...className): 인수로 전달한 1개 이상의 문자열과 일치하는 클래스를 class 어트리뷰트에서 삭제
+- item(index): index에 해당하는 클래스를 class 어트리뷰트에서 반환
+- contains(className): 인수로 전달한 문자열과 일치하는 클래스가 class 어트리뷰트에 포함되어 있는지 확인
+- replace(oldClassName, newClassName): 첫번째로 전달한 문자열을 두번째로 전달한 문자열로 변경한다.
+- toggle(className): 인수로 전달한 문자열과 일치하는 클래스가 있으면 제거, 없으면 추가
+- 이 외에도 forEach, entries, keys, values, supports 메서드 제공
+
+<br>
+
+#### 39.8.3 요소에 적용되어 있는 CSS 스타일 참조
+
+style 프로퍼티는 인라인 스타일만 반환하기 때문에 클래스를 적용한 스타일이나 상속으로 적용된 스타일은 style 프로퍼티로 참조할 수 없다.
+
+<br>
+
+`getComputedStyle` 메서드를 사용하면 HTML 요소에 적용되어 있는 모든 CSS 스타일을 참조할 수 있다.
+
+<br>
+
+##### getComputedStyle
+- 첫번째 인수로 전달된 요소 노드에 적용되어 있는 평가된 스타일을 CSSStyleDeclaration 객체에 담아 반환
+- 모든 스타일이 조합되어 최종적으로 적용된 스타일을 반환
+- 두번째 인수로 의사요소를 지정하는 문자열을 전달할 수 있다.

@@ -158,4 +158,4 @@
 |                    | 37장        | Set과 Map                           | DeepDive-37장-Set.md                                  |
 | 2023.05.09 ~ 05.14 | 37장        | Set과 Map                           | DeepDive-37장-Map.md                                  |
 |                    | 38장        | 브라우저의 렌더링 과정              | DeepDive-38장-브라우저의 렌더링 과정.md               |
-| 2023.05.17 ~       | 39장        | DOM                                 | DeepDive-39장-DOM.md                                  |
+| 2023.05.17 ~ 06.06 | 39장        | DOM                                 | DeepDive-39장-DOM.md                                  |
