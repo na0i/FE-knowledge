@@ -162,4 +162,6 @@
 | 2023.06.12 ~ 06.26 | 40장        | 이벤트                              | DeepDive-40장-이벤트.md                               |
 | 2023.06.28 ~ 06.29 | 41장        | 타이머                              | DeepDive-41장-타이머.md                               |
 |                    | 42장        | 비동기 프로그래밍                   | DeepDive-42장-비동기 프로그래밍.md                    |
-| 2023.07.05 ~       | 43장        | AJax                                | DeepDive-43장-Ajax.md                                 |
+| 2023.07.05 ~ 07.06 | 43장        | AJax                                | DeepDive-43장-Ajax.md                                 |
+|                    | 44장        | REST API                            | DeepDive-44장-REST API.md                             |
+| 2023.07.06 ~       | 45장        | 프로미스                            | DeepDive-45장-프로미스.md                             |
