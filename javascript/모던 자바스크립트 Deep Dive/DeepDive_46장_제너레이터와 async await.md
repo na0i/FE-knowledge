@@ -79,6 +79,7 @@ console.log(generator.throw('Error')); {value: undefined, done: true}
 - next 메서드를 호출하면 제너레이터 함수의 코드 블록을 실행한다.
 - yield 키워드는 제너레이터 함수의 실행을 일시 중지시키거나 yield 키워드 뒤에 오는 표현식 평과 결과를 제너레이터 함수 호출자에게 반환한다.
 - next 메서드를 반복 호출하여 yield 표현식까지 실행과 일시중지를 반복한다.
+- 제너레이터 객체의 next 메서드에 전달한 인수는 제너레이터 함수의 yield 표현식을 할당받는 변수에 할당된다.
 
 ![스크린샷 2023-07-24 오후 7 21 17](https://github.com/TFrontend/rg-news/assets/77482972/23cb5ba7-63bd-49c4-87c2-d6d71d1464e5)
 
@@ -102,3 +103,49 @@ console.log(generator.next()); // {value: 3, done: false}
 console.log(generator.next()); // {value: undefined, done: true}
 ```
 
+```
+function* genFunc() {
+  const x = yield 1;
+  const y = yield (x + 10);
+  return x + y;
+}
+
+
+const generator = genFunc(0);
+
+let res = generator.next(); // 처음 호출하는 next 메서드에는 인수를 전달하지 않는다(전달해도 무시된다)
+console.log(res); // {value: 1, done: false}
+
+res = generator.next(10); // 10은 x에 할당
+console.log(res); // {value: 20, done: false}
+
+res = generator.next(20); // 20은 y에 할당
+console.log(res); // {value: 30, done: true}
+```
+
+<br>
+
+### 46.6 async/await
+
+`async/await`은 프로미스를 기반으로 동작한다. 
+
+<br>
+
+#### 46.6.1 async 함수
+
+- await 키워드는 반드시 async 함수 내부에서 사용해야 한다.
+- async 함수는 async 키워드를 사용해 정의하며 언제나 프로미스를 반환한다.
+
+<br>
+
+#### 46.6.2 await 키워드
+
+- await 키워드는 프로미스가 settled 상태가 될 때까지 대기하다가
+- settled 상태가 되면 프로미스가 resolve한 처리 결과를 반환한다.
+- 즉 다음 실행을 일시 중지 시켰다가 프로미스가 settled 상태가 되면 다시 재개한다.
+
+<br>
+
+#### 46.6.3 에러 처리
+
+async/await에서 에러 처리는 `try...catch` 문을 사용할 수 있다.
