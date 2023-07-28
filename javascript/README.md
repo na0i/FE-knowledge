@@ -165,5 +165,5 @@
 | 2023.07.05 ~ 07.06 | 43장        | AJax                                | DeepDive-43장-Ajax.md                                 |
 |                    | 44장        | REST API                            | DeepDive-44장-REST API.md                             |
 | 2023.07.06 ~       | 45장        | 프로미스                            | DeepDive-45장-프로미스.md                             |
-| 2023.07.24 ~ 07.27 | 46장        | 제너레이터와 async/await            | DeepDive-46장-제너레이터와 async/await.md             |
+| 2023.07.24 ~ 07.28 | 46장        | 제너레이터와 async/await            | DeepDive-46장-제너레이터와 async/await.md             |
 |                    | 47장        | 에러 처리                           | DeepDive-47장-에러 처리.md                            |
