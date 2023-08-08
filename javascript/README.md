@@ -167,3 +167,5 @@
 | 2023.07.06 ~       | 45장        | 프로미스                            | DeepDive-45장-프로미스.md                             |
 | 2023.07.24 ~ 07.28 | 46장        | 제너레이터와 async/await            | DeepDive-46장-제너레이터와 async/await.md             |
 |                    | 47장        | 에러 처리                           | DeepDive-47장-에러 처리.md                            |
+| 2023.08.08 ~ 08.08 | 48장        | 모듈                                | DeepDive-48장-모듈.md                                 |
+|                    | 49장        | Babel과 Webpack                     | DeepDive-49장-Babel과 Webpack.md                      |
